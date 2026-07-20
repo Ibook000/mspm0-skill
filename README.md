@@ -42,3 +42,11 @@ msp0-skill/
 - **绝对禁止**手工修改以 `ti_msp_dl_config` 命名的文件。
 - 在分配任何引脚之前，**必须**检查硬件防坑表，避开调试口 (PA19/PA20)、晶振口 (PA5/PA6) 以及 BSL 引脚 (PA18)。
 - 初始化函数应始终依赖生成的配置（如 `SYSCFG_DL_init()`），不要自行发明名称。
+
+## 📸 技能生成内容展示
+
+<p align="center">
+  <img src="assets/examples/demo_astock.png" width="30%" alt="A股强劲反弹（Flex 自由排版）">
+  <img src="assets/examples/demo_dividend.png" width="30%" alt="中美高股息对比（Bar 柱状图）">
+  <img src="assets/examples/demo_investing.png" width="30%" alt="基金定投3大铁律（Card 要点卡片）">
+</p>
