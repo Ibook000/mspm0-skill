@@ -48,4 +48,5 @@ msp0-skill/
 
 <p align="center">
   <img src="assets/readme/msp0-installation.png" alt="MSPM0 Agent Skill 安装与运行演示">
+  <img src="assets/readme/msp0-audit-report.png" alt="MSPM0 Agent 审查报告演示">
 </p>
