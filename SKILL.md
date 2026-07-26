@@ -5,7 +5,7 @@ description: Tool-neutral CLI agent rules for TI MSPM0 (MSPG3507, MSPM0G3507, MS
 
 # MSPM0 Agent Skill
 
-Use this skill for TI MSPM0 firmware projects that use SysConfig and DriverLib through CCS / CCS Theia, Keil/uVision, or CMake + Arm GNU Toolchain + OpenOCD workflows. It is intended for Claude Code, OpenCode, OpenClaw, Continue, Cursor, Codex, and similar CLI/editor agents.
+Use this skill for TI MSPM0 firmware projects that use SysConfig and DriverLib through CCS / CCS Theia, Keil/uVision, or CMake + Arm GNU Toolchain + OpenOCD workflows. It is intended for Codex, Claude Code, OpenCode, OpenClaw, and similar CLI/editor agents.
 
 ## Default Workflow
 

@@ -54,8 +54,8 @@ git clone https://github.com/Ibook000/mspm0-skill.git
 "Please load the MSPM0 Agent Skill from ./mspm0-skill/SKILL.md to setup my project."
 ```
 
-### 3. 对于 Cursor / VS Code 用户
-可将 [SKILL.md](SKILL.md) 的内容复制到项目根目录下的 `.cursorrules` 文件中使用。
+### 3. 对于其他 IDE / 编辑器用户
+如需在其他编辑器中使用，可直接将 [SKILL.md](SKILL.md) 的内容导入或复制使用。
 
 ---
 
