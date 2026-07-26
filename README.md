@@ -1,6 +1,6 @@
 <div align="center">
   <h1>⚡️ TI MSPM0 AI Agent Skill (Codex & Claude Code 常用版)</h1>
-  <p><strong>专为全国大学生电子设计竞赛（NUEDC）打造的 TI MSPM0 AI 编程神器与工程范式</strong></p>
+  <p><strong>专为全国大学生电子设计竞赛（NUEDC）及立创·天猛星开发板（MSPG3507 / MSPM0G3507 / MSPM0G3519）打造的 AI 编程神器与工程范式</strong></p>
   <p>还在四天三夜里死磕底层、查引脚冲突、移植驱动？让 Codex / Claude Code 替你接管 SysConfig 外设配置与 DriverLib 驱动，你只管专注算法与控制逻辑！</p>
 
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
