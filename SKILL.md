@@ -1,6 +1,6 @@
 ---
 name: mspm0
-description: Tool-neutral CLI agent rules for TI MSPM0 (MSPG3507, MSPM0G3507, MSPM0G3519, 立创天猛星开发板) development with Code Composer Studio, Keil/uVision, CMake/GCC/OpenOCD, SysConfig, and DriverLib. Use when an agent needs to inspect or modify MSPM0 projects, edit .syscfg configuration, avoid generated SysConfig/build files, use DriverLib APIs, validate SysConfig output, package reusable MSPM0 examples, or work on NUEDC-style MSPM0 embedded firmware.
+description: Tool-neutral CLI agent rules for TI MSPM0 (MSPG3507, MSPM0G3507, MSPM0G3519, 立创天猛星/地猛星开发板) development with Code Composer Studio, Keil/uVision, CMake/GCC/OpenOCD, SysConfig, and DriverLib. Use when an agent needs to inspect or modify MSPM0 projects, edit .syscfg configuration, avoid generated SysConfig/build files, use DriverLib APIs, validate SysConfig output, package reusable MSPM0 examples, or work on NUEDC-style MSPM0 embedded firmware.
 ---
 
 # MSPM0 Agent Skill
@@ -75,6 +75,31 @@ When the user explicitly says the board is LCKFB Tianmengxing MSPM0G3507:
 - Avoid choosing A21/PA21, A23/PA23, A02/PA02, A18/PA18, A10/PA10, and A11/PA11 for ordinary user-requested pin assignments unless the user asks for those pins or the local project already deliberately uses them.
 - If the user asks to drive or reuse one of those pins, remind them that the Tianmengxing documentation marks these as special pins and says they should not be used unless necessary.
 - Do not silently move an existing project away from these pins. Explain the board caveat first, then ask or proceed according to the user's intent.
+
+### LCKFB Dimengxing MSPM0G3507
+
+When the user explicitly says the board is LCKFB Dimengxing MSPM0G3507 (立创·地猛星 MSPM0G3507 开发板):
+
+**Board resources:**
+- Same MCU package as Tianmengxing: `MSPM0G3507` LQFP-64.
+- CH340E USB-UART: PA10 (UART0_TX / BSLTX), PA11 (UART0_RX / BSLRX).
+- SWD debug: PA19 (SWDIO), PA20 (SWCLK).
+- 40 MHz HFXT on PA5/PA6; 32.768 kHz LFX on PA3/PA4.
+- ROSC on PA2 with 100 kΩ resistor.
+- BSL entry on PA18 (BSL button).
+- Onboard SPI Flash W25Q32: PB6 (CS), PB7 (POCI/MISO), PB8 (PICO/MOSI), PB9 (SCLK).
+- Onboard user LED: PA14, active-low (LED on when PA14 is low), 270 Ω pull-up to 3V3.
+- Two 20-pin expansion headers (H3 and H5) expose most GPIO and analog pins.
+
+**Pin cautions:**
+- Never assign PA2, PA5, PA6, PA19, or PA20 to user peripherals; they are used by ROSC, HFXT crystal, and SWD debug.
+- PA18 is the BSL entry pin. If PA18 is high at reset, the device enters BSL mode and user firmware will not run. Do not drive PA18 high at power-on.
+- PA14 is the onboard user LED (active-low). Reusing PA14 for another function will disable the LED or conflict with the onboard pull-up.
+- PB6/PB7/PB8/PB9 are occupied by the onboard W25Q32 SPI Flash. Do not reassign without user confirmation.
+- PA10/PA11 are connected to the onboard CH340E for UART0 and BSL; header pins can be shared for UART0 traffic.
+- The Dimengxing board does not include the Tianmengxing onboard OLED, LSM6DS3 IMU, WS2812 RGB LEDs, buzzer, QEI encoder, wireless UART module, or ENTER button. Peripherals that relied on those Tianmengxing board resources must be adapted or wired externally.
+
+When the user asks to choose a free pin on Dimengxing, prefer pins not listed above. If the user explicitly requests an occupied pin, explain the conflict and ask for confirmation before proceeding.
 
 ## Project Shape Checks
 
@@ -160,6 +185,13 @@ For the verified CH340 setup, use `python scripts/serial_console.py -p COM6 -b 1
 
 ## Flash Backends
 
+> ⚠️ **严禁使用 ST-LINK 进行下载或调试！**
+> ST-LINK 会锁死 MSPM0 芯片，下载时显示 PDSC 错误。天猛星 / 地猛星 / 自定义 G3519 板仅支持以下烧录方式：
+> - **J-Link**（推荐，经 CCS / UniFlash 验证）
+> - **DSLite**（CCS 自带，配合 J-Link 或 XDS110 使用）
+> - **CH340 + BSL**（串口烧录，无需额外调试器）
+> - **OpenOCD**（仅限 CMake/GCC 项目，需 TI 分支 OpenOCD）
+
 The verified CCS flash path is DSLite / UniFlash with J-Link. For automated flashing after clock-tree changes, prefer DSLite System Reset:
 
 ```text
@@ -183,7 +215,8 @@ Do not treat `ccs-dss` as the OpenOCD path. For CMake/GCC/OpenOCD projects, keep
 
 ## 助力全国大学生电子设计竞赛 (NUEDC)
 
-本 Skill 对立创·天猛星 MSPM0G3507 开发板进行了深入的引脚和外设适配，特别是在全国大学生电子设计竞赛（NUEDC）等高强度开发场景中，可极大降低底层配置的试错成本：
-- 内置 `references/MSPM0G3507_Pinout_Mapping.md` 提供完整引脚复用和避坑指南。
-- 引导 Agent 避开特殊系统引脚（如 PA18 BSL、PA5/PA6 等），自动根据天猛星板载 CH340E、OLED 等分配通信总线（UART0/SPI1/I2C0）。
+本 Skill 同时深入适配 **立创·天猛星**（MSPM0G3507，板载 OLED/IMU/WS2812/无线模块）与 **立创·地猛星**（MSPM0G3507，精简版，板载 W25Q32 Flash、PA14 LED），两款开发板共用同一 MCU 封装（LQFP-64），引脚映射与避坑指南高度互通。
+- 内置 `references/MSPM0G3507_Pinout_Mapping.md` 提供完整引脚复用和避坑指南，覆盖两款板卡。
+- 引导 Agent 自动识别当前板型，避开特殊系统引脚（PA18 BSL、PA5/PA6 HFXT、PA19/PA20 SWD、PA2 ROSC 等），并根据板载资源分配通信总线。
+- 天猛星示例（PB22 LED、OLED、IMU、WS2812）与地猛星建议（PA14 LED、W25Q32 Flash）均有独立保护规则，避免误配。
 - 加速外设配置验证速度，加油，电赛人！
