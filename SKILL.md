@@ -1,6 +1,6 @@
 ---
 name: mspm0
-description: Tool-neutral CLI agent rules for TI MSPM0 (MSPG3507, MSPM0G3507, MSPM0G3519, 立创天猛星/地猛星开发板) development with Code Composer Studio, Keil/uVision, CMake/GCC/OpenOCD, SysConfig, and DriverLib. Use when an agent needs to inspect or modify MSPM0 projects, edit .syscfg configuration, avoid generated SysConfig/build files, use DriverLib APIs, validate SysConfig output, package reusable MSPM0 examples, or work on NUEDC-style MSPM0 embedded firmware.
+description: Tool-neutral CLI agent rules for TI MSPM0 (MSPG3507, MSPM0G3507, MSPM0G3519, 立创天猛星/地猛星开发板, LCKFB Tianmengxing/Dimengxing) development with Code Composer Studio, Keil/uVision, CMake/GCC/OpenOCD, SysConfig, and DriverLib. Use when an agent needs to inspect or modify MSPM0 projects, edit .syscfg configuration, avoid generated SysConfig/build files, use DriverLib APIs, validate SysConfig output, package reusable MSPM0 examples, or work on NUEDC (电赛) MSPM0 embedded firmware. Covers board-specific pin cautions, hardware validation notes, reusable LED/PWM/UART/OLED/IMU/QEI examples, and automated SysConfig auditing.
 ---
 
 # MSPM0 Agent Skill
