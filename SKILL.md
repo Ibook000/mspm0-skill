@@ -81,7 +81,7 @@ When the user explicitly says the board is LCKFB Tianmengxing MSPM0G3507:
 When the user explicitly says the board is LCKFB Dimengxing MSPM0G3507 (立创·地猛星 MSPM0G3507 开发板):
 
 **Board resources:**
-- Same MCU package as Tianmengxing: `MSPM0G3507` LQFP-64.
+- `MSPM0G3507`, 48-pin package (per official schematic: VCORE at pin 48; Tianmengxing is LQFP-64).
 - CH340E USB-UART: PA10 (UART0_TX / BSLTX), PA11 (UART0_RX / BSLRX).
 - SWD debug: PA19 (SWDIO), PA20 (SWCLK).
 - 40 MHz HFXT on PA5/PA6; 32.768 kHz LFX on PA3/PA4.
@@ -225,7 +225,7 @@ Do not treat `ccs-dss` as the OpenOCD path. For CMake/GCC/OpenOCD projects, keep
 
 ## 助力全国大学生电子设计竞赛 (NUEDC)
 
-本 Skill 同时深入适配 **立创·天猛星**（MSPM0G3507，板载 OLED/IMU/WS2812/无线模块）与 **立创·地猛星**（MSPM0G3507，精简版，板载 W25Q32 Flash、PA14 LED），两款开发板共用同一 MCU 封装（LQFP-64），引脚映射与避坑指南高度互通。
+本 Skill 同时深入适配 **立创·天猛星**（MSPM0G3507，板载 OLED/IMU/WS2812/无线模块）与 **立创·地猛星**（MSPM0G3507，精简版，板载 W25Q32 Flash、PA14 LED），两款开发板共用同一 MCU 型号，但天猛星为 LQFP-64（64 脚）、地猛星为 48 脚封装，引脚映射与避坑指南高度互通。
 - 内置 `references/MSPM0G3507_Pinout_Mapping.md` 提供完整引脚复用和避坑指南，覆盖两款板卡。
 - 引导 Agent 自动识别当前板型，避开特殊系统引脚（PA18 BSL、PA5/PA6 HFXT、PA19/PA20 SWD、PA2 ROSC 等），并根据板载资源分配通信总线。
 - 天猛星示例（PB22 LED、OLED、IMU、WS2812）与地猛星建议（PA14 LED、W25Q32 Flash）均有独立保护规则，避免误配。
