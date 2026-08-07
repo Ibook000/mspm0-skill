@@ -150,7 +150,7 @@ python3 scripts/serial_console.py --port /dev/tty.usbserial-xxx --baud 115200
 | 特性 | 天猛星 (Tianmengxing) | 地猛星 (Dimengxing) |
 | :--- | :--- | :--- |
 | **MCU** | MSPM0G3507 LQFP-64 | MSPM0G3507 LQFP-64 |
-| **板载 LED** | PB22 (低电平亮) | PA14 (低电平亮，270 Ω 上拉) |
+| **板载 LED** | PB22 (低电平亮) | PA14 (低电平亮，270 Ω 限流) |
 | **USB-UART** | CH340E — PA10/PA11 | CH340E — PA10/PA11 |
 | **SPI Flash** | — | W25Q32 (PB6~PB9) |
 | **OLED** | 0.96/1.3寸 SPI (PB8/PB9/PB10/PB11/PB14/PB26) | 无板载，需外接 |

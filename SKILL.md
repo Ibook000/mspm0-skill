@@ -88,13 +88,23 @@ When the user explicitly says the board is LCKFB Dimengxing MSPM0G3507 (立创·
 - ROSC on PA2 with 100 kΩ resistor.
 - BSL entry on PA18 (BSL button).
 - Onboard SPI Flash W25Q32: PB6 (CS), PB7 (POCI/MISO), PB8 (PICO/MOSI), PB9 (SCLK).
-- Onboard user LED: PA14, active-low (LED on when PA14 is low), 270 Ω pull-up to 3V3.
+- Onboard user LED: PA14, active-low (LED on when PA14 is low), 270 Ω series current-limiting resistor.
 - Two 20-pin expansion headers (H3 and H5) expose most GPIO and analog pins.
+
+**Expansion header pinout (from the official Dimengxing schematic):**
+
+H3 (20-pin header):
+`PA0, PA1, PA28, PA31, NRST, PA2/ROSC, PB24, PB20, PB19, PB18, PA7, PB2, PB3, PA8, PA9, PB6, PB7, +5V, 3V3, NC`
+
+H5 (20-pin header):
+`PA27, PA26, PA25, PA24, PA23/VREF+, PA22, PA21/VREF-, PB9, PB8, PA18, PA17, PA16, PA15, PA14, PA13, PA12, NC, +5V, 3V3, NC`
+
+Use these lists when choosing free pins for the Dimengxing board. Pins already occupied by board peripherals (PA14 LED, PB6-PB9 flash, PA10/PA11 UART0, PA18 BSL, PA19/PA20 SWD, PA2 ROSC, PA5/PA6 HFXT, PA3/PA4 LFX) are not free.
 
 **Pin cautions:**
 - Never assign PA2, PA5, PA6, PA19, or PA20 to user peripherals; they are used by ROSC, HFXT crystal, and SWD debug.
 - PA18 is the BSL entry pin. If PA18 is high at reset, the device enters BSL mode and user firmware will not run. Do not drive PA18 high at power-on.
-- PA14 is the onboard user LED (active-low). Reusing PA14 for another function will disable the LED or conflict with the onboard pull-up.
+- PA14 is the onboard user LED (active-low). Reusing PA14 for another function will disable the LED or conflict with the onboard LED circuit.
 - PB6/PB7/PB8/PB9 are occupied by the onboard W25Q32 SPI Flash. Do not reassign without user confirmation.
 - PA10/PA11 are connected to the onboard CH340E for UART0 and BSL; header pins can be shared for UART0 traffic.
 - The Dimengxing board does not include the Tianmengxing onboard OLED, LSM6DS3 IMU, WS2812 RGB LEDs, buzzer, QEI encoder, wireless UART module, or ENTER button. Peripherals that relied on those Tianmengxing board resources must be adapted or wired externally.
