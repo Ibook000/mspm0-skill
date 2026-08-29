@@ -18,6 +18,9 @@ KEIL_BUILD_DIRS = {"Objects", "Listings"}
 CMAKE_BUILD_PREFIXES = ("cmake-build",)
 COMMON_BUILD_DIRS = {"build", "out"}
 BUILD_DIRS = CCS_BUILD_DIRS | KEIL_BUILD_DIRS | COMMON_BUILD_DIRS
+EXIT_OK = 0
+EXIT_CHECK_FAILED = 1
+EXIT_USAGE = 2
 SKIP_DIRS = {".git", ".svn", ".hg", ".agents", ".claude", ".codex", "__pycache__"}
 FRAMEWORK_DIR_NAMES = {
     "app",
@@ -590,22 +593,33 @@ def print_text(root: Path, messages: list[Message], details: dict[str, object]) 
                 print(f"- {key}: {hints[key]}")
 
 
-def main() -> int:
+def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Check an MSPM0 SysConfig project.")
     parser.add_argument("project", nargs="?", default=".", help="Path to a project directory.")
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
-    args = parser.parse_args()
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Treat warnings as check failures (exit code 1).",
+    )
+    return parser
 
+
+def main(argv: list[str] | None = None) -> int:
+    args = build_parser().parse_args(argv)
     root = Path(args.project).resolve()
     messages, details = check_project(root)
-    has_error = any(msg.level == "error" for msg in messages)
+    has_failure = any(
+        msg.level == "error" or (args.strict and msg.level == "warning")
+        for msg in messages
+    )
 
     if args.json:
         print(json.dumps({"project": str(root), "messages": [asdict(m) for m in messages], "details": details}, ensure_ascii=False, indent=2))
     else:
         print_text(root, messages, details)
 
-    return 1 if has_error else 0
+    return EXIT_CHECK_FAILED if has_failure else EXIT_OK
 
 
 if __name__ == "__main__":

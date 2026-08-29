@@ -184,7 +184,8 @@ Do not require users to drop full CCS projects into `examples/`. Use `scripts/ca
 
 ## Tools
 
-- `python scripts/check_syscfg.py <project-dir>`: static project check for `.syscfg`, generated files, pins, init spelling, project shape, CCS/Keil/CMake/OpenOCD clues, build output, target config, and validation hints.
+- `python scripts/check_syscfg.py <project-dir>`: static project check for `.syscfg`, generated files, pins, init spelling, project shape, CCS/Keil/CMake/OpenOCD clues, build output, target config, and validation hints. Use `--json` for machine-readable output, or `--strict` to treat warnings as failures.
+- `python -m unittest discover -s tests -v`: run the repository's `check_syscfg.py` regression tests. The checker exits `0` when no failure is found, `1` for a detected error (or any warning with `--strict`), and `2` for invalid command-line usage.
 - `python scripts/list_examples.py`: list packaged examples from `examples/*/manifest.json`.
 - `python scripts/capture_example.py <project-dir> --name <example-name> --include <glob>`: package selected source files and `.syscfg` from a user project into `examples/<example-name>/`.
 - `python scripts/index_syscfg_examples.py <mspm0-sdk-root> --board LP_MSPM0G3507 --module UART`: search local TI SDK examples and module metadata.

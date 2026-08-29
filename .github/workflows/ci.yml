@@ -24,6 +24,9 @@ jobs:
       - name: Compile Python scripts
         run: python -m py_compile scripts/*.py
 
+      - name: Run check_syscfg unit tests
+        run: python -m unittest discover -s tests -v
+
       - name: Validate repository metadata and links
         run: python scripts/validate_repo.py
 

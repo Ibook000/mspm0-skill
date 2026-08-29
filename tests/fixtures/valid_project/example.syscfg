@@ -1,0 +1,7 @@
+/*
+ * @cliArgs --device "MSPM0G3507" --package "LQFP-64"
+ * @versions {"tool":"1.26.2"}
+ */
+const GPIO = scripting.addModule("/ti/driverlib/GPIO");
+GPIO.associatedPins[0].assignedPin = "PB22";
+GPIO.associatedPins[0].pin.$suggestSolution = "PB22";
