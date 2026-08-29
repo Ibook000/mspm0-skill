@@ -75,6 +75,8 @@ description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfi
 - `python scripts/check_syscfg.py <project-dir>`：检查 SysConfig、生成物、引脚、初始化函数、工程结构、构建输出和验证提示。
 - `python scripts/check_syscfg.py <project-dir> --json`：输出机器可读 JSON。
 - `python scripts/check_syscfg.py <project-dir> --strict`：将 warning 视为检查失败。
+- `python scripts/check_syscfg.py <project-dir> --board <board-id>`：读取 `boards/*.json`，检查板卡专属引脚冲突；可与 `--strict` 组合使用。
+- `python scripts/generate_board_docs.py`：从 `boards/*.json` 生成 `references/boards/*.md`；CI 使用 `--check` 检查文档是否漂移。
 - `python -m unittest discover -s tests -v`：运行检查器回归测试。
 - `python scripts/list_examples.py`：列出 `examples/*/manifest.json` 中的示例。
 - `python scripts/capture_example.py <project-dir> --name <example-name> --include <glob>`：提取示例。

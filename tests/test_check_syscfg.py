@@ -45,6 +45,20 @@ class CheckSyscfgTests(unittest.TestCase):
         code, _ = self.run_main("--strict", str(FIXTURES / "warning_project"))
         self.assertEqual(code, check_syscfg.EXIT_CHECK_FAILED)
 
+    def test_board_database_reports_occupied_pin(self) -> None:
+        messages, _ = check_syscfg.check_project(
+            FIXTURES / "valid_project", board_id="tianmengxing"
+        )
+        warnings = [message.text for message in messages if message.level == "warning"]
+        self.assertTrue(any("PB22" in text and "板卡 tianmengxing" in text for text in warnings))
+
+    def test_unknown_board_is_an_error(self) -> None:
+        messages, _ = check_syscfg.check_project(
+            FIXTURES / "valid_project", board_id="not-a-board"
+        )
+        errors = [message.text for message in messages if message.level == "error"]
+        self.assertTrue(any("无法加载板卡数据库" in text for text in errors))
+
     def test_json_output_is_machine_readable(self) -> None:
         code, output = self.run_main("--json", str(FIXTURES / "valid_project"))
         self.assertEqual(code, check_syscfg.EXIT_OK)

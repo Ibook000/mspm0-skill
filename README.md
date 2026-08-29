@@ -124,10 +124,15 @@ git clone https://github.com/Ibook000/mspm0-skill.git
 mspm0-skill/
 ├── SKILL.md                          # 🔥 核心规则文件（Agent 入口）
 ├── README.md                         # 项目文档
+├── boards/                           # 机器可读的板卡规则数据源
+│   ├── tianmengxing.json             # 立创·天猛星
+│   ├── dimengxing.json               # 立创·地猛星
+│   └── custom-mspm0g3519.json        # 自定义 MSPM0G3519
 ├── scripts/                          # 辅助脚本工具箱
 │   ├── check_syscfg.py               # SysConfig 静态检查与防坑审计
 │   ├── list_examples.py              # 示例工程索引
 │   ├── index_syscfg_examples.py      # SDK SysConfig 模块检索
+│   ├── generate_board_docs.py        # 从 boards/*.json 生成板卡文档
 │   ├── capture_example.py            # 从工程中提取 Example 包
 │   ├── ccs_dss_debug.py              # CCS DSS 命令行调试
 │   └── serial_console.py             # 串口调试终端
@@ -217,7 +222,8 @@ python3 scripts/capture_example.py <project-dir> --name my-example --include "sr
 
 | 文档 | 内容 |
 | :--- | :--- |
-| [板卡分层规则](references/boards/) | 按天猛星、地猛星和自定义 G3519 分开的板载资源与引脚风险 |
+| [板卡 JSON 数据库](boards/) | 机器可读的板卡识别、引脚和板载资源规则（唯一数据源） |
+| [板卡分层规则](references/boards/) | 由 JSON 数据库生成的板载资源与引脚风险文档 |
 | [引脚映射与避坑指南](references/MSPM0G3507_Pinout_Mapping.md) | 天猛星 / 地猛星 通用引脚映射规范，含 BSL/晶振/SWD 避坑 |
 | [硬件调试经验手册](references/hardware_validation_notes.md) | 实测硬件问题排查：HFXT、Flash、复位、高频干扰 |
 | [SysConfig & CCS 工作流](references/sysconfig_ccs_workflow.md) | 官方标准工作流参考，含 CCS/Keil/CMake 布局 |

@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "id": "tianmengxing",
+  "name": "立创·天猛星 MSPM0G3507",
+  "aliases": ["Tianmengxing", "LCKFB Tianmengxing", "天猛星"],
+  "device": "MSPM0G3507",
+  "package": "LQFP-64",
+  "identification": "项目明确使用立创·天猛星，或 .syscfg、封装信息与板卡资料相互印证。",
+  "description": "LQFP-64 开发板，常见板载 OLED、LSM6DS3 IMU、WS2812、无线模块、蜂鸣器和编码器。",
+  "system_pins": [
+    {"pin": "PA5", "function": "40 MHz HFXT 晶振", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA6", "function": "40 MHz HFXT 晶振", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA19", "function": "SWDIO", "severity": "blocked", "notes": "保留调试接口。"},
+    {"pin": "PA20", "function": "SWCLK", "severity": "blocked", "notes": "保留调试接口。"},
+    {"pin": "PA18", "function": "BSL 入口/按键", "severity": "confirm", "notes": "复位时拉高会进入 BSL；输出复用前必须确认上电电平。"}
+  ],
+  "peripherals": [
+    {"pins": ["PA10", "PA11"], "name": "UART0 / CH340E", "severity": "confirm", "notes": "板载串口共享引脚。"},
+    {"pins": ["PA27", "PA28"], "name": "LSM6DS3 IMU I2C", "severity": "confirm", "notes": "复用前确认 IMU 是否仍需使用。"},
+    {"pins": ["PB6", "PB7", "PB8", "PB9"], "name": "板载 SPI Flash", "severity": "confirm", "notes": "复用前确认 Flash 是否仍需使用。"},
+    {"pins": ["PB17", "PB18"], "name": "无线模块 UART7", "severity": "confirm", "notes": "复用前确认无线模块是否仍需使用。"},
+    {"pins": ["PB21"], "name": "ENTER 按键，低有效", "severity": "confirm", "notes": "注意上拉和按键状态。"},
+    {"pins": ["PB22"], "name": "板载 LED，低有效", "severity": "confirm", "notes": "低电平点亮，常用 PWM/GPIO 示例引脚。"},
+    {"pins": ["PB23"], "name": "无线链路状态输入", "severity": "confirm", "notes": "注意输入默认电平。"},
+    {"pins": ["PB26"], "name": "WS2812 RGB / TIMA1 CCP0", "severity": "confirm", "notes": "复用会影响板载 RGB。"},
+    {"pins": ["PB27"], "name": "蜂鸣器 / TIMG6 CCP1", "severity": "confirm", "notes": "复用会影响板载蜂鸣器。"},
+    {"pins": ["PA29", "PA30"], "name": "QEI 编码器 PHA/PHB", "severity": "release", "notes": "可释放，但应先确认编码器是否使用。"},
+    {"pins": ["PA31"], "name": "编码器按键", "severity": "release", "notes": "可释放，但应先确认编码器是否使用。"}
+  ],
+  "expansion_headers": {},
+  "validation": "修改引脚后运行 python scripts/check_syscfg.py <project-dir> --board tianmengxing；未接入真实硬件时不得声称完成板级验证。"
+}

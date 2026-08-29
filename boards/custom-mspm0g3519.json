@@ -1,0 +1,34 @@
+{
+  "schema": 1,
+  "id": "custom-mspm0g3519",
+  "name": "自定义 MSPM0G3519 开发板",
+  "aliases": ["MSPM0G3519", "Custom MSPM0G3519", "G3519"],
+  "device": "MSPM0G3519",
+  "package": "LQFP-64(PM)",
+  "identification": "当 .syscfg 使用 MSPM0G3519 与 LQFP-64(PM)，且用户说明为自定义 G3519 板时读取。",
+  "description": "自定义 LQFP-64 板；板载资源必须以用户原理图和当前工程为最终依据。",
+  "system_pins": [
+    {"pin": "PA2", "function": "频率精度控制/ROSC", "severity": "blocked", "notes": "未确认布线前不要分配给普通外设。"},
+    {"pin": "PA5", "function": "40 MHz HFXT 晶振", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA6", "function": "40 MHz HFXT 晶振", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA18", "function": "BSL 入口/按键", "severity": "confirm", "notes": "复位时拉高会进入 BSL；输出复用前必须确认上电电平。"},
+    {"pin": "PA19", "function": "SWDIO", "severity": "blocked", "notes": "保留调试接口。"},
+    {"pin": "PA20", "function": "SWCLK", "severity": "blocked", "notes": "保留调试接口。"}
+  ],
+  "peripherals": [
+    {"pins": ["PA0", "PA1"], "name": "示例软件 I2C OLED SDA/SCL", "severity": "confirm", "notes": "当前示例资源，不代表所有自定义板连接。"},
+    {"pins": ["PA10", "PA11"], "name": "示例 UART0 / CH340", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PA27", "PA28"], "name": "示例 LSM6DS3 IMU I2C", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB6", "PB7", "PB8", "PB9"], "name": "示例 W25Q128 SPI Flash", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB17", "PB18"], "name": "示例无线模块 UART7", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB21"], "name": "示例 ENTER 按键", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB22"], "name": "示例调试 LED，低有效", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB23"], "name": "示例无线链路状态输入", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB26"], "name": "示例 WS2812 / TIMA1 CCP0", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PB27"], "name": "示例蜂鸣器 / TIMG6 CCP1", "severity": "confirm", "notes": "以用户原理图为准。"},
+    {"pins": ["PA29", "PA30"], "name": "示例 QEI 编码器 PHA/PHB", "severity": "release", "notes": "以用户原理图为准。"},
+    {"pins": ["PA31"], "name": "示例编码器按键", "severity": "release", "notes": "以用户原理图为准。"}
+  ],
+  "expansion_headers": {},
+  "validation": "修改前确认设备、封装和用户原理图；修改后运行 python scripts/check_syscfg.py <project-dir> --board custom-mspm0g3519。"
+}

@@ -18,6 +18,7 @@ KEIL_BUILD_DIRS = {"Objects", "Listings"}
 CMAKE_BUILD_PREFIXES = ("cmake-build",)
 COMMON_BUILD_DIRS = {"build", "out"}
 BUILD_DIRS = CCS_BUILD_DIRS | KEIL_BUILD_DIRS | COMMON_BUILD_DIRS
+BOARD_DIR = Path(__file__).resolve().parents[1] / "boards"
 EXIT_OK = 0
 EXIT_CHECK_FAILED = 1
 EXIT_USAGE = 2
@@ -187,6 +188,32 @@ def metadata_comment_syntax_errors(text: str) -> list[int]:
         if "*/" in stripped:
             in_block = False
     return errors
+
+
+def load_board(board_id: str) -> dict[str, object]:
+    path = BOARD_DIR / f"{board_id}.json"
+    if not path.is_file():
+        raise FileNotFoundError(f"unknown board id: {board_id}")
+    return json.loads(read_text(path))
+
+
+def board_pin_rules(board: dict[str, object]) -> dict[str, dict[str, str]]:
+    rules: dict[str, dict[str, str]] = {}
+    for item in board.get("system_pins", []):
+        if isinstance(item, dict) and isinstance(item.get("pin"), str):
+            rules[item["pin"]] = {
+                "name": str(item.get("function", "system pin")),
+                "severity": str(item.get("severity", "confirm")),
+            }
+    for item in board.get("peripherals", []):
+        if isinstance(item, dict) and isinstance(item.get("pins"), list):
+            for pin in item["pins"]:
+                if isinstance(pin, str):
+                    rules[pin] = {
+                        "name": str(item.get("name", "board peripheral")),
+                        "severity": str(item.get("severity", "confirm")),
+                    }
+    return rules
 
 
 def parse_assigned_pins(text: str) -> list[dict[str, str]]:
@@ -405,7 +432,7 @@ def detect_cmake_info(root: Path) -> dict[str, object]:
     }
 
 
-def check_project(root: Path) -> tuple[list[Message], dict[str, object]]:
+def check_project(root: Path, board_id: str | None = None) -> tuple[list[Message], dict[str, object]]:
     messages: list[Message] = []
     details: dict[str, object] = {}
 
@@ -480,6 +507,21 @@ def check_project(root: Path) -> tuple[list[Message], dict[str, object]]:
             messages.append(Message("warning", "导入了 GPIO 模块，但没有发现 assignedPin；请确认是否依赖自动求解。", rel(syscfg, root)))
         else:
             messages.append(Message("info", "未发现 assignedPin；如果是空工程，这是正常现象。", rel(syscfg, root)))
+
+        if board_id:
+            try:
+                board = load_board(board_id)
+            except (FileNotFoundError, json.JSONDecodeError) as exc:
+                messages.append(Message("error", f"无法加载板卡数据库：{exc}。"))
+            else:
+                rules = board_pin_rules(board)
+                for pin in pins:
+                    rule = rules.get(pin["assignedPin"])
+                    if not rule:
+                        continue
+                    level = rule["severity"]
+                    message_level = "error" if level == "blocked" else "warning"
+                    messages.append(Message(message_level, f"板卡 {board_id} 的 {pin['assignedPin']} 已用于 {rule['name']}，复用级别为 {level}，请确认板载冲突。", rel(syscfg, root)))
 
         hfxt_status = parse_hfxt_status(text)
         details[f"hfxt:{rel(syscfg, root)}"] = hfxt_status
@@ -597,6 +639,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Check an MSPM0 SysConfig project.")
     parser.add_argument("project", nargs="?", default=".", help="Path to a project directory.")
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
+    parser.add_argument("--board", help="Board database id for board-specific pin conflict checks.")
     parser.add_argument(
         "--strict",
         action="store_true",
@@ -608,7 +651,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     root = Path(args.project).resolve()
-    messages, details = check_project(root)
+    messages, details = check_project(root, args.board)
     has_failure = any(
         msg.level == "error" or (args.strict and msg.level == "warning")
         for msg in messages

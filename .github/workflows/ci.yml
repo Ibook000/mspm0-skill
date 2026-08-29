@@ -33,5 +33,8 @@ jobs:
       - name: Validate repository metadata and links
         run: python scripts/validate_repo.py
 
+      - name: Check generated board documentation
+        run: python scripts/generate_board_docs.py --check
+
       - name: Validate example index
         run: python scripts/list_examples.py --json > /tmp/examples.json

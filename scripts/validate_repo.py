@@ -13,6 +13,7 @@ from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = ROOT / "examples"
+BOARDS = ROOT / "boards"
 SCHEMA_PATH = ROOT / "schemas" / "example-manifest.schema.json"
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
 def fail(message: str) -> None:
@@ -22,6 +23,59 @@ def fail(message: str) -> None:
 def schema_error_path(error: object) -> str:
     path = getattr(error, "absolute_path", ())
     return ".".join(str(part) for part in path) or "<root>"
+
+
+def validate_boards() -> list[str]:
+    errors: list[str] = []
+    required = {"schema", "id", "name", "aliases", "device", "package", "identification", "description", "system_pins", "peripherals", "expansion_headers", "validation"}
+    seen_ids: set[str] = set()
+    severities = {"blocked", "confirm", "release"}
+    files = sorted(BOARDS.glob("*.json"))
+    if not files:
+        return ["no boards/*.json files found"]
+    for path in files:
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"{path.relative_to(ROOT)}: invalid JSON: {exc}")
+            continue
+        missing = required - data.keys()
+        if missing:
+            errors.append(f"{path.relative_to(ROOT)}: missing fields: {', '.join(sorted(missing))}")
+            continue
+        board_id = data["id"]
+        if not isinstance(board_id, str) or not re.fullmatch(r"[a-z0-9][a-z0-9-]*", board_id):
+            errors.append(f"{path.relative_to(ROOT)}: id must be lowercase kebab-case")
+        elif board_id in seen_ids:
+            errors.append(f"{path.relative_to(ROOT)}: duplicate board id {board_id!r}")
+        else:
+            seen_ids.add(board_id)
+        board_pins: set[str] = set()
+        for group in ("system_pins", "peripherals"):
+            if not isinstance(data[group], list):
+                errors.append(f"{path.relative_to(ROOT)}: {group} must be a list")
+                continue
+            for item in data[group]:
+                if not isinstance(item, dict):
+                    errors.append(f"{path.relative_to(ROOT)}: each {group} item must be an object")
+                    continue
+                if group == "system_pins" and isinstance(item.get("pin"), str):
+                    pins = [item["pin"]]
+                elif group == "peripherals" and isinstance(item.get("pins"), list):
+                    pins = item["pins"]
+                else:
+                    errors.append(f"{path.relative_to(ROOT)}: each {group} item must define pins")
+                    continue
+                if item.get("severity") not in severities:
+                    errors.append(f"{path.relative_to(ROOT)}: invalid severity {item.get('severity')!r}")
+                for pin in pins:
+                    if not isinstance(pin, str) or not re.fullmatch(r"P[AB][0-9]+", pin):
+                        errors.append(f"{path.relative_to(ROOT)}: invalid GPIO pin {pin!r}")
+                    elif pin in board_pins:
+                        errors.append(f"{path.relative_to(ROOT)}: duplicate pin entry {pin!r}")
+                    else:
+                        board_pins.add(pin)
+    return errors
 
 
 def validate_manifests() -> list[str]:
@@ -108,7 +162,7 @@ def validate_markdown_links() -> list[str]:
 
 
 def main() -> int:
-    errors = validate_manifests() + validate_markdown_links()
+    errors = validate_boards() + validate_manifests() + validate_markdown_links()
     if errors:
         for error in errors:
             fail(error)

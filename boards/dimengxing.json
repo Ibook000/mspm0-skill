@@ -1,0 +1,30 @@
+{
+  "schema": 1,
+  "id": "dimengxing",
+  "name": "立创·地猛星 MSPM0G3507",
+  "aliases": ["Dimengxing", "LCKFB Dimengxing", "地猛星"],
+  "device": "MSPM0G3507",
+  "package": "48-pin",
+  "identification": "项目明确使用立创·地猛星，或 .syscfg、封装信息与板卡资料相互印证。",
+  "description": "48-pin 精简开发板，板载 PA14 LED、W25Q32 Flash、CH340E，并提供 H3/H5 扩展座。",
+  "system_pins": [
+    {"pin": "PA2", "function": "ROSC，100 kΩ 电阻", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA3", "function": "32.768 kHz LFXT", "severity": "blocked", "notes": "使用低频晶振时保留。"},
+    {"pin": "PA4", "function": "32.768 kHz LFXT", "severity": "blocked", "notes": "使用低频晶振时保留。"},
+    {"pin": "PA5", "function": "40 MHz HFXT 晶振", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA6", "function": "40 MHz HFXT 晶振", "severity": "blocked", "notes": "不得分配给普通外设。"},
+    {"pin": "PA18", "function": "BSL 入口按键", "severity": "confirm", "notes": "复位时拉高会进入 BSL；输出复用前必须确认上电电平。"},
+    {"pin": "PA19", "function": "SWDIO", "severity": "blocked", "notes": "保留调试接口。"},
+    {"pin": "PA20", "function": "SWCLK", "severity": "blocked", "notes": "保留调试接口。"}
+  ],
+  "peripherals": [
+    {"pins": ["PA10", "PA11"], "name": "CH340E UART0 / BSLTX/BSLRX", "severity": "confirm", "notes": "板载 USB-UART 共享引脚。"},
+    {"pins": ["PA14"], "name": "板载 LED，低有效，270 Ω 限流", "severity": "confirm", "notes": "低电平点亮；复用会影响 LED。"},
+    {"pins": ["PB6", "PB7", "PB8", "PB9"], "name": "板载 W25Q32 SPI Flash", "severity": "confirm", "notes": "复用前确认 Flash 是否仍需使用。"}
+  ],
+  "expansion_headers": {
+    "H3": ["PA0", "PA1", "PA28", "PA31", "NRST", "PA2/ROSC", "PB24", "PB20", "PB19", "PB18", "PA7", "PB2", "PB3", "PA8", "PA9", "PB6", "PB7", "+5V", "3V3", "NC"],
+    "H5": ["PA27", "PA26", "PA25", "PA24", "PA23/VREF+", "PA22", "PA21/VREF-", "PB9", "PB8", "PA18", "PA17", "PA16", "PA15", "PA14", "PA13", "PA12", "NC", "+5V", "3V3", "NC"]
+  },
+  "validation": "修改引脚后运行 python scripts/check_syscfg.py <project-dir> --board dimengxing；未接入真实硬件时不得声称完成板级验证。"
+}
