@@ -37,4 +37,11 @@ jobs:
         run: python scripts/generate_board_docs.py --check
 
       - name: Validate example index
-        run: python scripts/list_examples.py --json > /tmp/examples.json
+        run: python scripts/list_examples.py --json --strict > /tmp/examples.json
+
+      - name: Check packaged examples as source snapshots
+        run: |
+          for example in examples/*; do
+            python scripts/check_syscfg.py "$example" --snapshot --strict
+            python scripts/verify_example.py "$example" --snapshot
+          done

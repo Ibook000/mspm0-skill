@@ -36,6 +36,12 @@ class CheckSyscfgTests(unittest.TestCase):
         self.assertEqual(code, check_syscfg.EXIT_CHECK_FAILED)
         self.assertIn("ERROR", output)
 
+    def test_snapshot_mode_suppresses_expected_missing_outputs(self) -> None:
+        code, output = self.run_main("--snapshot", str(FIXTURES / "warning_project"))
+        self.assertEqual(code, check_syscfg.EXIT_OK)
+        self.assertNotIn("Debug 构建文件不完整", output)
+        self.assertNotIn("未发现可烧录输出文件", output)
+
     def test_warnings_are_non_fatal_by_default(self) -> None:
         code, output = self.run_main(str(FIXTURES / "warning_project"))
         self.assertEqual(code, check_syscfg.EXIT_OK)

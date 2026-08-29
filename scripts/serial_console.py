@@ -7,18 +7,33 @@ import argparse
 import sys
 import time
 from datetime import datetime
+from typing import Any
 
 try:
     import serial
     import serial.tools.list_ports
+    SERIAL_IMPORT_ERROR: ImportError | None = None
 except ImportError as exc:
-    raise SystemExit(
-        "pyserial is required. Install it with: python -m pip install pyserial"
-    ) from exc
+    serial = None  # type: ignore[assignment]
+    SERIAL_IMPORT_ERROR = exc
+
+
+class SerialDependencyError(RuntimeError):
+    """Raised only when a serial operation needs the optional pyserial package."""
+
+
+def require_serial() -> Any:
+    if serial is None:
+        raise SerialDependencyError(
+            "pyserial is required for serial operations. Install it with: "
+            "python -m pip install pyserial"
+        ) from SERIAL_IMPORT_ERROR
+    return serial
 
 
 def list_ports() -> int:
-    ports = list(serial.tools.list_ports.comports())
+    serial_module = require_serial()
+    ports = list(serial_module.tools.list_ports.comports())
     if not ports:
         print("No serial ports found.")
         return 1
@@ -38,8 +53,9 @@ def timestamp_prefix() -> str:
     return f"[{now:%H:%M:%S}.{now.microsecond // 1000:03d}]"
 
 
-def open_serial(args: argparse.Namespace) -> serial.Serial:
-    return serial.Serial(
+def open_serial(args: argparse.Namespace) -> Any:
+    serial_module = require_serial()
+    return serial_module.Serial(
         port=args.port,
         baudrate=args.baudrate,
         bytesize=args.bytesize,
@@ -89,9 +105,15 @@ def run_console(args: argparse.Namespace) -> int:
                     print(text, end="" if not args.hex else "\n")
                 sys.stdout.flush()
 
-    except serial.SerialException as exc:
-        print(f"Serial error: {exc}", file=sys.stderr)
+    except SerialDependencyError as exc:
+        print(str(exc), file=sys.stderr)
         return 2
+    except Exception as exc:
+        serial_exception = getattr(serial, "SerialException", ())
+        if serial_exception and isinstance(exc, serial_exception):
+            print(f"Serial error: {exc}", file=sys.stderr)
+            return 2
+        raise
     except KeyboardInterrupt:
         print()
 

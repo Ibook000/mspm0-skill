@@ -9,6 +9,7 @@ import json
 import os
 import re
 import shutil
+from datetime import date
 from pathlib import Path
 from typing import Any, Iterable
 
@@ -52,6 +53,14 @@ def iter_files(root: Path) -> Iterable[Path]:
 
 def rel_posix(path: Path, root: Path) -> str:
     return path.relative_to(root).as_posix()
+
+
+def output_source_rel(path: Path, project: Path) -> str:
+    """Return a stable package path without producing src/src/... nesting."""
+    relative = Path(rel_posix(path, project))
+    if relative.parts and relative.parts[0] in {"src", "app", "bsp", "board", "drivers", "include", "user", "Core"}:
+        return relative.as_posix()
+    return (Path("src") / relative).as_posix()
 
 
 def matches_any(value: str, patterns: Iterable[str]) -> bool:
@@ -159,6 +168,13 @@ def classify_complexity(peripherals: list[str], pins: list[str], sources: list[P
     return "basic"
 
 
+def parse_key_value(value: str) -> tuple[str, str]:
+    key, separator, item = value.partition("=")
+    if not separator or not key.strip() or not item.strip():
+        raise argparse.ArgumentTypeError("expected KEY=VALUE")
+    return key.strip(), item.strip()
+
+
 def bool_arg(value: str) -> bool:
     lowered = value.lower()
     if lowered in {"1", "true", "yes", "y"}:
@@ -200,7 +216,7 @@ def write_readme(dest: Path, manifest: dict[str, Any]) -> None:
     dest.joinpath("README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Capture a compact MSPM0 CCS example package.")
     parser.add_argument("project", type=Path, help="Source CCS project directory.")
     parser.add_argument("--name", required=True, help="Example directory name to create.")
@@ -210,9 +226,15 @@ def main() -> int:
     parser.add_argument("--include", action="append", default=[], help="Source glob to include, relative to project root. Repeatable.")
     parser.add_argument("--exclude", action="append", default=[], help="Additional glob to exclude. Repeatable.")
     parser.add_argument("--auto", action="store_true", help="Best-effort include of common source directories.")
-    parser.add_argument("--board", default="", help="Board name for manifest.")
+    parser.add_argument("--board", default="unknown", help="Board name for manifest.")
     parser.add_argument("--validated", type=bool_arg, default=False, help="Whether this example has been hardware validated.")
-    parser.add_argument("--validation-level", default="unverified", help="Validation label, e.g. source, build, hardware.")
+    parser.add_argument("--validated-at", default="", help="Validation date in YYYY-MM-DD format.")
+    parser.add_argument("--toolchain", action="append", type=parse_key_value, default=[], metavar="NAME=VERSION", help="Toolchain version metadata. Repeatable.")
+    parser.add_argument("--probe", default="", help="Debug probe used for hardware validation.")
+    parser.add_argument("--board-revision", default="", help="Board revision used for validation.")
+    parser.add_argument("--evidence", action="append", default=[], help="Validation evidence note. Repeatable.")
+    parser.add_argument("--known-limitation", action="append", default=[], help="Known limitation. Repeatable.")
+    parser.add_argument("--validation-level", default="source_snapshot", choices=("static", "source_snapshot", "sysconfig", "build", "flash", "hardware", "hardware_serial"), help="Validation level.")
     parser.add_argument("--force", action="store_true", help="Overwrite an existing example directory.")
     parser.add_argument(
         "--examples-dir",
@@ -220,7 +242,12 @@ def main() -> int:
         default=Path(__file__).resolve().parents[1] / "examples",
         help="Destination examples directory.",
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
+    if args.validated_at:
+        try:
+            date.fromisoformat(args.validated_at)
+        except ValueError as exc:
+            parser.error(f"--validated-at must be YYYY-MM-DD: {exc}")
 
     project = args.project.resolve()
     if not project.exists():
@@ -238,11 +265,13 @@ def main() -> int:
     syscfg = find_syscfg(project, args.syscfg)
     syscfg_text = read_text(syscfg)
     sources = select_sources(project, args.include, DEFAULT_EXCLUDES + args.exclude, args.auto)
+    if not sources:
+        raise SystemExit("No source files selected. Adjust --include/--exclude or use --auto.")
 
     shutil.copy2(syscfg, dest / "example.syscfg")
     for source in sources:
         rel = source.relative_to(project)
-        out = src_dest / rel
+        out = dest / output_source_rel(source, project)
         out.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, out)
 
@@ -258,20 +287,32 @@ def main() -> int:
         "title": args.title or args.name.replace("_", " ").title(),
         "description": args.description or "Captured MSPM0 CCS example.",
         "board": args.board,
-        "device": metadata.get("device") or metadata.get("part") or "",
-        "package": metadata.get("package") or "",
-        "sdk": metadata.get("product") or "",
-        "sysconfig": metadata.get("versions") or "",
+        "device": metadata.get("device") or metadata.get("part") or "unknown",
+        "package": metadata.get("package") or "unknown",
+        "sdk": metadata.get("product") or "unknown",
+        "sysconfig": metadata.get("versions") or "unknown",
         "validated": args.validated,
         "validation_level": args.validation_level,
         "complexity": complexity,
         "peripherals": peripherals,
         "pins": pins,
-        "source_files": [f"src/{rel_posix(path, project)}" for path in sources],
+        "source_files": [output_source_rel(path, project) for path in sources],
         "syscfg": "example.syscfg",
         "generated_names": detect_generated_names(project),
         "tags": sorted(set(peripherals + pins + ([ "freertos" ] if freertos else []))),
     }
+    if args.validated_at:
+        manifest["validated_at"] = args.validated_at
+    if args.toolchain:
+        manifest["toolchain"] = dict(args.toolchain)
+    if args.probe:
+        manifest["probe"] = args.probe
+    if args.board_revision:
+        manifest["board_revision"] = args.board_revision
+    if args.evidence:
+        manifest["evidence"] = args.evidence
+    if args.known_limitation:
+        manifest["known_limitations"] = args.known_limitation
 
     (dest / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     write_readme(dest, manifest)

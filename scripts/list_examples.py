@@ -37,7 +37,7 @@ def clock_text(manifest: dict[str, Any]) -> str:
     return as_text(cpu)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="List mspm0-ccs packaged examples.")
     parser.add_argument(
         "--examples-dir",
@@ -46,7 +46,8 @@ def main() -> int:
         help="Examples directory. Defaults to this skill's examples directory.",
     )
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
-    args = parser.parse_args()
+    parser.add_argument("--strict", action="store_true", help="Return exit code 1 when any manifest is invalid.")
+    args = parser.parse_args(argv)
 
     manifests = []
     for manifest_path in sorted(args.examples_dir.glob("*/manifest.json")):
@@ -54,13 +55,17 @@ def main() -> int:
         manifest["_path"] = str(manifest_path.parent)
         manifests.append(manifest)
 
+    has_errors = any("error" in manifest for manifest in manifests)
     if args.json:
         print(json.dumps(manifests, ensure_ascii=False, indent=2))
-        return 0
+        return 1 if args.strict and has_errors else 0
 
     if not manifests:
         print(f"No examples found under {args.examples_dir}")
         return 0
+    if args.strict and has_errors:
+        print("Invalid manifest found; use --json for details.")
+        return 1
 
     headers = ("name", "complexity", "clock", "pins", "peripherals", "validated")
     rows = []

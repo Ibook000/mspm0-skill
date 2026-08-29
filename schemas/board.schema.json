@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ibook000/mspm0-skill/blob/main/schemas/board.schema.json",
+  "title": "MSPM0 Board Database Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema", "id", "name", "aliases", "device", "package", "identification", "description", "system_pins", "peripherals", "expansion_headers", "validation"],
+  "properties": {
+    "schema": { "const": 1 },
+    "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+    "name": { "type": "string", "minLength": 1 },
+    "aliases": { "type": "array", "items": { "type": "string", "minLength": 1 }, "uniqueItems": true },
+    "device": { "type": "string", "minLength": 1 },
+    "package": { "type": "string", "minLength": 1 },
+    "identification": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "system_pins": { "type": "array", "items": { "$ref": "#/$defs/pinRule" }, "uniqueItems": true },
+    "peripherals": { "type": "array", "items": { "$ref": "#/$defs/peripheralRule" }, "uniqueItems": true },
+    "expansion_headers": { "type": "object", "additionalProperties": { "type": "array", "items": { "type": "string", "minLength": 1 } } },
+    "validation": { "type": "string", "minLength": 1 }
+  },
+  "$defs": {
+    "gpio": { "type": "string", "pattern": "^P[AB][0-9]+$" },
+    "severity": { "type": "string", "enum": ["blocked", "confirm", "release"] },
+    "pinRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pin", "function", "severity", "notes"],
+      "properties": {
+        "pin": { "$ref": "#/$defs/gpio" },
+        "function": { "type": "string", "minLength": 1 },
+        "severity": { "$ref": "#/$defs/severity" },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    },
+    "peripheralRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pins", "name", "severity", "notes"],
+      "properties": {
+        "pins": { "type": "array", "items": { "$ref": "#/$defs/gpio" }, "minItems": 1, "uniqueItems": true },
+        "name": { "type": "string", "minLength": 1 },
+        "severity": { "$ref": "#/$defs/severity" },
+        "notes": { "type": "string", "minLength": 1 }
+      }
+    }
+  }
+}

@@ -7,10 +7,10 @@
     <a href="https://github.com/Ibook000/mspm0-skill/stargazers"><img src="https://img.shields.io/github/stars/Ibook000/mspm0-skill?style=for-the-badge&logo=github" alt="Stars"></a>
     <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg?style=for-the-badge" alt="License"></a>
     <a href="https://www.ti.com/microcontrollers-mcus-processors/microcontrollers/arm-based-microcontrollers/arm-cortex-m0-mcus/overview.html"><img src="https://img.shields.io/badge/Platform-TI_MSPM0-red.svg?style=for-the-badge" alt="Platform"></a>
-    <a href="https://github.com/Ibook000/mspm0-skill/actions"><img src="https://img.shields.io/badge/CI-Passing-brightgreen?style=for-the-badge" alt="CI"></a>
+    <a href="https://github.com/Ibook000/mspm0-skill/actions/workflows/ci.yml"><img src="https://github.com/Ibook000/mspm0-skill/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
     <br>
-    <a href="#"><img src="https://img.shields.io/badge/AI_Agent-Codex_%7C_Claude_Code-success?style=for-the-badge" alt="AI Ready"></a>
-    <a href="#"><img src="https://img.shields.io/badge/SysConfig_Auditor-Verified-brightgreen?style=for-the-badge" alt="SysConfig Check"></a>
+    <a href="https://github.com/Ibook000/mspm0-skill/blob/main/SKILL.md"><img src="https://img.shields.io/badge/AI_Agent-SKILL-success?style=for-the-badge" alt="AI Ready"></a>
+    <a href="https://github.com/Ibook000/mspm0-skill/blob/main/scripts/check_syscfg.py"><img src="https://img.shields.io/badge/SysConfig_Auditor-Verified-brightgreen?style=for-the-badge" alt="SysConfig Check"></a>
     <a href="https://github.com/Ibook000/mspm0-skill/issues"><img src="https://img.shields.io/github/issues/Ibook000/mspm0-skill?style=for-the-badge" alt="Issues"></a>
   </p>
 </div>
@@ -133,6 +133,7 @@ mspm0-skill/
 │   ├── list_examples.py              # 示例工程索引
 │   ├── index_syscfg_examples.py      # SDK SysConfig 模块检索
 │   ├── generate_board_docs.py        # 从 boards/*.json 生成板卡文档
+│   ├── verify_example.py             # 统一输出示例各验证阶段状态
 │   ├── capture_example.py            # 从工程中提取 Example 包
 │   ├── ccs_dss_debug.py              # CCS DSS 命令行调试
 │   └── serial_console.py             # 串口调试终端
@@ -169,7 +170,14 @@ mspm0-skill/
 python3 scripts/check_syscfg.py examples/pwm_breath_led
 ```
 
-一键扫描 `.syscfg`、生成文件、引脚冲突、工程入口和构建产物完整性。
+一键扫描 `.syscfg`、生成文件、引脚冲突、工程入口和构建产物完整性。打包示例可使用 `--snapshot --strict`，忽略预期缺失的构建产物，同时保留真正的配置错误。
+
+```bash
+python3 scripts/check_syscfg.py examples/led_blink --snapshot --strict
+python3 scripts/verify_example.py examples/led_blink --snapshot --json
+```
+
+`verify_example.py` 会分别报告静态、SysConfig、构建、烧录和人工硬件验证状态；静态检查通过不等于已经完成真实硬件验证。
 
 ### 列出内置示例
 
@@ -231,6 +239,8 @@ python3 scripts/capture_example.py <project-dir> --name my-example --include "sr
 | [引脚占用与复用表](references/pin_occupation_table.md) | G3519 自定义板引脚占用一览 |
 | [自动化调试指南](references/ccs_dss_debug.md) | CCS DSS 调试、断点、寄存器读写 |
 | [SDK Schema 查找指南](references/sdk_schema_lookup.md) | SysConfig Schema 字段与 SDK 示例查找方法 |
+| [贡献指南](CONTRIBUTING.md) | 示例、板卡数据、验证和 Pull Request 要求 |
+| [变更日志](CHANGELOG.md) | 功能、规则和验证流程的版本变化 |
 
 ---
 

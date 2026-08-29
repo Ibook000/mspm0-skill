@@ -22,6 +22,16 @@ BOARD_DIR = Path(__file__).resolve().parents[1] / "boards"
 EXIT_OK = 0
 EXIT_CHECK_FAILED = 1
 EXIT_USAGE = 2
+SNAPSHOT_WARNING_PREFIXES = (
+    ".syscfg 未发现 @versions",
+    "未发现 ti_msp_dl_config.c/.h",
+    "源码调用了 ",
+    "没有生成头文件，也没有在源码中发现 SysConfig 初始化函数调用",
+    "应用源码中没有发现 SYSCFG_DL_init/SYSCFG_DL_Init 调用",
+    "Debug 构建文件不完整",
+    "未发现可烧录输出文件",
+    "未发现 targetConfigs/*.ccxml",
+)
 SKIP_DIRS = {".git", ".svn", ".hg", ".agents", ".claude", ".codex", "__pycache__"}
 FRAMEWORK_DIR_NAMES = {
     "app",
@@ -432,7 +442,7 @@ def detect_cmake_info(root: Path) -> dict[str, object]:
     }
 
 
-def check_project(root: Path, board_id: str | None = None) -> tuple[list[Message], dict[str, object]]:
+def check_project(root: Path, board_id: str | None = None, snapshot: bool = False) -> tuple[list[Message], dict[str, object]]:
     messages: list[Message] = []
     details: dict[str, object] = {}
 
@@ -606,6 +616,15 @@ def check_project(root: Path, board_id: str | None = None) -> tuple[list[Message
         messages.append(Message("info", "未发现 targetConfigs/*.ccxml；当前更像 OpenOCD 烧录路径，不需要 CCS targetConfigs。"))
 
     details["validation_hints"] = find_validation_hints(root)
+    if snapshot:
+        messages = [
+            message
+            for message in messages
+            if not (
+                message.level == "warning"
+                and message.text.startswith(SNAPSHOT_WARNING_PREFIXES)
+            )
+        ]
     return messages, details
 
 
@@ -640,6 +659,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("project", nargs="?", default=".", help="Path to a project directory.")
     parser.add_argument("--json", action="store_true", help="Print machine-readable JSON.")
     parser.add_argument("--board", help="Board database id for board-specific pin conflict checks.")
+    parser.add_argument("--snapshot", action="store_true", help="Treat expected missing build/generated files as normal for packaged source snapshots.")
     parser.add_argument(
         "--strict",
         action="store_true",
@@ -651,7 +671,7 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     root = Path(args.project).resolve()
-    messages, details = check_project(root, args.board)
+    messages, details = check_project(root, args.board, args.snapshot)
     has_failure = any(
         msg.level == "error" or (args.strict and msg.level == "warning")
         for msg in messages
