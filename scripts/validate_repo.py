@@ -54,14 +54,16 @@ def validate_manifests() -> list[str]:
             errors.append(
                 f"{manifest_path.relative_to(ROOT)}: missing fields: {', '.join(sorted(missing))}"
             )
-        if not ({"sdk", "product"} & data.keys()):
-            errors.append(
-                f"{manifest_path.relative_to(ROOT)}: requires either 'sdk' or 'product'"
-            )
-        if not ({"sysconfig", "sysconfig_versions"} & data.keys()):
-            errors.append(
-                f"{manifest_path.relative_to(ROOT)}: requires either 'sysconfig' or 'sysconfig_versions'"
-            )
+        for legacy_key in ("product", "sysconfig_versions"):
+            if legacy_key in data:
+                errors.append(
+                    f"{manifest_path.relative_to(ROOT)}: legacy field {legacy_key!r}; use the canonical field instead"
+                )
+        for canonical_key in ("sdk", "sysconfig"):
+            if canonical_key not in data:
+                errors.append(
+                    f"{manifest_path.relative_to(ROOT)}: missing canonical field {canonical_key!r}"
+                )
         name = data.get("name")
         if not isinstance(name, str) or not name.strip():
             errors.append(f"{manifest_path.relative_to(ROOT)}: name must be a non-empty string")
