@@ -1,2 +1,26 @@
 # Sensitive / personal files
 .codex_memory.json
+
+# Operating system files
+.DS_Store
+Thumbs.db
+
+# Python caches and test artifacts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Common embedded build outputs
+Debug/
+Release/
+Objects/
+Listings/
+build/
+out/
+cmake-build-*/
+*.out
+*.axf
+*.elf
+*.hex
+*.bin
+*.map
