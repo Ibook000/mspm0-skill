@@ -21,9 +21,28 @@
 
 ---
 
+## What is mspm0-skill?
+
+**mspm0-skill is an AI Agent skill for Texas Instruments MSPM0 development.** It helps Codex, Claude Code, and compatible coding agents work with SysConfig, DriverLib, CCS, Keil, CMake, UART debugging, and reusable MSPM0 examples. It includes board-aware pin safety rules for Tianmengxing, Dimengxing, and custom MSPM0G3519 boards.
+
+Use this repository when you want AI-assisted MSPM0 firmware development, SysConfig pin validation, or board-specific embedded examples. This repository is **not** a TI SDK, hardware library, IDE plugin, or replacement for CCS/SysConfig and real-board verification.
+
+## 项目摘要
+
+| 项目 | 内容 |
+|---|---|
+| 项目类型 | 面向 AI Agent 的 TI MSPM0 嵌入式开发 Skill |
+| 支持平台 | MSPM0G3507、MSPM0G3519，以及兼容的 MSPM0 工程 |
+| 主要能力 | SysConfig 检查、板卡引脚风险识别、DriverLib 工作流、CCS/Keil/CMake 参考和 UART 调试 |
+| 板卡规则 | 立创·天猛星、地猛星、自定义 MSPM0G3519；机器可读数据位于 `boards/*.json` |
+| 验证边界 | 静态检查和示例快照检查不等于真实编译、烧录或外设硬件验证 |
+
 ## 📖 项目简介
 
-**mspm0-skill** 是一套专为 TI MSPM0 微控制器（MSPG3507 / MSPM0G3507 / MSPM0G3519）设计的 AI Agent 工程规则集。它不是 SDK，不是库，也不是 IDE 插件——它是一份让 Codex、Claude Code 等编程 Agent 瞬间具备资深嵌入式工程师直觉的*行为规范*。
+> AI 快速入口：先读 [`SKILL.md`](SKILL.md)，再根据板卡读取 [`boards/*.json`](boards/) 或 [`references/boards/`](references/boards/)，最后查看 [`docs/faq.md`](docs/faq.md) 和示例 `manifest.json`。
+
+**mspm0-skill** 是一套专为 TI MSPM0 微控制器（MSPG3507 / MSPM0G3507 / MSPM0G3519）设计的 AI Agent 工程规则集。
+它不是 SDK，不是库，也不是 IDE 插件——它是一份让 Codex、Claude Code 等编程 Agent 瞬间具备资深嵌入式工程师直觉的*行为规范*。
 
 当 Agent 加载此 Skill 后，它会：
 - 把 `.syscfg` 当作硬件配置的唯一信源，绝不动手修改生成文件
@@ -66,11 +85,17 @@
 ```bash
 # 克隆到你的项目旁边
 git clone https://github.com/Ibook000/mspm0-skill.git
+cd mspm0-skill
+python3 -m pip install -r requirements-dev.txt
+python3 scripts/validate_repo.py
+python3 scripts/verify_example.py examples/led_blink --snapshot --json
 ```
+
+这组命令会验证 Skill、示例元数据、板卡数据库和静态快照结构。它**不等于**已经完成 CCS/Keil 编译、开发板烧录或真实外设验证。
 
 ### 使用
 
-在 Codex 或 Claude Code 中，对 Agent 说：
+在 Codex、Claude Code 或其他支持 Agent Skill 的工具中，将仓库目录作为 Skill 目录加载，然后对 Agent 说：
 
 ```text
 请先读取 ./mspm0-skill/SKILL.md，再修改我的 MSPM0 项目。
@@ -241,6 +266,9 @@ python3 scripts/capture_example.py <project-dir> --name my-example --include "sr
 | [SDK Schema 查找指南](references/sdk_schema_lookup.md) | SysConfig Schema 字段与 SDK 示例查找方法 |
 | [贡献指南](CONTRIBUTING.md) | 示例、板卡数据、验证和 Pull Request 要求 |
 | [变更日志](CHANGELOG.md) | 功能、规则和验证流程的版本变化 |
+| [常见问题 FAQ](docs/faq.md) | MSPM0、SysConfig、板卡、安装和硬件验证问题 |
+| [AI 索引](llms.txt) | 面向 AI 检索的项目定位、入口和验证边界 |
+| [项目结构化索引](docs/project-index.json) | 文档、脚本、板卡、示例和验证命令的机器可读索引 |
 
 ---
 

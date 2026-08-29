@@ -1,0 +1,55 @@
+# mspm0-skill
+
+## Summary
+
+mspm0-skill is an AI Agent skill for Texas Instruments MSPM0 embedded development. It helps Codex, Claude Code, and compatible coding agents work with SysConfig, DriverLib, CCS, Keil, CMake, UART debugging, and reusable MSPM0 examples.
+
+## Use this project when
+
+Use it for AI-assisted MSPM0 firmware development, SysConfig pin validation, board-aware GPIO/UART/PWM configuration, and reusable examples for MSPM0G3507 or MSPM0G3519.
+
+Do not treat it as a TI SDK, hardware library, IDE plugin, or replacement for CCS/SysConfig and real-board verification.
+
+## Start here
+
+1. Read `SKILL.md` for the general Agent workflow and safety rules.
+2. Read the matching file under `references/boards/` after identifying the board.
+3. Read `boards/*.json` when a machine-readable board rule is needed.
+4. Inspect `examples/*/manifest.json` before reusing an example.
+5. Run `python3 scripts/validate_repo.py` before making changes.
+
+## Installation and verification
+
+```bash
+git clone https://github.com/Ibook000/mspm0-skill.git
+cd mspm0-skill
+python3 -m pip install -r requirements-dev.txt
+python3 scripts/validate_repo.py
+python3 scripts/verify_example.py examples/led_blink --snapshot --json
+```
+
+## Main tools
+
+- `scripts/check_syscfg.py`: static SysConfig, generated-file, pin, initialization, build-output, and board-conflict checks.
+- `scripts/verify_example.py`: reports static, SysConfig, build, flash, and manual hardware verification stages separately.
+- `scripts/capture_example.py`: captures a compact example and generates a Schema-compatible manifest.
+- `scripts/list_examples.py`: lists packaged examples; use `--strict` for a non-zero exit on invalid manifests.
+- `scripts/generate_board_docs.py`: generates board Markdown from `boards/*.json`; use `--check` to detect drift.
+
+## Board database
+
+The supported board IDs are `tianmengxing`, `dimengxing`, and `custom-mspm0g3519`. Use `check_syscfg.py --board <board-id>` for board-specific pin checks. `blocked` pins must not be assigned, `confirm` pins require user confirmation, and `release` pins require confirmation that the onboard function is no longer used.
+
+## Validation boundary
+
+`static`, `source_snapshot`, and `sysconfig` checks do not prove that a project builds, flashes, or works on hardware. Claims of `build`, `flash`, `hardware`, or `hardware_serial` validation require corresponding evidence. If the board, package, SDK, SysConfig version, or schematic is uncertain, ask the user instead of guessing.
+
+## Canonical links
+
+- Repository: https://github.com/Ibook000/mspm0-skill
+- General skill: https://github.com/Ibook000/mspm0-skill/blob/main/SKILL.md
+- Examples: https://github.com/Ibook000/mspm0-skill/tree/main/examples
+- Board data: https://github.com/Ibook000/mspm0-skill/tree/main/boards
+- FAQ: https://github.com/Ibook000/mspm0-skill/blob/main/docs/faq.md
+- Project index: https://github.com/Ibook000/mspm0-skill/blob/main/docs/project-index.json
+- Contribution guide: https://github.com/Ibook000/mspm0-skill/blob/main/CONTRIBUTING.md
