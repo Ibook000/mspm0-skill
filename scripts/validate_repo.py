@@ -7,35 +7,30 @@ import json
 import re
 import sys
 from pathlib import Path
+
+from jsonschema import Draft202012Validator
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLES = ROOT / "examples"
+SCHEMA_PATH = ROOT / "schemas" / "example-manifest.schema.json"
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
-REQUIRED_MANIFEST_FIELDS = {
-    "schema",
-    "name",
-    "title",
-    "description",
-    "board",
-    "device",
-    "package",
-    "validated",
-    "validation_level",
-    "complexity",
-    "peripherals",
-    "pins",
-    "source_files",
-    "syscfg",
-}
-
-
 def fail(message: str) -> None:
     print(f"ERROR: {message}")
 
 
+def schema_error_path(error: object) -> str:
+    path = getattr(error, "absolute_path", ())
+    return ".".join(str(part) for part in path) or "<root>"
+
+
 def validate_manifests() -> list[str]:
     errors: list[str] = []
+    try:
+        schema = json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        return [f"{SCHEMA_PATH.relative_to(ROOT)}: cannot load schema: {exc}"]
+    validator = Draft202012Validator(schema)
     manifests = sorted(EXAMPLES.glob("*/manifest.json"))
     if not manifests:
         return ["no examples/*/manifest.json files found"]
@@ -49,21 +44,10 @@ def validate_manifests() -> list[str]:
             errors.append(f"{manifest_path.relative_to(ROOT)}: invalid JSON: {exc}")
             continue
 
-        missing = REQUIRED_MANIFEST_FIELDS - data.keys()
-        if missing:
+        for schema_error in sorted(validator.iter_errors(data), key=lambda item: list(item.absolute_path)):
             errors.append(
-                f"{manifest_path.relative_to(ROOT)}: missing fields: {', '.join(sorted(missing))}"
+                f"{manifest_path.relative_to(ROOT)}: {schema_error_path(schema_error)}: {schema_error.message}"
             )
-        for legacy_key in ("product", "sysconfig_versions"):
-            if legacy_key in data:
-                errors.append(
-                    f"{manifest_path.relative_to(ROOT)}: legacy field {legacy_key!r}; use the canonical field instead"
-                )
-        for canonical_key in ("sdk", "sysconfig"):
-            if canonical_key not in data:
-                errors.append(
-                    f"{manifest_path.relative_to(ROOT)}: missing canonical field {canonical_key!r}"
-                )
         name = data.get("name")
         if not isinstance(name, str) or not name.strip():
             errors.append(f"{manifest_path.relative_to(ROOT)}: name must be a non-empty string")

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Ibook000/mspm0-skill/blob/main/schemas/example-manifest.schema.json",
+  "title": "MSPM0 Example Manifest",
+  "description": "Machine-readable metadata for a packaged MSPM0 example.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "name",
+    "title",
+    "description",
+    "board",
+    "device",
+    "package",
+    "sdk",
+    "sysconfig",
+    "validated",
+    "validation_level",
+    "complexity",
+    "peripherals",
+    "pins",
+    "source_files",
+    "syscfg"
+  ],
+  "properties": {
+    "schema": { "const": 1 },
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]*$"
+    },
+    "title": { "type": "string", "minLength": 1 },
+    "description": { "type": "string", "minLength": 1 },
+    "board": { "type": "string", "minLength": 1 },
+    "device": { "type": "string", "minLength": 1 },
+    "package": { "type": "string", "minLength": 1 },
+    "sdk": {
+      "type": "string",
+      "pattern": "^(?:MSPM0 SDK [0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+|mspm0_sdk@[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+)$"
+    },
+    "sysconfig": {
+      "type": "string",
+      "pattern": "^(?:[0-9]+\\.[0-9]+\\.[0-9]+|\\{\\\"tool\\\":\\\"[^\\\"]+\\\"\\})$"
+    },
+    "validated": { "type": "boolean" },
+    "validation_level": {
+      "type": "string",
+      "enum": ["static", "source_snapshot", "sysconfig", "build", "flash", "hardware", "hardware_serial"]
+    },
+    "complexity": {
+      "type": "string",
+      "enum": ["basic", "intermediate", "advanced"]
+    },
+    "peripherals": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "pins": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "source_files": {
+      "type": "array",
+      "items": { "type": "string", "pattern": "^src/.+" },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "syscfg": {
+      "type": "string",
+      "pattern": "^.+\\.syscfg$"
+    },
+    "clock": {
+      "type": "object",
+      "additionalProperties": { "type": ["number", "string"] }
+    },
+    "parameters": { "type": "object" },
+    "generated_names": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 },
+      "uniqueItems": true
+    }
+  }
+}

@@ -70,7 +70,7 @@ description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfi
 
 ## Examples and Tools
 
-每个可复用示例应包含 `example.syscfg`、`README.md`、`manifest.json` 和最小相关源码。`manifest.json` 使用统一字段：`sdk` 表示 SDK 产品，`sysconfig` 表示 SysConfig 工具版本，`syscfg` 表示示例配置文件路径；不要再使用旧字段 `product` 或 `sysconfig_versions`。使用 `scripts/capture_example.py` 从真实工程提取示例，避免把完整 CCS 工程直接塞进示例目录。
+每个可复用示例应包含 `example.syscfg`、`README.md`、`manifest.json` 和最小相关源码。`manifest.json` 必须符合 [`schemas/example-manifest.schema.json`](schemas/example-manifest.schema.json)：使用统一字段 `sdk`（SDK 产品）、`sysconfig`（SysConfig 工具版本）和 `syscfg`（示例配置文件路径），并使用受控的 `validation_level` 枚举；不要再使用旧字段 `product` 或 `sysconfig_versions`。运行 `python scripts/validate_repo.py` 可执行 Schema、字段类型、版本格式、示例文件和本地链接检查。使用 `scripts/capture_example.py` 从真实工程提取示例，避免把完整 CCS 工程直接塞进示例目录。
 
 - `python scripts/check_syscfg.py <project-dir>`：检查 SysConfig、生成物、引脚、初始化函数、工程结构、构建输出和验证提示。
 - `python scripts/check_syscfg.py <project-dir> --json`：输出机器可读 JSON。
