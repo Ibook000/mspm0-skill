@@ -18,6 +18,8 @@ tags:
 
 # 我用 AI 写 MSPM0 电赛代码，结果它把板子烧了：一个业余嵌入式玩家的自救指南
 
+> **来源与版权说明**：本文介绍的仓库基于原项目 [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill) 的历史版本修改而来。原项目作者为 **mc3545dada**，相关原始内容受 MIT License 许可，版权声明为 `Copyright (c) 2026 mc3545dada`。上游历史版本贡献的内容主要包括 Skill 规则、辅助脚本、参考文档和示例工程中的相应部分；当前仓库的 README 重写、板卡资料与示例补充/修订、脚本调整及其他后续变更属于本仓库的后续维护内容。转载或发布本文时，请保留本段署名与来源链接，不能将上游内容表述为本文作者或当前仓库作者独立原创。
+
 如果你参加过全国大学生电子设计竞赛，你大概见过这样的场景：
 
 比赛第三天凌晨两点，队友已经趴在桌上睡着了。你盯着屏幕上的编译输出，一遍一遍地烧录，一遍一遍地等板子亮灯。但灯就是不亮。
@@ -198,6 +200,8 @@ git clone https://github.com/Ibook000/mspm0-skill.git
 
 # I Told AI to Write MSPM0 Code for a Competition, and It Killed My Board
 
+> **Attribution and source**: This article describes a repository modified from the historical version of [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill). The original author is **mc3545dada**; the original material is released under the MIT License with the notice `Copyright (c) 2026 mc3545dada`. The upstream material includes the relevant Skill rules, helper scripts, reference documents, and example projects. README rewrites, board documentation and example updates, script changes, and other later maintenance are subsequent work in this repository. Keep this attribution and source link when republishing this article.
+
 If you've ever competed in NUEDC (National Undergraduate Electronic Design Contest), you know the scene:
 
 It's 3 AM on day three. Your teammate is asleep at the desk. You're staring at the compiler output, flashing the board again and again, waiting for the LED to light up. It doesn't.
@@ -216,7 +220,7 @@ This gap is not the AI's fault. It's a knowledge gap that can be fixed with the 
 
 ## The Fix: A Skill That Encodes Board Knowledge
 
-[mspm0-skill](https://github.com/Ibook000/mspm0-skill) is an open-source Skill for Codex and Claude Code. When loaded, it forces AI agents to follow these rules:
+[mspm0-skill](https://github.com/Ibook000/mspm0-skill) is an open-source Skill for Codex and Claude Code. It is a modified version based on the historical version of [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill), whose original author is **mc3545dada** and whose original content is released under the MIT License. When loaded, it forces AI agents to follow these rules:
 
 1. Treat `.syscfg` as the source of truth for hardware configuration
 2. Never hand-edit generated files like `ti_msp_dl_config.c` or `ti_msp_dl_config.h`

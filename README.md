@@ -15,6 +15,10 @@
   </p>
 </div>
 
+> **来源与版权说明**：本仓库基于 [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill) 的历史版本修改而来。原项目作者为 **mc3545dada**，相关原始内容受 [MIT License](LICENSE) 许可，并保留版权声明 `Copyright (c) 2026 mc3545dada`。
+>
+> 上游历史版本贡献的内容主要包括 Skill 规则、辅助脚本、参考文档和示例工程中的相应部分；本仓库在此基础上进行了 README 与项目定位重写、板卡资料和示例内容补充/修订、工具脚本调整，以及其他提交记录中所列的后续维护工作。具体文件的当前状态以本仓库提交历史为准。
+
 ---
 
 ## 📖 项目简介
@@ -244,12 +248,19 @@ python3 scripts/capture_example.py <project-dir> --name my-example --include "sr
 
 ## 📄 License
 
-[MIT](LICENSE)
+本仓库采用 [MIT License](LICENSE)。使用、复制、修改或再发布本仓库及其来自上游的实质性内容时，请保留以下原版权声明：
+
+```text
+Copyright (c) 2026 mc3545dada
+```
+
+本项目的上游来源为 [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill)。
 
 ---
 
 ## 🏆 致谢
 
+- 感谢上游项目作者 **mc3545dada** 及 [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill) 提供本仓库所基于的历史版本内容
 - 感谢 **TI** 提供的 MSPM0 系列微控制器和完善的 DriverLib / SysConfig 工具链
 - 感谢 **嘉立创** 推出的天猛星 / 地猛星开发板，降低了 MSPM0 的入门门槛
 - 感谢所有参与电赛的同学们，你们的拼搏精神是这个项目存在的意义

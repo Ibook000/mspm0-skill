@@ -16,6 +16,8 @@ tags:
 
 # 我给 Codex 和 Claude Code 补了一份 MSPM0 使用说明
 
+> **来源与版权说明**：本文介绍的仓库基于原项目 [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill) 的历史版本修改而来。原项目作者为 **mc3545dada**，相关原始内容受 MIT License 许可，版权声明为 `Copyright (c) 2026 mc3545dada`。上游历史版本贡献的内容主要包括 Skill 规则、辅助脚本、参考文档和示例工程中的相应部分；当前仓库的 README 重写、板卡资料与示例补充/修订、脚本调整及其他后续变更属于本仓库的后续维护内容。转载或发布本文时，请保留本段署名与来源链接，不能将上游内容表述为本文作者或当前仓库作者独立原创。
+
 > English version follows below.
 
 前段时间我让 AI 帮忙改一个 MSPM0 工程。C 代码写得挺快，麻烦也来得挺快。
@@ -112,6 +114,8 @@ git clone https://github.com/Ibook000/mspm0-skill.git
 ---
 
 # I Wrote an MSPM0 Field Guide for Codex and Claude Code
+
+> **Attribution and source**: This article describes a repository modified from the historical version of [mc3545dada/mspm0-skill](https://github.com/mc3545dada/mspm0-skill). The original author is **mc3545dada**; the original material is released under the MIT License with the notice `Copyright (c) 2026 mc3545dada`. The upstream material includes the relevant Skill rules, helper scripts, reference documents, and example projects. README rewrites, board documentation and example updates, script changes, and other later maintenance are subsequent work in this repository. Keep this attribution and source link when republishing this article.
 
 I recently asked an AI coding agent to modify an MSPM0 project. It produced C code quickly and created a different kind of work just as quickly.
 
