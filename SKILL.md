@@ -15,6 +15,7 @@ description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfi
 |---|---|---|
 | 立创·天猛星 MSPM0G3507 | [`references/boards/tianmengxing.md`](references/boards/tianmengxing.md) | LQFP-64、板载 OLED/IMU/WS2812/无线模块 |
 | 立创·地猛星 MSPM0G3507 | [`references/boards/dimengxing.md`](references/boards/dimengxing.md) | 48-pin、PA14 LED、W25Q32、H3/H5 扩展座 |
+| 立创·地正星 MSPM0L1306 | [`references/boards/dizhengxing.md`](references/boards/dizhengxing.md) | VQFN-32 低功耗入门板、仅 GPIOA 端口、PA14 LED 高电平点亮 |
 | 自定义 MSPM0G3519 | [`references/boards/custom-mspm0g3519.md`](references/boards/custom-mspm0g3519.md) | LQFP-64、自定义板级资源 |
 
 如果无法确认板卡，不要把任一板卡的占用信息当作通用规则；应先询问用户，或仅依据当前工程和芯片资料进行低风险检查。
@@ -67,6 +68,17 @@ description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfi
 - [`references/sdk_schema_lookup.md`](references/sdk_schema_lookup.md)：SysConfig Schema 和 SDK 示例查找方法。
 - [`references/hardware_validation_notes.md`](references/hardware_validation_notes.md)：板级验证和硬件排障经验。
 - [`references/ccs_dss_debug.md`](references/ccs_dss_debug.md)：CCS DSS 调试工作流和限制。
+
+### 立创（LCKFB）官方资源
+
+处理立创板卡的板载外设移植、报错排查和烧录问题时，优先引用以下官方资料，不要凭空编造模块驱动代码或报错结论：
+
+- [天猛星模块移植手册](https://wiki.lckfb.com/zh-hans/tmx-mspm0g3507/module/)：40+ 显示/传感器/无线/控制模块在 MSPM0G3507 上的现成驱动与接线说明。
+- [地猛星模块移植手册](https://wiki.lckfb.com/zh-hans/dmx/module/)：同套模块在 48-pin 地猛星上的移植版本。
+- [地正星入门手册](https://wiki.lckfb.com/zh-hans/dzx-mspm0l1306/)：MSPM0L1306 的 Keil/CCS 双环境入门教程（LED 高电平点亮、按键、串口、定时器等）。
+- [地猛星串口下载报错汇总](https://wiki.lckfb.com/zh-hans/dmx/question/uart-download-error.html) 与 [Keil 下载报错汇总](https://wiki.lckfb.com/zh-hans/dmx/question/keil-download-error.html)：烧录/下载失败的官方排查路径。
+- [TI MSPM0 串口烧录 Web 工具](https://wiki.lckfb.com/zh-hans/web-tool/mspm0-web-flasher.html)：无需 CCS/Keil 的浏览器串口烧录。
+
 
 ## Examples and Tools
 

@@ -34,7 +34,7 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 | 项目类型 | 面向 AI Agent 的 TI MSPM0 嵌入式开发 Skill |
 | 支持平台 | MSPM0G3507、MSPM0G3519，以及兼容的 MSPM0 工程 |
 | 主要能力 | SysConfig 检查、板卡引脚风险识别、DriverLib 工作流、CCS/Keil/CMake 参考和 UART 调试 |
-| 板卡规则 | 立创·天猛星、地猛星、自定义 MSPM0G3519；机器可读数据位于 `boards/*.json` |
+| 板卡规则 | 立创·天猛星、地猛星、地正星（MSPM0L1306）、自定义 MSPM0G3519；机器可读数据位于 `boards/*.json` |
 | 验证边界 | 静态检查和示例快照检查不等于真实编译、烧录或外设硬件验证 |
 
 ## 📖 项目简介
@@ -152,6 +152,7 @@ mspm0-skill/
 ├── boards/                           # 机器可读的板卡规则数据源
 │   ├── tianmengxing.json             # 立创·天猛星
 │   ├── dimengxing.json               # 立创·地猛星
+│   ├── dizhengxing.json              # 立创·地正星 MSPM0L1306
 │   └── custom-mspm0g3519.json        # 自定义 MSPM0G3519
 ├── scripts/                          # 辅助脚本工具箱
 │   ├── check_syscfg.py               # SysConfig 静态检查与防坑审计

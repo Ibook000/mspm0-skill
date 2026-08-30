@@ -6,7 +6,7 @@ mspm0-skill is an AI Agent skill for Texas Instruments MSPM0 embedded developmen
 
 ## Use this project when
 
-Use it for AI-assisted MSPM0 firmware development, SysConfig pin validation, board-aware GPIO/UART/PWM configuration, and reusable examples for MSPM0G3507 or MSPM0G3519.
+Use it for AI-assisted MSPM0 firmware development, SysConfig pin validation, board-aware GPIO/UART/PWM configuration, and reusable examples for MSPM0G3507, MSPM0G3519, or MSPM0L1306.
 
 Do not treat it as a TI SDK, hardware library, IDE plugin, or replacement for CCS/SysConfig and real-board verification.
 
@@ -38,7 +38,11 @@ python3 scripts/verify_example.py examples/led_blink --snapshot --json
 
 ## Board database
 
-The supported board IDs are `tianmengxing`, `dimengxing`, and `custom-mspm0g3519`. Use `check_syscfg.py --board <board-id>` for board-specific pin checks. `blocked` pins must not be assigned, `confirm` pins require user confirmation, and `release` pins require confirmation that the onboard function is no longer used.
+The supported board IDs are `tianmengxing`, `dimengxing`, `dizhengxing`, and `custom-mspm0g3519`. Use `check_syscfg.py --board <board-id>` for board-specific pin checks. `blocked` pins must not be assigned, `confirm` pins require user confirmation, and `release` pins require confirmation that the onboard function is no longer used.
+
+## External references (LCKFB wiki)
+
+Official LCKFB (立创开发板) documentation for supported boards: module porting manuals with ready-made peripheral drivers, beginner guides (Keil/CCS), serial-flash error troubleshooting, and a browser-based MSPM0 serial flasher. Start at https://wiki.lckfb.com/zh-hans/ti-series/ . Prefer these sources over inventing module driver code or flash-error conclusions.
 
 ## Validation boundary
 
