@@ -59,11 +59,10 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 | :--- | :--- |
 | 🧠 **直接理解 SysConfig** | 检查和修改 `.syscfg`，保留 metadata、时钟树、PinMux、DMA 与中断配置，**不直接篡改** `ti_msp_dl_config.c/.h` |
 | 🔧 **识别工程与工具链** | 区分 CCS、Keil/uVision、CMake + GCC/OpenOCD，以及简单工程、分层框架和 FreeRTOS 工程，给出对应操作路径 |
-| ⚡ **自动构建与烧录** | 固化 SysConfig CLI、gmake、TI Arm Clang、CMake、DSLite/J-Link、OpenOCD 工作流，一键串起从配置到烧录的全链路 |
-| 🖥️ **连接真实硬件调试** | 支持 **CCS-DSS** 与 **OpenOCD/GDB** 两条调试链路，辅助断点、寄存器、符号和复位检查 |
-| 🔓 **锁定诊断与恢复引导** | 区分探针断连、MEM-AP 不可用、NONMAIN/安全策略异常，在用户授权后引导 **UART BSL / DSSM Mass Erase / Factory Reset** 恢复 |
-| 📡 **串口闭环验证与调参** | Python 串口收发、文本帧/二进制测试，可用于 PID 与控制参数调试，边看边调 |
-| 📚 **例程与 SDK 检索** | 优先利用用户工程和 TI SDK 官方例程，同时提供经过验证的 GPIO、PWM、Timer、UART/DMA 样例 |
+| ⚡ **构建与烧录指引** | 明确 CCS、Keil、CMake/GCC/OpenOCD 的构建与烧录入口，提供 DSLite 烧录与 OpenOCD 命令行示例 |
+| 🖥️ **CCS-DSS 调试** | 通过 CCS Debug Server Scripting 连接真实硬件，辅助探针探测、断点（符号/行号）、寄存器读取和目标复位 |
+| 📡 **串口收发** | Python 串口控制台，支持文本/十六进制收发、时间戳、定时读取，用于基础 UART 验证 |
+| 📚 **例程与 SDK 检索** | 提供 GPIO、PWM、Timer、UART 等可复用示例，并可检索本地 TI SDK 官方 SysConfig 例程 |
 
 ---
 
