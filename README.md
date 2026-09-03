@@ -53,16 +53,35 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 
 ---
 
+## 🤖 AI Agent 使用指南（被加载后请这样工作）
+
+本仓库是一个 **AI Agent Skill**，真正的规则入口是 [`SKILL.md`](SKILL.md)。当编程 Agent（Codex / Claude Code / 兼容工具）加载本 Skill 后，请严格按以下契约执行：
+
+1. **先读规则**：第一步读取 [`SKILL.md`](SKILL.md)，它是唯一权威入口，定义工作流、修改边界与验证口径（不要凭记忆或通用经验改写 TI 工程）。
+2. **识别板卡**：依据 `.syscfg` 的 `--device` / `--package`、项目说明或用户明确表述确定板型（天猛星 / 地猛星 / 地正星 / 自定义 G3519），再读取对应的 [`boards/*.json`](boards/) 与 [`references/boards/<board>.md`](references/boards/)。拿不准时先问用户，不要把某块板的占用当通用规则。
+3. **以 `.syscfg` 为唯一信源**：只改 `.syscfg` 与应用代码，**绝不手工修改** `ti_msp_dl_config.c/.h`、`device_linker.cmd`、构建产物等生成文件。陌生字段优先查 `.syscfg`、`examples/*/manifest.json` 或 TI SDK，不要猜枚举/宏名。
+4. **改前先检查**：运行静态检查验证引脚冲突、生成物与工程结构完整性：
+   ```bash
+   python scripts/check_syscfg.py <project-dir> --board <board-id>
+   # 需要机器可读结果：加 --json；要把 warning 当失败：加 --strict
+   ```
+5. **复用已验证示例**：新增外设优先从 [`examples/`](examples/) 的 `manifest.json` 与 [`references/`](references/) 找现成模式，再移植，而不是重写 DriverLib 调用。
+6. **分层报告验证结果**：把「源码已改 / SysConfig 校验通过 / 编译通过 / 烧录成功 / 真实硬件跑通」分别说明；**没有真实板卡连接时，不得声称完成硬件验证**。
+
+> 📇 **机器可读索引**：面向自动检索，优先使用 [`llms.txt`](llms.txt) 与 [`docs/project-index.json`](docs/project-index.json)（含文档、脚本、板卡、示例与验证命令）。脚本与参考文档的完整清单见下方「📂 仓库结构」与「🛠️ 实用脚本一览」。
+
+---
+
 ## ✨ 核心亮点
 
-| 能力 | 能解决什么问题 |
-| :--- | :--- |
-| 🧠 **直接理解 SysConfig** | 检查和修改 `.syscfg`，保留 metadata、时钟树、PinMux、DMA 与中断配置，**不直接篡改** `ti_msp_dl_config.c/.h` |
-| 🔧 **识别工程与工具链** | 区分 CCS、Keil/uVision、CMake + GCC/OpenOCD，以及简单工程、分层框架和 FreeRTOS 工程，给出对应操作路径 |
-| ⚡ **构建与烧录指引** | 明确 CCS、Keil、CMake/GCC/OpenOCD 的构建与烧录入口，提供 DSLite 烧录与 OpenOCD 命令行示例 |
-| 🖥️ **CCS-DSS 调试** | 通过 CCS Debug Server Scripting 连接真实硬件，辅助探针探测、断点（符号/行号）、寄存器读取和目标复位 |
-| 📡 **串口收发** | Python 串口控制台，支持文本/十六进制收发、时间戳、定时读取，用于基础 UART 验证 |
-| 📚 **例程与 SDK 检索** | 提供 GPIO、PWM、Timer、UART 等可复用示例，并可检索本地 TI SDK 官方 SysConfig 例程 |
+| 能力 | 能解决什么问题 | 对应实现（本仓库，均已落地） |
+| :--- | :--- | :--- |
+| 🧠 **直接理解 SysConfig** | 检查和修改 `.syscfg`，保留 metadata、时钟树、PinMux、DMA 与中断配置，**不直接篡改** `ti_msp_dl_config.c/.h` | `scripts/check_syscfg.py` + `SKILL.md` Core Rules |
+| 🔧 **识别工程与工具链** | 区分 CCS、Keil/uVision、CMake + GCC/OpenOCD，以及简单工程、分层框架和 FreeRTOS 工程，给出对应操作路径 | `SKILL.md`「Project Shape and Toolchain Rules」 |
+| ⚡ **构建与烧录指引** | 明确 CCS、Keil、CMake/GCC/OpenOCD 的构建与烧录入口，提供 DSLite 烧录与 OpenOCD 命令行示例 | `references/sysconfig_ccs_workflow.md` + `SKILL.md`「Flash and Debug Backends」 |
+| 🖥️ **CCS-DSS 调试** | 通过 CCS Debug Server Scripting 连接真实硬件，辅助探针探测、断点（符号/行号）、寄存器读取和目标复位 | `scripts/ccs_dss_debug.py` + `references/ccs_dss_debug.md` |
+| 📡 **串口收发** | Python 串口控制台，支持文本/十六进制收发、时间戳、定时读取，用于基础 UART 验证 | `scripts/serial_console.py` |
+| 📚 **例程与 SDK 检索** | 提供 GPIO、PWM、Timer、UART 等可复用示例，并可检索本地 TI SDK 官方 SysConfig 例程 | `scripts/list_examples.py` + `scripts/index_syscfg_examples.py` + `examples/` |
 
 ---
 
@@ -108,20 +127,26 @@ python3 scripts/verify_example.py examples/led_blink --snapshot --json
 
 ### 使用
 
-在 Codex、Claude Code 或其他支持 Agent Skill 的工具中，将仓库目录作为 Skill 目录加载，然后对 Agent 说：
+在 Codex、Claude Code 或其他支持 Agent Skill 的工具中，把本仓库目录作为 Skill 目录加载。**Agent 被加载后的标准动作见上文「🤖 AI Agent 使用指南」**，核心就是：先读 `SKILL.md` → 识别板卡 → 只改 `.syscfg`/应用代码 → 改前跑 `check_syscfg.py` → 分层报告验证结果。
+
+可直接对 Agent 说：
 
 ```text
 请先读取 ./mspm0-skill/SKILL.md，再修改我的 MSPM0 项目。
 ```
 
-然后直接提出你的需求，Agent 就会遵循 Skill 规则来工作：
+然后提出需求，Agent 会遵循 Skill 规则工作。一个清晰的指令模板：
 
 ```text
-读取 mspm0-skill/SKILL.md。当前项目使用 MSPM0G3507 和 SysConfig。
-请增加一路 1 kHz PWM 输出，不要修改 ti_msp_dl_config.c 或 ti_msp_dl_config.h。
-先检查时钟、引脚冲突和现有外设占用，只修改必要的 .syscfg 与应用代码。
-完成后说明检查、编译、烧录和硬件运行分别验证到了哪一步。
+读取 mspm0-skill/SKILL.md，按里面的规则工作。
+当前项目：MSPM0G3507，板卡是立创·天猛星（若有 .syscfg 以其中的 device/package 为准）。
+需求：增加一路 1 kHz PWM 输出驱动 PB22 板载 LED 呼吸灯；不要修改 ti_msp_dl_config.c/.h。
+步骤：先跑 python scripts/check_syscfg.py <项目目录> --board tianmengxing 检查引脚冲突，
+      只读 .syscfg 与必要的应用代码，改完后再跑一次检查。
+最后把「源码已改 / SysConfig 校验 / 编译 / 烧录 / 真实硬件」各自验证到哪一步分开说明。
 ```
+
+> 提示：把板卡名（如 `tianmengxing` / `dimengxing` / `dizhengxing` / `custom-mspm0g3519`）直接告诉 Agent，能让 `--board` 检查一次命中；不确定时让 Agent 从 `.syscfg` 自动识别即可。
 
 ---
 
