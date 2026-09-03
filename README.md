@@ -99,7 +99,7 @@ Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-s
 
 ## 🧩 电路板对比（速览）
 
-| 特性 | 天猛星 (tianmengxing) | 地猛星 (dimengxing) | 地正星 (dizhengxing) | 天擎星 (custom-mspm0g3519) |
+| 特性 | 天猛星 (tianmengxing) | 地猛星 (dimengxing) | 地正星 (dizhengxing) | 自定义 MSPM0G3519 (custom-mspm0g3519) |
 | :--- | :--- | :--- | :--- | :--- |
 | **MCU** | MSPM0G3507 LQFP-64 | MSPM0G3507 48-pin | MSPM0L1306 VQFN-32 | MSPM0G3519 LQFP-64 |
 | **板载 LED** | PB22（低电平亮） | PA14（低电平亮，270Ω） | PA14（高电平亮） | PB22（低有效，示例） |
@@ -109,7 +109,7 @@ Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-s
 | **IMU** | LSM6DS3 (PA27/PA28) | 需外接 | 需外接 | LSM6DS3 (PA27/PA28，示例) |
 | **WS2812 RGB** | PB26 (TIMA1 CCP0) | 需外接 | 需外接 | PB26（示例） |
 
-> 完整引脚占用、默认电平与避坑说明见 [`references/boards/`](references/boards/)。地猛星/地正星/天擎星的板载外设多为示例连接，在外接板上需适配到对应引脚；地正星仅 GPIOA 端口且 LED 高电平点亮，跨板移植务必核对极性与可用引脚。天擎星为自定义/示例板，板载资源以用户原理图为准。
+> 完整引脚占用、默认电平与避坑说明见 [`references/boards/`](references/boards/)。地猛星/地正星/自定义 MSPM0G3519 的板载外设多为示例连接，在外接板上需适配到对应引脚；地正星仅 GPIOA 端口且 LED 高电平点亮，跨板移植务必核对极性与可用引脚。自定义 MSPM0G3519 为自定义/示例板，板载资源以用户原理图为准。
 
 ---
 

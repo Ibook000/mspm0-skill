@@ -1,6 +1,6 @@
 # MSPM0G3519 引脚占用表
 
-> 本表对应立创·天巧星（tqx-mspm0g3519）开发板，属于 `boards/custom-mspm0g3519.json` 的板载资源说明。**板载外设的具体引脚以 `boards/custom-mspm0g3519.json` 为唯一数据源**，如与官方原理图不一致，请以官方原理图为准并同步更新 JSON 与本文。
+> 本表对应 `boards/custom-mspm0g3519.json`（自定义 MSPM0G3519 开发板）的板载资源说明。**板载外设的具体引脚以 `boards/custom-mspm0g3519.json` 为唯一数据源**，如与官方原理图不一致，请以官方原理图为准并同步更新 JSON 与本文。
 
 ## 调试接口
 
