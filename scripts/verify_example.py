@@ -5,8 +5,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from pathlib import Path
 from typing import Any
+
+# Allow both `python scripts/verify_example.py` and `from scripts import verify_example`
+# (the bare `from check_syscfg import ...` below needs this directory on sys.path).
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from check_syscfg import EXIT_CHECK_FAILED, check_project
 

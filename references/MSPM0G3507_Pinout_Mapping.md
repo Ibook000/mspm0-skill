@@ -78,7 +78,7 @@
 | LCD_RES (复位) | PB10 | 普通 GPIO |
 | LCD_DC (数据/命令) | PB11 | 普通 GPIO |
 | LCD_CS (片选) | PB14 | 普通 GPIO |
-| BLK (背光控制) | PB26 | 普通 GPIO |
+| BLK (背光控制) | 建议接 3.3V 常亮（PB26 已分配给板载 WS2812 RGB，见板卡规则，勿将 OLED 背光复用到 PB26） | 普通 GPIO |
 
 ### 2.3 CH340E 串口与下载 (U18)
 | CH340E 转换引脚 | MCU 原生引脚 | 作用与功能说明 |

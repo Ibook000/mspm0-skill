@@ -1,9 +1,9 @@
 ---
 title: "我给 Codex 和 Claude Code 补了一份 MSPM0 使用说明"
-description: "面向 TI MSPM0、MSPG3507 和立创天猛星开发板的 AI Agent Skill，包含 SysConfig 工作流、DriverLib 规则、引脚检查和可复用示例。"
+description: "面向 TI MSPM0、MSPM0G3507 和立创天猛星开发板的 AI Agent Skill，包含 SysConfig 工作流、DriverLib 规则、引脚检查和可复用示例。"
 tags:
   - MSPM0
-  - MSPG3507
+  - MSPM0G3507
   - MSPM0G3507
   - MSPM0G3519
   - Tianmengxing
@@ -72,7 +72,7 @@ MSPM0 项目里，`.syscfg` 管着引脚复用、时钟、中断、DMA 和外设
 
 仓库里还有 GPIO、PWM 呼吸灯、UART、OLED UI、LSM6DS3 IMU 和 QEI 编码器示例。示例的作用是给 Agent 提供已经落地的写法，它仍然需要结合你的芯片、SDK 版本和板子修改，不能整段硬抄。
 
-目前重点照顾的关键词和环境包括 `MSPG3507`、`MSPM0G3507`、`MSPM0G3519`、立创天猛星、CCS、Keil、CMake、Arm GNU Toolchain 和 OpenOCD。
+目前重点照顾的关键词和环境包括 `MSPM0G3507`、`MSPM0G3519`、立创天猛星、CCS、Keil、CMake、Arm GNU Toolchain 和 OpenOCD。
 
 ## 怎么用
 
@@ -105,7 +105,7 @@ git clone https://github.com/Ibook000/mspm0-skill.git
 
 所以硬件结论最终还得上板确认。
 
-仓库还在继续整理。如果你手里有跑通过的 `.syscfg` 片段、MSPG3507 或 MSPM0G3519 示例、天猛星引脚修正、CCS 与 Keil 的实战经验，欢迎提 Issue 或 PR。哪怕只是指出一个宏名或板载资源写错了，也很有用。
+仓库还在继续整理。如果你手里有跑通过的 `.syscfg` 片段、MSPM0G3507 或 MSPM0G3519 示例、天猛星引脚修正、CCS 与 Keil 的实战经验，欢迎提 Issue 或 PR。哪怕只是指出一个宏名或板载资源写错了，也很有用。
 
 项目地址 [https://github.com/Ibook000/mspm0-skill](https://github.com/Ibook000/mspm0-skill)
 
@@ -139,7 +139,7 @@ It must also report the validation level honestly. A source review, a successful
 
 The repository includes a SysConfig checker, an SDK example indexer, serial console tooling, board pin references, and reusable examples for GPIO, PWM, UART, OLED UI, LSM6DS3 IMU, and QEI encoders.
 
-The current focus covers `MSPG3507`, `MSPM0G3507`, `MSPM0G3519`, Lichuang Tianmengxing boards, CCS, Keil, CMake, Arm GNU Toolchain, and OpenOCD.
+The current focus covers `MSPM0G3507`, `MSPM0G3519`, Lichuang Tianmengxing boards, CCS, Keil, CMake, Arm GNU Toolchain, and OpenOCD.
 
 ## Try it
 
@@ -170,4 +170,4 @@ Repository [https://github.com/Ibook000/mspm0-skill](https://github.com/Ibook000
 
 ## Suggested publishing tags
 
-`MSPM0`, `MSPG3507`, `MSPM0G3507`, `MSPM0G3519`, `Tianmengxing`, `立创天猛星`, `Codex`, `Claude Code`, `SysConfig`, `DriverLib`, `TI`, `Embedded`, `NUEDC`, `AI Agent`
+`MSPM0`, `MSPM0G3507`, `MSPM0G3519`, `Tianmengxing`, `立创天猛星`, `Codex`, `Claude Code`, `SysConfig`, `DriverLib`, `TI`, `Embedded`, `NUEDC`, `AI Agent`

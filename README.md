@@ -23,7 +23,7 @@
 
 ## What is mspm0-skill?
 
-**mspm0-skill is an AI Agent skill for Texas Instruments MSPM0 development.** It helps Codex, Claude Code, and compatible coding agents work with SysConfig, DriverLib, CCS, Keil, CMake, UART debugging, and reusable MSPM0 examples. It includes board-aware pin safety rules for Tianmengxing, Dimengxing, and custom MSPM0G3519 boards.
+**mspm0-skill is an AI Agent skill for Texas Instruments MSPM0 development.** It helps Codex, Claude Code, and compatible coding agents work with SysConfig, DriverLib, CCS, Keil, CMake, UART debugging, and reusable MSPM0 examples. It includes board-aware pin safety rules for Tianmengxing, Dimengxing, Dizhengxing (MSPM0L1306), and custom MSPM0G3519 boards.
 
 Use this repository when you want AI-assisted MSPM0 firmware development, SysConfig pin validation, or board-specific embedded examples. This repository is **not** a TI SDK, hardware library, IDE plugin, or replacement for CCS/SysConfig and real-board verification.
 
@@ -32,7 +32,7 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 | 项目 | 内容 |
 |---|---|
 | 项目类型 | 面向 AI Agent 的 TI MSPM0 嵌入式开发 Skill |
-| 支持平台 | MSPM0G3507、MSPM0G3519，以及兼容的 MSPM0 工程 |
+| 支持平台 | MSPM0G3507、MSPM0G3519、MSPM0L1306（地正星），以及兼容的 MSPM0 工程 |
 | 主要能力 | SysConfig 检查、板卡引脚风险识别、DriverLib 工作流、CCS/Keil/CMake 参考和 UART 调试 |
 | 板卡规则 | 立创·天猛星、地猛星、地正星（MSPM0L1306）、自定义 MSPM0G3519；机器可读数据位于 `boards/*.json` |
 | 验证边界 | 静态检查和示例快照检查不等于真实编译、烧录或外设硬件验证 |
@@ -41,7 +41,7 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 
 > AI 快速入口：先读 [`SKILL.md`](SKILL.md)，再根据板卡读取 [`boards/*.json`](boards/) 或 [`references/boards/`](references/boards/)，最后查看 [`docs/faq.md`](docs/faq.md) 和示例 `manifest.json`。
 
-**mspm0-skill** 是一套专为 TI MSPM0 微控制器（MSPG3507 / MSPM0G3507 / MSPM0G3519）设计的 AI Agent 工程规则集。
+**mspm0-skill** 是一套专为 TI MSPM0 微控制器（MSPM0G3507 / MSPM0G3519）设计的 AI Agent 工程规则集。
 它不是 SDK，不是库，也不是 IDE 插件——它是一份让 Codex、Claude Code 等编程 Agent 瞬间具备资深嵌入式工程师直觉的*行为规范*。
 
 当 Agent 加载此 Skill 后，它会：
@@ -140,7 +140,7 @@ python3 scripts/verify_example.py examples/led_blink --snapshot --json
 利用 `scripts/check_syscfg.py` 静态诊断工具，Agent 能够在构建前自动发现关键问题：
 
 - ⚠️ 避开 BSL (PA18)、晶振 (PA5/PA6)、调试接口 (PA20/PA19)、ROSC (PA2) 冲突
-- 🔍 自动识别当前板型（天猛星 / 地猛星 / 自定义 G3519），加载对应引脚保护规则
+- 🔍 自动识别当前板型（天猛星 / 地猛星 / 地正星 / 自定义 G3519），加载对应引脚保护规则
 - 📋 检查是否存在编译产物、Target CCXML 依赖及构建配置完整性
 
 ### 3. 全平台工具链支持
@@ -180,6 +180,7 @@ mspm0-skill/
 │   ├── boards/                       # 按板卡分层的引脚与板载资源规则
 │   │   ├── tianmengxing.md           # 立创·天猛星 MSPM0G3507
 │   │   ├── dimengxing.md             # 立创·地猛星 MSPM0G3507
+│   │   ├── dizhengxing.md            # 立创·地正星 MSPM0L1306
 │   │   └── custom-mspm0g3519.md      # 自定义 MSPM0G3519
 │   ├── MSPM0G3507_Pinout_Mapping.md  # 天猛星/地猛星引脚映射与避坑指南
 │   ├── hardware_validation_notes.md  # 硬件调试经验手册
@@ -246,22 +247,22 @@ python3 scripts/capture_example.py <project-dir> --name my-example --include "sr
 
 ## 🧩 电路板对比
 
-| 特性 | 天猛星 (Tianmengxing) | 地猛星 (Dimengxing) |
-| :--- | :--- | :--- |
-| **MCU** | MSPM0G3507 LQFP-64 | MSPM0G3507 48-pin |
-| **板载 LED** | PB22 (低电平亮) | PA14 (低电平亮，270 Ω 限流) |
-| **USB-UART** | CH340E — PA10/PA11 | CH340E — PA10/PA11 |
-| **SPI Flash** | — | W25Q32 (PB6~PB9) |
-| **OLED** | 0.96/1.3寸 SPI (PB8/PB9/PB10/PB11/PB14/PB26) | 无板载，需外接 |
-| **IMU** | LSM6DS3 (I2C — PA27/PA28) | 无板载，需外接 |
-| **WS2812 RGB** | PB26 (TIMA1 CCP0) | 无板载，需外接 |
-| **蜂鸣器** | PB27 (TIMG6 CCP1) | 无板载，需外接 |
-| **无线模块** | UART7 (PB17/PB18) | 无板载，需外接 |
-| **QEI 编码器** | PA29/PA30 + PA31 按键 | 无板载，需外接 |
-| **扩展接口** | 双排扩展排针 | 双排 20pin 扩展座 (H3/H5) |
-| **典型场景** | OLED 显示、IMU 姿态、无线通信、游戏机 | 精简控制、外接传感器、电机驱动 |
+| 特性 | 天猛星 (Tianmengxing) | 地猛星 (Dimengxing) | 地正星 (Dizhengxing) |
+| :--- | :--- | :--- | :--- |
+| **MCU** | MSPM0G3507 LQFP-64 | MSPM0G3507 48-pin | MSPM0L1306 VQFN-32 |
+| **板载 LED** | PB22 (低电平亮) | PA14 (低电平亮，270 Ω 限流) | PA14 (高电平亮) |
+| **USB-UART** | CH340E — PA10/PA11 | CH340E — PA10/PA11 | CH340E — PA22/PA23 |
+| **SPI Flash** | W25Qxx (PB6~PB9) | W25Q32 (PB6~PB9) | 无板载，需外接 |
+| **OLED** | 0.96/1.3寸 SPI (PB8/PB9/PB10/PB11/PB14；背光接 3.3V 常亮，PB26 留给 WS2812) | 无板载，需外接 | 无板载，需外接 |
+| **IMU** | LSM6DS3 (I2C — PA27/PA28) | 无板载，需外接 | 无板载，需外接 |
+| **WS2812 RGB** | PB26 (TIMA1 CCP0) | 无板载，需外接 | 无板载，需外接 |
+| **蜂鸣器** | PB27 (TIMG6 CCP1) | 无板载，需外接 | 无板载，需外接 |
+| **无线模块** | UART7 (PB17/PB18) | 无板载，需外接 | 无板载，需外接 |
+| **QEI 编码器** | PA29/PA30 + PA31 按键 | 无板载，需外接 | 无板载，需外接 |
+| **扩展接口** | 双排扩展排针 | 双排 20pin 扩展座 (H3/H5) | 排针（仅 GPIOA 端口） |
+| **典型场景** | OLED 显示、IMU 姿态、无线通信、游戏机 | 精简控制、外接传感器、电机驱动 | 低功耗入门、基础 GPIO/按键/串口 |
 
-> 提示：天猛星示例（PB22 LED、OLED、IMU、WS2812、编码器）在地猛星上需适配到对应外接引脚使用。地猛星的 PA14 LED 与天猛星 PB22 LED 的驱动代码仅需修改 GPIO 引脚号和极性。
+> 提示：天猛星示例（PB22 LED、OLED、IMU、WS2812、编码器）在地猛星上需适配到对应外接引脚使用。地猛星的 PA14 LED 与天猛星 PB22 LED 的驱动代码仅需修改 GPIO 引脚号和极性；地正星（MSPM0L1306）仅有 GPIOA 端口，且 PA14 为高电平点亮，跨板移植时务必核对极性与可用引脚。
 
 ---
 
@@ -288,7 +289,7 @@ python3 scripts/capture_example.py <project-dir> --name my-example --include "sr
 
 ## 🤝 如何参与贡献
 
-这个项目还在持续完善中。如果你有跑通过的 `.syscfg` 片段、MSPG3507 或 MSPM0G3519 示例、天猛星/地猛星引脚修正、CCS 与 Keil 的实战经验，欢迎参与：
+这个项目还在持续完善中。如果你有跑通过的 `.syscfg` 片段、MSPM0G3507 或 MSPM0G3519 示例、天猛星/地猛星/地正星引脚修正、CCS 与 Keil 的实战经验，欢迎参与：
 
 - **提交 Issue**：发现错误、建议新功能、报告问题 → [New Issue](https://github.com/Ibook000/mspm0-skill/issues/new)
 - **提交 PR**：修复 Bug、新增示例、完善文档 → [Pull Requests](https://github.com/Ibook000/mspm0-skill/pulls)

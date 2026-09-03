@@ -90,7 +90,7 @@ description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfi
 - `python scripts/check_syscfg.py <project-dir> --board <board-id>`：读取 `boards/*.json`，检查板卡专属引脚冲突；可与 `--strict` 组合使用。
 - `python scripts/generate_board_docs.py`：从 `boards/*.json` 生成 `references/boards/*.md`；CI 使用 `--check` 检查文档是否漂移。
 - `python scripts/verify_example.py <project-dir> --snapshot --json`：统一输出静态、SysConfig、构建、烧录和人工硬件验证阶段；它不会把静态通过误报为真实硬件通过。
-- `python -m unittest discover -s tests -v`：运行检查器回归测试。
+- `python -m unittest discover -s tests -v`（或 `python -m pytest tests -q`，需先安装 `pytest`）：运行检查器回归测试。
 - `python scripts/list_examples.py`：列出 `examples/*/manifest.json` 中的示例。
 - `python scripts/capture_example.py <project-dir> --name <example-name> --include <glob>`：提取示例。
 - `python scripts/index_syscfg_examples.py <mspm0-sdk-root> --board LP_MSPM0G3507 --module UART`：检索本地 TI SDK 示例。

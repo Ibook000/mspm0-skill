@@ -5,7 +5,7 @@
   "description": "UART0 115200 8N1 blocking transmit smoke test with PB22 blink.",
   "board": "LCKFB Tianmengxing MSPM0G3507",
   "device": "MSPM0G3507",
-  "package": "LQFP-64",
+  "package": "LQFP-64(PM)",
   "sdk": "MSPM0 SDK 2.10.00.04",
   "sysconfig": "1.26.2",
   "validated": true,

@@ -12,6 +12,8 @@ LQFP-64 开发板，常见板载 OLED、LSM6DS3 IMU、WS2812、无线模块、�
 
 | 引脚 | 功能 | 级别 | 注意事项 |
 |---|---|---|---|
+| PA3 | 32.768 kHz LFXT 晶振 | blocked | 使用低频晶振时保留，不得分配给普通外设。 |
+| PA4 | 32.768 kHz LFXT 晶振 | blocked | 使用低频晶振时保留，不得分配给普通外设。 |
 | PA5 | 40 MHz HFXT 晶振 | blocked | 不得分配给普通外设。 |
 | PA6 | 40 MHz HFXT 晶振 | blocked | 不得分配给普通外设。 |
 | PA19 | SWDIO | blocked | 保留调试接口。 |

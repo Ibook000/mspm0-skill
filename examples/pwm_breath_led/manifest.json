@@ -5,7 +5,7 @@
   "description": "TIMG8 CCP1 PWM breathing LED reference for the LCKFB Tianmengxing MSPM0G3507 onboard PB22 LED.",
   "board": "LCKFB Tianmengxing MSPM0G3507",
   "device": "MSPM0G3507",
-  "package": "LQFP-64",
+  "package": "LQFP-64(PM)",
   "sdk": "MSPM0 SDK 2.10.00.04",
   "sysconfig": "1.26.2",
   "validated": true,

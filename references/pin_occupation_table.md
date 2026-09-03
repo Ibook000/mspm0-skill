@@ -1,5 +1,7 @@
 # MSPM0G3519 引脚占用表
 
+> 本表对应立创·天巧星（tqx-mspm0g3519）开发板，属于 `boards/custom-mspm0g3519.json` 的板载资源说明。**板载外设的具体引脚以 `boards/custom-mspm0g3519.json` 为唯一数据源**，如与官方原理图不一致，请以官方原理图为准并同步更新 JSON 与本文。
+
 ## 调试接口
 
 | 引脚 | 功能 | 外设 | 占用情况 | 备注 |
@@ -13,14 +15,14 @@
 |------|------|------|----------|------|
 | PA10 | TX0 | UART0 | 板载 CH340 | 可通过 TYPE-C 或下载器接口调试，排针可外接模块（互不冲突） |
 | PA11 | RX0 | UART0 | 板载 CH340 | 可通过 TYPE-C 或下载器接口调试，排针可外接模块（互不冲突） |
-| PA0 | SDA | I2C0 | OLED + 六轴陀螺仪 | 板载 2.2K 上拉电阻；I2C 总线支持多设备，可继续外接其他 I2C 从设备 |
-| PA1 | SCL | I2C0 | OLED + 六轴陀螺仪 | 板载 2.2K 上拉电阻；I2C 总线支持多设备，可继续外接其他 I2C 从设备 |
+| PA0 | SDA | I2C0 | OLED | 板载 2.2K 上拉电阻；I2C 总线支持多设备，可继续外接其他 I2C 从设备 |
+| PA1 | SCL | I2C0 | OLED | 板载 2.2K 上拉电阻；I2C 总线支持多设备，可继续外接其他 I2C 从设备 |
 | PB18 | RX | UART7 | 无线串口模块 | |
 | PB17 | TX | UART7 | 无线串口模块 | |
-| PB6 | CS | SPI1_CS0（GPIO 方式） | 外部 Flash W25Q64 | 通过普通 GPIO 控制，未配置到 SPI 外设 |
-| PB7 | MISO (POCI) | SPI1_POCI | 外部 Flash W25Q64 | |
-| PB8 | MOSI (PICO) | SPI1_PICO | 外部 Flash W25Q64 | |
-| PB9 | SCLK | SPI1_CLK | 外部 Flash W25Q64 | |
+| PB6 | CS | SPI1_CS0（GPIO 方式） | 外部 Flash W25Q128 | 通过普通 GPIO 控制，未配置到 SPI 外设 |
+| PB7 | MISO (POCI) | SPI1_POCI | 外部 Flash W25Q128 | |
+| PB8 | MOSI (PICO) | SPI1_PICO | 外部 Flash W25Q128 | |
+| PB9 | SCLK | SPI1_CLK | 外部 Flash W25Q128 | |
 
 ## 板载外设
 
@@ -28,6 +30,8 @@
 |------|------|------|----------|------|
 | PB26 | WS2812 RGB 灯 | TIMA1_C0（PWM） | 板载 4 个 RGB 灯 | 单总线控制 |
 | PB27 | 无源蜂鸣器 | TIMG8_C1（PWM） | 板载蜂鸣器 | PWM 控制频率和音量 |
+| PA27 | SDA | I2C1 | 六轴姿态传感器（IMU） | 板载 IMU，与 OLED 不在同一 I2C 总线；引脚以 boards/custom-mspm0g3519.json 为准 |
+| PA28 | SCL | I2C1 | 六轴姿态传感器（IMU） | 板载 IMU，与 OLED 不在同一 I2C 总线；引脚以 boards/custom-mspm0g3519.json 为准 |
 | PB22 | LED | GPIO | 板载 LED | 高电平灭，低电平亮 |
 | PA29 | 编码器 A 相 | QEI（IIMG8_C0/C1） | 旋转编码器（可选） | 如不使用旋转编码器，可释放用作其他功能 |
 | PA30 | 编码器 B 相 | QEI（IIMG8_C0/C1） | 旋转编码器（可选） | 如不使用旋转编码器，可释放用作其他功能 |

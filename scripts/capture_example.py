@@ -299,7 +299,7 @@ def main(argv: list[str] | None = None) -> int:
         "source_files": [output_source_rel(path, project) for path in sources],
         "syscfg": "example.syscfg",
         "generated_names": detect_generated_names(project),
-        "tags": sorted(set(peripherals + pins + ([ "freertos" ] if freertos else []))),
+        "tags": sorted(set(peripherals + pins + (["freertos"] if freertos else []))),
     }
     if args.validated_at:
         manifest["validated_at"] = args.validated_at
