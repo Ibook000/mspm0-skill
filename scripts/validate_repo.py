@@ -17,6 +17,7 @@ BOARDS = ROOT / "boards"
 SCHEMA_PATH = ROOT / "schemas" / "example-manifest.schema.json"
 BOARD_SCHEMA_PATH = ROOT / "schemas" / "board.schema.json"
 MARKDOWN_LINK_RE = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
+BOARD_ID_IN_PARENS_RE = re.compile(r"\(([a-z0-9][a-z0-9-]*)\)")
 def fail(message: str) -> None:
     print(f"ERROR: {message}")
 
@@ -189,8 +190,97 @@ def validate_markdown_links() -> list[str]:
     return errors
 
 
+def validate_readme_board_table() -> list[str]:
+    """Guard the hand-maintained README board comparison table against drift.
+
+    The README board table is written by hand, so it can silently diverge from
+    the authoritative ``boards/*.json`` data. This checks that every board column
+    in the table has a matching board JSON, and that each MCU cell contains the
+    JSON's device and package family.
+    """
+    errors: list[str] = []
+    readme_path = ROOT / "README.md"
+    if not readme_path.is_file():
+        return ["README.md: missing file"]
+    lines = readme_path.read_text(encoding="utf-8").splitlines()
+
+    header_line = None
+    mcu_line = None
+    for i, line in enumerate(lines):
+        if line.strip().startswith("|") and "特性" in line and BOARD_ID_IN_PARENS_RE.search(line):
+            header_line = line
+            for j in range(i + 1, min(i + 6, len(lines))):
+                if lines[j].strip().startswith("|") and "**MCU**" in lines[j]:
+                    mcu_line = lines[j]
+                    break
+            break
+    if not header_line:
+        return ["README.md: cannot locate board comparison table header"]
+    if not mcu_line:
+        return ["README.md: cannot locate **MCU** row in board comparison table"]
+
+    def split_row(row: str) -> list[str]:
+        return [cell.strip() for cell in row.strip().strip("|").split("|")]
+
+    header_cells = split_row(header_line)
+    mcu_cells = split_row(mcu_line)
+
+    readme_ids: list[str] = []
+    for cell in header_cells[1:]:
+        match = BOARD_ID_IN_PARENS_RE.search(cell)
+        if not match:
+            errors.append(f"README.md: board column {cell!r} is missing a (board-id) in parentheses")
+            continue
+        readme_ids.append(match.group(1))
+
+    if len(readme_ids) != len(mcu_cells) - 1:
+        errors.append("README.md: board column count does not match MCU row cell count")
+
+    json_ids: set[str] = set()
+    board_data: dict[str, dict] = {}
+    for path in sorted(BOARDS.glob("*.json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        board_id = data.get("id")
+        if isinstance(board_id, str):
+            json_ids.add(board_id)
+            board_data[board_id] = data
+
+    readme_id_set = set(readme_ids)
+    missing_in_readme = sorted(json_ids - readme_id_set)
+    extra_in_readme = sorted(readme_id_set - json_ids)
+    if missing_in_readme:
+        errors.append(f"README.md: boards missing from comparison table: {missing_in_readme}")
+    if extra_in_readme:
+        errors.append(f"README.md: board ids in table with no boards/*.json: {extra_in_readme}")
+
+    for index, board_id in enumerate(readme_ids):
+        if board_id not in board_data:
+            continue
+        mcu_cell = mcu_cells[index + 1] if index + 1 < len(mcu_cells) else ""
+        data = board_data[board_id]
+        device = data.get("device", "")
+        package = data.get("package", "")
+        if device and device not in mcu_cell:
+            errors.append(f"README.md: board {board_id!r} MCU cell {mcu_cell!r} does not contain device {device!r}")
+        package_key = package.split("(")[0].strip()
+        if package_key and package_key.lower() not in mcu_cell.lower():
+            errors.append(
+                f"README.md: board {board_id!r} MCU cell {mcu_cell!r} does not contain package {package_key!r}"
+            )
+    return errors
+
+
 def main() -> int:
-    errors = validate_boards() + validate_board_documentation() + validate_manifests() + validate_markdown_links()
+    errors = (
+        validate_boards()
+        + validate_board_documentation()
+        + validate_manifests()
+        + validate_markdown_links()
+        + validate_readme_board_table()
+    )
     if errors:
         for error in errors:
             fail(error)

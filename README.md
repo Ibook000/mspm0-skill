@@ -144,7 +144,7 @@ python scripts/list_examples.py                                      # 列出内
 
 - **贡献**：欢迎提交 Issue / PR / Discussions（见仓库顶部链接）；即使只是指出一个宏名或板载资源写错也很有用。
 - **License**：[MIT](LICENSE)。使用、复制、修改或再发布本仓库及其来自上游的实质性内容时，请保留 `Copyright (c) 2026 mc3545dada`。
-- **致谢**：上游作者 **mc3545dada**、**TI**（DriverLib / SysConfig）、**嘉立创**（天猛星/地猛星开发板）。
+- **致谢**：上游作者 **mc3545dada**、**TI**（DriverLib / SysConfig）、**嘉立创**（天猛星/地猛星/地正星/天巧星开发板）。
 
 <div align="center">
   <p>祝各位电赛战友：<b>一次过编，不冒白烟！顺利拿奖！🏆</b></p>
