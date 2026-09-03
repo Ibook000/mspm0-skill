@@ -114,16 +114,42 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 
 ### 安装
 
+本 Skill 有两种“装法”，按需选择。**规则与参考文档是纯 Markdown，不装任何依赖也能用**；只有要运行 `check_syscfg.py` 等辅助脚本时才需要 Python 依赖。
+
+**方式 A：装进 AI Agent（自动加载，推荐）**
+
+把整个仓库放到 Agent 的 `skills/` 目录下，Agent 会根据 `SKILL.md` 的 `name` / `description` 自动识别，并在 MSPM0 / SysConfig / 电赛固件类任务中自动启用：
+
 ```bash
-# 克隆到你的项目旁边
+# Claude Code（用户级，对所有项目生效）
+git clone https://github.com/Ibook000/mspm0-skill.git ~/.claude/skills/mspm0-skill
+
+# Claude Code（项目级，仅对当前项目生效）
+git clone https://github.com/Ibook000/mspm0-skill.git .claude/skills/mspm0-skill
+
+# CodeBuddy Code（本机 skills 目录，依据本机已有 skill 布局推断）
+git clone https://github.com/Ibook000/mspm0-skill.git ~/.codebuddy/skills/mspm0-skill
+
+# Codex 等兼容工具，语义同上，放到各自的 skills 目录即可
+```
+
+> 不想复制文件可改用软链接：`ln -s /你的/仓库路径/mspm0-skill ~/.claude/skills/mspm0-skill`，仓库更新后立即可见。装好后可在 Agent 里用 `/skills`（或等价命令）确认 `mspm0-skill` 已出现。
+
+**方式 B：通用法（任何能读文件的 Agent 都行）**
+
+不依赖 skills 目录机制：把仓库放在某处，在对话里让 Agent 直接读取 `SKILL.md` 即可（见下方「使用」章节的指令模板）。适合临时项目、CI，或没有 skills 功能的工具。
+
+**可选：安装脚本运行依赖**
+
+```bash
 git clone https://github.com/Ibook000/mspm0-skill.git
 cd mspm0-skill
 python3 -m pip install -r requirements-dev.txt
-python3 scripts/validate_repo.py
+python3 scripts/validate_repo.py                          # 校验 skill 自身结构
 python3 scripts/verify_example.py examples/led_blink --snapshot --json
 ```
 
-这组命令会验证 Skill、示例元数据、板卡数据库和静态快照结构。它**不等于**已经完成 CCS/Keil 编译、开发板烧录或真实外设验证。
+这组命令验证的是 Skill、示例元数据、板卡数据库和静态快照结构。它**不等于**已经完成 CCS/Keil 编译、开发板烧录或真实外设验证。
 
 ### 使用
 
