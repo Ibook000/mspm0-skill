@@ -8,7 +8,7 @@
 
 ## What chips and boards are supported?
 
-仓库主要面向 MSPM0G3507、MSPM0G3519 及兼容的 MSPM0 工程，并提供立创·天猛星、地猛星和自定义 MSPM0G3519 板卡规则。板卡的机器可读数据位于 [`boards/*.json`](../boards/)，阅读版规则位于 [`references/boards/`](../references/boards/)。
+仓库主要面向 MSPM0G3507、MSPM0G3519、MSPM0L1306 及兼容的 MSPM0 工程，并提供立创·天猛星、地猛星、地正星（MSPM0L1306）和自定义 MSPM0G3519 板卡规则。板卡的机器可读数据位于 [`boards/*.json`](../boards/)，阅读版规则位于 [`references/boards/`](../references/boards/)。
 
 ## 如何安装并验证？
 

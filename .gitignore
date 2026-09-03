@@ -1,5 +1,6 @@
 # Sensitive / personal files
 .codex_memory.json
+.codebuddy/
 
 # Operating system files
 .DS_Store

@@ -67,6 +67,7 @@ description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfi
 - [`references/driverlib_runtime_rules.md`](references/driverlib_runtime_rules.md)：DriverLib、时钟、中断和运行时规则。
 - [`references/sdk_schema_lookup.md`](references/sdk_schema_lookup.md)：SysConfig Schema 和 SDK 示例查找方法。
 - [`references/hardware_validation_notes.md`](references/hardware_validation_notes.md)：板级验证和硬件排障经验。
+- [`references/pin_occupation_table.md`](references/pin_occupation_table.md)：天擎星/自定义板引脚占用对照表（与 `references/boards/custom-mspm0g3519.md` 互补）。
 - [`references/ccs_dss_debug.md`](references/ccs_dss_debug.md)：CCS DSS 调试工作流和限制。
 
 ### 立创（LCKFB）官方资源
