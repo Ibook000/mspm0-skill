@@ -1,5 +1,5 @@
 ---
-name: mspm0
+name: mspm0-skill
 description: Tool-neutral CLI agent rules for TI MSPM0 development with SysConfig, DriverLib, CCS, Keil/uVision, CMake/GCC/OpenOCD, and supported board references. Use when an agent needs to inspect or modify MSPM0 projects, validate SysConfig output, package examples, or work on NUEDC embedded firmware.
 ---
 

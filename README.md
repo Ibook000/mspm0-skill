@@ -129,7 +129,7 @@ npx skills add Ibook000/mspm0-skill
 | OpenClaw | `~/.openclaw/skills/mspm0-skill/` |
 | CodeBuddy Code | `~/.codebuddy/skills/mspm0-skill/` |
 
-> 安装后的目录名通常为 `mspm0-skill`（仓库名）；若你的工具按 `SKILL.md` 的 `name:` 字段命名则为 `mspm0`，二者等价，按需调整路径即可。装好后可在 Agent 里用 `/skills`（或等价命令）确认 `mspm0-skill` 已加载。
+> 安装后的 skill 目录名为 `mspm0-skill`（与仓库名、`SKILL.md` 的 `name:` 字段一致）。装好后可在 Agent 里用 `/skills`（或等价命令）确认 `mspm0-skill` 已加载。
 
 Windows PowerShell 手动安装：
 
