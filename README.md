@@ -112,7 +112,35 @@ Use this repository when you want AI-assisted MSPM0 firmware development, SysCon
 
 ## 🚀 快速开始
 
+### 快速安装
+
+一行安装（需要 Node.js 环境）：
+
+```bash
+npx skills add Ibook000/mspm0-skill
+```
+
+也可以只复制本仓库根目录（**本仓库根目录即 skill 本体**）到对应 Agent 的 skills 目录：
+
+| Agent | 安装位置 |
+| :--- | :--- |
+| Claude Code | `~/.claude/skills/mspm0-skill/` |
+| Codex 等 | `~/.agents/skills/mspm0-skill/` |
+| OpenClaw | `~/.openclaw/skills/mspm0-skill/` |
+| CodeBuddy Code | `~/.codebuddy/skills/mspm0-skill/` |
+
+> 安装后的目录名通常为 `mspm0-skill`（仓库名）；若你的工具按 `SKILL.md` 的 `name:` 字段命名则为 `mspm0`，二者等价，按需调整路径即可。装好后可在 Agent 里用 `/skills`（或等价命令）确认 `mspm0-skill` 已加载。
+
+Windows PowerShell 手动安装：
+
+```powershell
+New-Item -ItemType Directory -Force "$env:USERPROFILE\.claude\skills" | Out-Null
+Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-skill"
+```
+
 ### 安装
+
+（快速安装见上方「快速安装」；下面给出包含脚本依赖与通用加载法的完整说明。）本 Skill 有两种“装法”，按需选择。**规则与参考文档是纯 Markdown，不装任何依赖也能用**；只有要运行 `check_syscfg.py` 等辅助脚本时才需要 Python 依赖。
 
 本 Skill 有两种“装法”，按需选择。**规则与参考文档是纯 Markdown，不装任何依赖也能用**；只有要运行 `check_syscfg.py` 等辅助脚本时才需要 Python 依赖。
 
