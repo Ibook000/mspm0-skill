@@ -104,8 +104,8 @@ Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-s
 | **MCU** | MSPM0G3507 LQFP-64 | MSPM0G3507 48-pin | MSPM0L1306 VQFN-32 | MSPM0G3519 LQFP-64 |
 | **板载 LED** | PB22（低电平亮） | PA14（低电平亮，270Ω） | PA14（高电平亮） | PB22（低有效，示例） |
 | **USB-UART** | CH340E — PA10/PA11 | CH340E — PA10/PA11 | CH340E — PA22/PA23 | CH340E — PA10/PA11（示例） |
-| **SPI Flash** | W25Qxx (PB6~PB9) | W25Q32 (PB6~PB9) | 无，需外接 | W25Q128 (PB6~PB9，示例） |
-| **OLED** | SPI (PB8~PB11/PB14；背光接 3.3V，PB26 留 WS2812) | 需外接 | 需外接 | I2C (PA0/PA1，示例) |
+| **SPI Flash** | 板载 SPI Flash (PB6~PB9) | W25Q32 (PB6~PB9) | 无，需外接 | W25Q128 (PB6~PB9，示例） |
+| **OLED** | 板载 OLED（引脚以原理图/板卡资料为准） | 需外接 | 需外接 | I2C (PA0/PA1，示例) |
 | **IMU** | LSM6DS3 (PA27/PA28) | 需外接 | 需外接 | LSM6DS3 (PA27/PA28，示例) |
 | **WS2812 RGB** | PB26 (TIMA1 CCP0) | 需外接 | 需外接 | PB26（示例） |
 
