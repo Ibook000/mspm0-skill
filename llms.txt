@@ -56,6 +56,11 @@ Official LCKFB (立创开发板) documentation for supported boards: module port
 
 `static`, `source_snapshot`, and `sysconfig` checks do not prove that a project builds, flashes, or works on hardware. The `verify_example.py` labels `build: detected` and `flash: ready` only indicate detected files, not a successful build or flash run. Example manifest `validation_level` is an author claim; cite test conditions and linked evidence when available. Claims of `build`, `flash`, `hardware`, or `hardware_serial` validation require corresponding evidence. If the board, package, SDK, SysConfig version, or schematic is uncertain, ask the user instead of guessing.
 
+## Documentation site
+
+- Browse installation, boards, examples, workflows, tools, FAQ, and verification: https://ibook000.github.io/mspm0-skill/
+- The repository files linked from each page remain the source of truth.
+
 ## Canonical links
 
 - Repository: https://github.com/Ibook000/mspm0-skill
