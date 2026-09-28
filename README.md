@@ -93,6 +93,8 @@ Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-s
 最后把「源码/校验/编译/烧录/硬件」各自验证到哪一步分开说明。
 ```
 
+按问题查资料：[`docs/topic-guide.md`](docs/topic-guide.md) · 验证状态释义：[`docs/verification-levels.md`](docs/verification-levels.md)。
+
 机器可读索引：[`llms.txt`](llms.txt) · [`docs/project-index.json`](docs/project-index.json)。
 
 ---
@@ -128,7 +130,11 @@ Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-s
 | [sdk_schema_lookup](references/sdk_schema_lookup.md) | SDK Schema / 例程检索方法 |
 | [pin_occupation_table](references/pin_occupation_table.md) | G3519 引脚占用表 |
 | [docs/faq.md](docs/faq.md) | MSPM0 / SysConfig / 板卡 / 安装常见问题 |
+| [docs/topic-guide.md](docs/topic-guide.md) | 按板卡、配置、示例和排障问题寻找原始资料 |
+| [docs/verification-levels.md](docs/verification-levels.md) | 解释静态检查、构建、烧录、实板状态及证据边界 |
 | [examples/](examples/) | led_blink / pwm_breath_led / uart_blocking_tx / oledui_full_g3519 等 |
+
+`verify_example.py` 的 `build: detected` 仅表示发现构建目录或输出文件，`flash: ready` 仅表示发现固件文件；两者均不表示本次成功编译或已烧录。示例 manifest 的 `validation_level` 是作者声明，实测条件与证据请参照[验证状态说明](docs/verification-levels.md)。
 
 常用脚本（完整参数见 `SKILL.md`「Examples and Tools」）：
 
