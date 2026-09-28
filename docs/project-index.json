@@ -3,33 +3,114 @@
   "project": "mspm0-skill",
   "description": "AI Agent skill for Texas Instruments MSPM0 embedded development.",
   "entrypoints": [
-    {"path": "SKILL.md", "kind": "skill", "purpose": "General Agent workflow and safety rules"},
-    {"path": "README.md", "kind": "overview", "purpose": "Installation, capabilities, examples, and project scope"},
-    {"path": "docs/faq.md", "kind": "faq", "purpose": "Answers to common MSPM0, SysConfig, board, and verification questions"},
-    {"path": "llms.txt", "kind": "ai-index", "purpose": "Compact AI retrieval summary and canonical links"}
+    {
+      "path": "SKILL.md",
+      "kind": "skill",
+      "purpose": "General Agent workflow and safety rules"
+    },
+    {
+      "path": "README.md",
+      "kind": "overview",
+      "purpose": "Installation, capabilities, examples, and project scope"
+    },
+    {
+      "path": "docs/faq.md",
+      "kind": "faq",
+      "purpose": "Answers to common MSPM0, SysConfig, board, and verification questions"
+    },
+    {
+      "path": "docs/topic-guide.md",
+      "kind": "guide",
+      "purpose": "Question-oriented navigation to board, SysConfig, examples, and troubleshooting sources"
+    },
+    {
+      "path": "docs/verification-levels.md",
+      "kind": "verification",
+      "purpose": "Exact meaning and evidence limits of static, build, flash, and hardware status"
+    },
+    {
+      "path": "llms.txt",
+      "kind": "ai-index",
+      "purpose": "Compact AI retrieval summary and canonical links"
+    }
   ],
   "boards": [
-    {"id": "tianmengxing", "data": "boards/tianmengxing.json", "docs": "references/boards/tianmengxing.md"},
-    {"id": "dimengxing", "data": "boards/dimengxing.json", "docs": "references/boards/dimengxing.md"},
-    {"id": "dizhengxing", "data": "boards/dizhengxing.json", "docs": "references/boards/dizhengxing.md"},
-    {"id": "custom-mspm0g3519", "data": "boards/custom-mspm0g3519.json", "docs": "references/boards/custom-mspm0g3519.md"}
+    {
+      "id": "tianmengxing",
+      "data": "boards/tianmengxing.json",
+      "docs": "references/boards/tianmengxing.md"
+    },
+    {
+      "id": "dimengxing",
+      "data": "boards/dimengxing.json",
+      "docs": "references/boards/dimengxing.md"
+    },
+    {
+      "id": "dizhengxing",
+      "data": "boards/dizhengxing.json",
+      "docs": "references/boards/dizhengxing.md"
+    },
+    {
+      "id": "custom-mspm0g3519",
+      "data": "boards/custom-mspm0g3519.json",
+      "docs": "references/boards/custom-mspm0g3519.md"
+    }
   ],
   "tools": [
-    {"path": "scripts/check_syscfg.py", "purpose": "Static SysConfig and board-aware pin checks"},
-    {"path": "scripts/verify_example.py", "purpose": "Separate static, build, flash, and manual hardware verification stages"},
-    {"path": "scripts/capture_example.py", "purpose": "Capture compact examples and generate manifest metadata"},
-    {"path": "scripts/list_examples.py", "purpose": "List packaged examples and validate index input"},
-    {"path": "scripts/generate_board_docs.py", "purpose": "Generate board Markdown from JSON data"},
-    {"path": "scripts/index_syscfg_examples.py", "purpose": "Build and refresh the SysConfig examples index"},
-    {"path": "scripts/serial_console.py", "purpose": "Lightweight serial terminal for board I/O"},
-    {"path": "scripts/ccs_dss_debug.py", "purpose": "CCS DSS-based debug/flash helper"}
+    {
+      "path": "scripts/check_syscfg.py",
+      "purpose": "Static SysConfig and board-aware pin checks"
+    },
+    {
+      "path": "scripts/verify_example.py",
+      "purpose": "Separate static, build, flash, and manual hardware verification stages"
+    },
+    {
+      "path": "scripts/capture_example.py",
+      "purpose": "Capture compact examples and generate manifest metadata"
+    },
+    {
+      "path": "scripts/list_examples.py",
+      "purpose": "List packaged examples and validate index input"
+    },
+    {
+      "path": "scripts/generate_board_docs.py",
+      "purpose": "Generate board Markdown from JSON data"
+    },
+    {
+      "path": "scripts/index_syscfg_examples.py",
+      "purpose": "Build and refresh the SysConfig examples index"
+    },
+    {
+      "path": "scripts/serial_console.py",
+      "purpose": "Lightweight serial terminal for board I/O"
+    },
+    {
+      "path": "scripts/ccs_dss_debug.py",
+      "purpose": "CCS DSS-based debug/flash helper"
+    }
   ],
   "examples": [
-    {"path": "examples/empty_project", "purpose": "Minimal MSPM0 project snapshot"},
-    {"path": "examples/led_blink", "purpose": "GPIO LED example"},
-    {"path": "examples/pwm_breath_led", "purpose": "PWM breathing LED example"},
-    {"path": "examples/uart_blocking_tx", "purpose": "Blocking UART transmit example"},
-    {"path": "examples/oledui_full_g3519", "purpose": "Advanced OLED, IMU, Flash, wireless, and game example"}
+    {
+      "path": "examples/empty_project",
+      "purpose": "Minimal MSPM0 project snapshot"
+    },
+    {
+      "path": "examples/led_blink",
+      "purpose": "GPIO LED example"
+    },
+    {
+      "path": "examples/pwm_breath_led",
+      "purpose": "PWM breathing LED example"
+    },
+    {
+      "path": "examples/uart_blocking_tx",
+      "purpose": "Blocking UART transmit example"
+    },
+    {
+      "path": "examples/oledui_full_g3519",
+      "purpose": "Advanced OLED, IMU, Flash, wireless, and game example"
+    }
   ],
   "validation": {
     "repository": "python3 scripts/validate_repo.py",
