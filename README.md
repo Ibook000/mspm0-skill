@@ -95,6 +95,8 @@ Copy-Item -Recurse -Force .\mspm0-skill "$env:USERPROFILE\.claude\skills\mspm0-s
 
 按问题查资料：[`docs/topic-guide.md`](docs/topic-guide.md) · 验证状态释义：[`docs/verification-levels.md`](docs/verification-levels.md)。
 
+在线阅读：**[MSPM0 文档站](https://ibook000.github.io/mspm0-skill/)**，按安装、板卡、示例、工作流、工具和 FAQ 导航。站点内容指向本仓库的原始规则、数据与源码；如有差异，以仓库文件为准。
+
 机器可读索引：[`llms.txt`](llms.txt) · [`docs/project-index.json`](docs/project-index.json)。
 
 ---
