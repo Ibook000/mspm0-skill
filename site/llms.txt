@@ -1,0 +1,18 @@
+# mspm0-skill documentation
+
+Canonical repository: https://github.com/Ibook000/mspm0-skill
+This site presents the repository's MSPM0 Agent skill rules, board references, example snapshots and verification semantics. The repository source is authoritative if there is a discrepancy.
+
+- MSPM0 AI Agent 开发文档: https://ibook000.github.io/mspm0-skill/index.html
+- 安装与快速开始: https://ibook000.github.io/mspm0-skill/start.html
+- 芯片与板卡规则: https://ibook000.github.io/mspm0-skill/boards.html
+- MSPM0 示例索引: https://ibook000.github.io/mspm0-skill/examples.html
+- SysConfig 与 DriverLib 工作流: https://ibook000.github.io/mspm0-skill/workflow.html
+- 检查与调试工具: https://ibook000.github.io/mspm0-skill/tools.html
+- MSPM0 常见问题: https://ibook000.github.io/mspm0-skill/faq.html
+- 验证状态与证据边界: https://ibook000.github.io/mspm0-skill/verification.html
+
+- Agent rules: https://github.com/Ibook000/mspm0-skill/blob/main/SKILL.md
+- Machine-readable board data: https://github.com/Ibook000/mspm0-skill/tree/main/boards
+- Full FAQ: https://github.com/Ibook000/mspm0-skill/blob/main/docs/faq.md
+- Verification details: https://github.com/Ibook000/mspm0-skill/blob/main/docs/verification-levels.md

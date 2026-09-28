@@ -117,5 +117,6 @@
     "tests": "python3 -m unittest discover -s tests -v",
     "snapshot": "python3 scripts/check_syscfg.py examples/led_blink --snapshot --strict",
     "generated_docs": "python3 scripts/generate_board_docs.py --check"
-  }
+  },
+  "website": "https://ibook000.github.io/mspm0-skill/"
 }
