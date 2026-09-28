@@ -16,7 +16,8 @@ Do not treat it as a TI SDK, hardware library, IDE plugin, or replacement for CC
 2. Read the matching file under `references/boards/` after identifying the board.
 3. Read `boards/*.json` when a machine-readable board rule is needed.
 4. Inspect `examples/*/manifest.json` before reusing an example.
-5. Run `python3 scripts/validate_repo.py` before making changes.
+5. Use `docs/topic-guide.md` to locate the exact board, configuration, example, or troubleshooting source.
+6. Run `python3 scripts/validate_repo.py` before making changes.
 
 ## Installation and verification
 
@@ -44,9 +45,16 @@ The supported board IDs are `tianmengxing`, `dimengxing`, `dizhengxing`, and `cu
 
 Official LCKFB (立创开发板) documentation for supported boards: module porting manuals with ready-made peripheral drivers, beginner guides (Keil/CCS), serial-flash error troubleshooting, and a browser-based MSPM0 serial flasher. Start at https://wiki.lckfb.com/zh-hans/ti-series/ . Prefer these sources over inventing module driver code or flash-error conclusions.
 
+## Retrieval by developer question
+
+- Board and pin selection: `docs/topic-guide.md` and `boards/*.json`; the custom G3519 board is an example, not a universal pinout.
+- SysConfig checks and generated files: `scripts/check_syscfg.py`, `SKILL.md`, and `docs/faq.md`.
+- Example source snapshots: `examples/*/README.md` and `examples/*/manifest.json`.
+- What verification fields actually prove: `docs/verification-levels.md` and `scripts/verify_example.py`.
+
 ## Validation boundary
 
-`static`, `source_snapshot`, and `sysconfig` checks do not prove that a project builds, flashes, or works on hardware. Claims of `build`, `flash`, `hardware`, or `hardware_serial` validation require corresponding evidence. If the board, package, SDK, SysConfig version, or schematic is uncertain, ask the user instead of guessing.
+`static`, `source_snapshot`, and `sysconfig` checks do not prove that a project builds, flashes, or works on hardware. The `verify_example.py` labels `build: detected` and `flash: ready` only indicate detected files, not a successful build or flash run. Example manifest `validation_level` is an author claim; cite test conditions and linked evidence when available. Claims of `build`, `flash`, `hardware`, or `hardware_serial` validation require corresponding evidence. If the board, package, SDK, SysConfig version, or schematic is uncertain, ask the user instead of guessing.
 
 ## Canonical links
 
@@ -55,5 +63,7 @@ Official LCKFB (立创开发板) documentation for supported boards: module port
 - Examples: https://github.com/Ibook000/mspm0-skill/tree/main/examples
 - Board data: https://github.com/Ibook000/mspm0-skill/tree/main/boards
 - FAQ: https://github.com/Ibook000/mspm0-skill/blob/main/docs/faq.md
+- Question-oriented guide: https://github.com/Ibook000/mspm0-skill/blob/main/docs/topic-guide.md
+- Validation semantics: https://github.com/Ibook000/mspm0-skill/blob/main/docs/verification-levels.md
 - Project index: https://github.com/Ibook000/mspm0-skill/blob/main/docs/project-index.json
 - Contribution guide: https://github.com/Ibook000/mspm0-skill/blob/main/CONTRIBUTING.md

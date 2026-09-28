@@ -74,6 +74,10 @@ BSL、HFXT/LFXT、ROSC 和 SWD 引脚通常不能直接当作普通 GPIO 使用�
 
 依次检查时钟配置、TX/RX 引脚、串口号、波特率、数据位/校验位/停止位、板载 CH340 或无线模块占用、电源和 TX/RX 交叉连接。可以使用 `scripts/serial_console.py --list` 查看串口，并使用 `scripts/verify_example.py` 区分静态检查与真实串口硬件验证。
 
+## verify_example.py 显示 build: detected 或 flash: ready，是否表示编译或烧录成功？
+
+不表示。`build: detected` 只说明发现构建目录或输出文件；`flash: ready` 只说明发现固件文件。该脚本不运行编译和烧录，`hardware: manual` 仍需要实板测试。字段解释与记录模板见[验证状态说明](verification-levels.md)。
+
 ## 静态检查通过是否代表硬件可用？
 
 不代表。静态检查只能说明当前文件结构和规则检查通过。编译、烧录、串口输出、传感器响应、Flash 读写和显示效果仍需在对应板卡、电源、调试器和外设上分别验证，并在 manifest 的验证证据字段中如实记录。
@@ -81,6 +85,10 @@ BSL、HFXT/LFXT、ROSC 和 SWD 引脚通常不能直接当作普通 GPIO 使用�
 ## 如何贡献新示例或板卡规则？
 
 先阅读 [`CONTRIBUTING.md`](../CONTRIBUTING.md)。新增示例需要提供 `.syscfg`、源码、README 和符合 Schema 的 manifest；新增板卡资源应修改 `boards/*.json`，然后运行 `python3 scripts/generate_board_docs.py` 生成阅读版文档。不要直接修改自动生成的板卡 Markdown。
+
+## 按板卡或问题从哪里开始查？
+
+先使用[问题导航](topic-guide.md)定位板卡规则、SysConfig 工作流、示例和排障资料，再核对当前工程与板卡原理图。
 
 ## English quick reference
 
