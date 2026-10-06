@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
+
 Sitemap: https://ibook000.github.io/mspm0-skill/sitemap.xml

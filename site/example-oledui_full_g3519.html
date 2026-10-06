@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>G3519 OLED UI教程 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：G3519 OLED UI教程。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/example-oledui_full_g3519.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html" aria-current="page"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="examples.html">示例与教程</a><span class="crumb-sep">/</span>G3519 OLED UI教程</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>04 · 示例与教程</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html" aria-current="page"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>04 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/oledui_full_g3519/README.md">本页源码</a></div>
+        <header class="pagehead"><h1>G3519 OLED UI教程</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/oledui_full_g3519/README.md">examples/oledui_full_g3519/README.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">Summary</a></li><li><a href="#section-2">Files</a></li><li><a href="#section-3">Notes</a></li></ol></details>
+<div class="article markdown"><p>Full-feature OLED UI project for custom MSPM0G3519 board: 80 MHz clock, OLED SSD1312, LSM6DS3 IMU, W25Q128 Flash, WS2812 RGB, buzzer, QEI encoder, UART0 debug, UART7 wireless, DMA, 5ms tick. Hardware validated.</p>
+<p>This example was captured from a user project. It is a compact reference package, not a full CCS import project.</p>
+<h2 id="section-1">Summary<a href="#section-1" class="heading-anchor" aria-label="链接到Summary">#</a></h2>
+<ul>
+<li>Board: Custom MSPM0G3519 LQFP-64</li>
+<li>Device: MSPM0G351X</li>
+<li>Complexity: advanced</li>
+<li>Validation: hardware</li>
+<li>Peripherals: Board, DMA, GPIO, PWM, ProjectConfig, QEI, SPI, SYSCTL, TIMER, UART</li>
+<li>Pins: PA0, PA1, PA10, PA11, PA18, PA19, PA20, PA29, PA30, PA31, PA5, PA6, PB17, PB18, PB21, PB22, PB23, PB26, PB27, PB6, PB7, PB8, PB9, pin:0, pin:1, pin:18, pin:21, pin:22, pin:23, pin:31, pin:6</li>
+</ul>
+<h2 id="section-2">Files<a href="#section-2" class="heading-anchor" aria-label="链接到Files">#</a></h2>
+<ul>
+<li><code>example.syscfg</code>: captured SysConfig source</li>
+<li><code>src/</code>: selected source files</li>
+<li><code>manifest.json</code>: machine-readable summary for example selection</li>
+</ul>
+<h2 id="section-3">Notes<a href="#section-3" class="heading-anchor" aria-label="链接到Notes">#</a></h2>
+<ul>
+<li>Rebuild the target project after copying patterns from this example.</li>
+<li>Inspect the target project's generated <code>ti_msp_dl_config.h</code>; generated names may differ.</li>
+<li>For advanced examples, copy only the relevant module pattern instead of transplanting the whole source tree.</li>
+</ul>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="examples.html"><span>所属章节</span><strong>示例与教程</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">Summary</a></li><li><a href="#section-2">Files</a></li><li><a href="#section-3">Notes</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/oledui_full_g3519/README.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

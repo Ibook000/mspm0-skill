@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CCS DSS 调试指南 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：CCS DSS 调试指南。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/ccs-dss.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html" aria-current="page"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="tools.html">检查与调试工具</a><span class="crumb-sep">/</span>CCS DSS 调试指南</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>05 · 检查与调试工具</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html" aria-current="page"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>05 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/ccs_dss_debug.md">本页源码</a></div>
+        <header class="pagehead"><h1>CCS DSS 调试指南</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/ccs_dss_debug.md">references/ccs_dss_debug.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">Scope</a></li><li><a href="#section-2">Safety Rules</a></li><li><a href="#section-3">Script</a></li><li><a href="#section-4">Verified Notes</a></li><li><a href="#section-5">When To Stop</a></li></ol></details>
+<div class="article markdown"><p>Use this reference when the user asks the agent to debug a connected MSPM0 board through CCS / CCS Theia tooling.</p>
+<p>This is the CCS Debug Server Scripting backend, abbreviated as <code>ccs-dss</code> in this skill. It is separate from an OpenOCD + GDB workflow. Do not apply these commands to a CMake/OpenOCD project unless that project also has a valid CCS <code>.ccxml</code> and the user explicitly wants to use CCS DSS.</p>
+<h2 id="section-1">Scope<a href="#section-1" class="heading-anchor" aria-label="链接到Scope">#</a></h2>
+<ul>
+<li>Requires TI CCS / CCS Theia or UniFlash scripting components.</li>
+<li>Requires a valid <code>targetConfigs/*.ccxml</code> for the active board and probe.</li>
+<li>Requires a built CCS <code>.out</code> file when loading or reloading firmware.</li>
+<li>Uses the debug probe selected inside <code>.ccxml</code>, so it is not limited to J-Link. It can also work with CCS-supported probes such as XDS110 when the <code>.ccxml</code> matches the connected hardware.</li>
+<li>Does not cover OpenOCD/GDB debugging. Keep that as a future <code>openocd-gdb</code> backend.</li>
+</ul>
+<h2 id="section-2">Safety Rules<a href="#section-2" class="heading-anchor" aria-label="链接到Safety Rules">#</a></h2>
+<ul>
+<li>Debug actions can halt the CPU and disturb real-time behavior. Warn the user before halting a motor, power stage, or time-sensitive control loop.</li>
+<li>Prefer UART logging, logic analyzer capture, or scoped register reads when non-intrusive observation is enough.</li>
+<li>Use symbol breakpoints before source-line breakpoints when possible. Source-line breakpoints require valid debug info and a line that maps to generated code.</li>
+<li>If a source-line breakpoint fails but symbol breakpoints work, treat it as a debug-info/source-line mapping issue first, not proof that the board or probe failed.</li>
+<li>If connect/list-core operations hang, close stale CCS, DSLite, UniFlash, J-Link, or debug-server processes before retrying.</li>
+</ul>
+<h2 id="section-3">Script<a href="#section-3" class="heading-anchor" aria-label="链接到Script">#</a></h2>
+<p>From this skill package:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-1" aria-label="复制第1段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-1">python scripts\ccs_dss_debug.py &lt;project-dir&gt; probe --leave-running
+</code></pre>
+</div><p>When running from the repository root:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-2" aria-label="复制第2段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-2">python skills\mspm0-ccs\scripts\ccs_dss_debug.py &lt;project-dir&gt; probe --leave-running
+</code></pre>
+</div><p>Common commands:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-3" aria-label="复制第3段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-3"># Connect, read reset types and registers, then continue the target before disconnecting.
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; probe --leave-running
+
+# Program the current Debug/Release .out and use System Reset after loading.
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; load --reset "System Reset" --leave-running
+
+# Program, reset, and halt at main.
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; run-to-symbol --symbol main --load --reset "System Reset"
+
+# Program, reset, and halt at a source line.
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; break-line --source empty.c --line 5 --load --reset "System Reset"
+
+# Continue a currently connected target and disconnect the debug session.
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; run
+
+# Halt and print PC/SP/LR.
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; halt
+</code></pre>
+</div><p>Useful options:</p>
+<ul>
+<li><code>--ccs-run &lt;path&gt;</code>: explicit CCS scripting <code>run.bat</code>.</li>
+<li><code>--ccxml &lt;path&gt;</code>: explicit target configuration.</li>
+<li><code>--out &lt;path&gt;</code>: explicit program output file.</li>
+<li><code>--timeout-ms &lt;n&gt;</code>: DSS script timeout.</li>
+<li><code>--keep-js</code>: keep the temporary JavaScript for diagnosis.</li>
+<li><code>--leave-running</code>: remove breakpoints and continue target execution before disconnecting, where supported by the chosen command.</li>
+</ul>
+<h2 id="section-4">Verified Notes<a href="#section-4" class="heading-anchor" aria-label="链接到Verified Notes">#</a></h2>
+<p>Validated on LCKFB Tianmengxing MSPM0G3507 + CCS / CCS Theia + J-Link with a CCS project containing <code>targetConfigs/MSPM0G3507.ccxml</code> and <code>Debug/&lt;project&gt;.out</code>.</p>
+<p>Observed working operations:</p>
+<ul>
+<li><code>ds.configure(ccxml)</code> and <code>ds.openSession(/cortex|m0|MSPM0/i)</code>.</li>
+<li><code>session.target.connect()</code>.</li>
+<li><code>session.target.getResets()</code> returning reset types including Board Reset, CPU Reset, Core Reset, and System Reset.</li>
+<li><code>session.registers.read("PC")</code>, <code>SP</code>, and <code>LR</code>.</li>
+<li><code>session.memory.loadProgram(&lt;project&gt;.out)</code>.</li>
+<li>Symbol breakpoint at <code>main</code>.</li>
+<li>System Reset followed by <code>target.run()</code> halting at <code>main</code>.</li>
+<li>Source-line breakpoint at a line with generated code.</li>
+<li><code>target.run(false)</code> to leave the target running before disconnect.</li>
+</ul>
+<p>One tested source line failed because no code was associated with that exact line. Another source line in the same file worked. For agents, that means source-line breakpoint failure should be reported precisely and retried with a symbol, nearby executable line, or address.</p>
+<h2 id="section-5">When To Stop<a href="#section-5" class="heading-anchor" aria-label="链接到When To Stop">#</a></h2>
+<p>Stop and ask the user before continuing if:</p>
+<ul>
+<li>The <code>.ccxml</code> probe does not match the connected hardware.</li>
+<li>The board controls motors, high-power outputs, or moving mechanisms and the next step will halt the CPU.</li>
+<li>The script can connect but loading a new <code>.out</code> would overwrite firmware the user did not ask to replace.</li>
+<li>OpenOCD files are present and the user appears to be using an OpenOCD workflow instead of CCS DSS.</li>
+</ul>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="tools.html"><span>所属章节</span><strong>检查与调试工具</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">Scope</a></li><li><a href="#section-2">Safety Rules</a></li><li><a href="#section-3">Script</a></li><li><a href="#section-4">Verified Notes</a></li><li><a href="#section-5">When To Stop</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/ccs_dss_debug.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

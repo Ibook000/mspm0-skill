@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PWM 呼吸灯教程 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：PWM 呼吸灯教程。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/example-pwm_breath_led.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html" aria-current="page"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="examples.html">示例与教程</a><span class="crumb-sep">/</span>PWM 呼吸灯教程</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>04 · 示例与教程</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html" aria-current="page"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>04 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/pwm_breath_led/README.md">本页源码</a></div>
+        <header class="pagehead"><h1>PWM 呼吸灯教程</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/pwm_breath_led/README.md">examples/pwm_breath_led/README.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">Clock Note</a></li><li><a href="#section-2">PWM Setup</a></li><li><a href="#section-3">Files</a></li><li><a href="#section-4">Application Pattern</a></li><li><a href="#section-5">Failed Attempts</a></li><li><a href="#section-6">Build And Flash Notes</a></li></ol></details>
+<div class="article markdown"><p>Minimal reference for driving the LCKFB Tianmengxing MSPM0G3507 onboard PB22 LED with PWM.</p>
+<p>This example is based on the verified <code>26testproject5</code> smoke test. It is not a complete CCS import project. It is an agent-readable reference showing the <code>.syscfg</code> and C patterns that were validated on real hardware.</p>
+<h2 id="section-1">Clock Note<a href="#section-1" class="heading-anchor" aria-label="链接到Clock Note">#</a></h2>
+<p>This example uses the 80 MHz clock-tree pattern summarized in <code>../../references/hardware_validation_notes.md</code>:</p>
+<ul>
+<li>CPUCLK: 80 MHz</li>
+<li>HFXT: 40 MHz input on PA5 / PA6</li>
+<li>SYSPLL: enabled</li>
+<li>ULPCLK divider: 2</li>
+<li>MFCLK gate: enabled</li>
+</ul>
+<p>This differs from the older <code>empty_project</code> and <code>led_blink</code> examples, which are 32 MHz baseline examples.</p>
+<h2 id="section-2">PWM Setup<a href="#section-2" class="heading-anchor" aria-label="链接到PWM Setup">#</a></h2>
+<ul>
+<li>PWM module: <code>/ti/driverlib/PWM</code></li>
+<li>Timer instance: TIMG8</li>
+<li>Output channel: CCP1</li>
+<li>Output pin: PB22</li>
+<li>Generated macro: <code>GPIO_PWM_0_C1_IDX</code></li>
+<li>PWM period: 1000 timer counts</li>
+<li>PWM clock frequency observed: 2.5 MHz</li>
+</ul>
+<p>The verified generated header contained:</p>
+<div class="codeblock"><div class="codebar"><span>C</span><button type="button" class="copy-code" data-copy="code-1" aria-label="复制第1段代码">复制</button></div><pre tabindex="0" aria-label="C 代码，可横向滚动"><code class="language-c" id="code-1">#define PWM_0_INST             TIMG8
+#define PWM_0_INST_CLK_FREQ    2500000
+#define GPIO_PWM_0_C1_PIN      DL_GPIO_PIN_22
+#define GPIO_PWM_0_C1_IOMUX    (IOMUX_PINCM50)
+#define GPIO_PWM_0_C1_IDX      DL_TIMER_CC_1_INDEX
+</code></pre>
+</div><h2 id="section-3">Files<a href="#section-3" class="heading-anchor" aria-label="链接到Files">#</a></h2>
+<ul>
+<li><code>example.syscfg</code>: 80 MHz clock tree and PB22 / TIMG8_CCP1 PWM setup</li>
+<li><code>src/main.c</code>: DriverLib PWM breathing pattern</li>
+<li><code>manifest.json</code>: machine-readable summary for example selection</li>
+</ul>
+<h2 id="section-4">Application Pattern<a href="#section-4" class="heading-anchor" aria-label="链接到Application Pattern">#</a></h2>
+<p>The successful breathing pattern:</p>
+<ul>
+<li>Sets the first compare value before starting the timer.</li>
+<li>Updates <code>GPIO_PWM_0_C1_IDX</code>, not channel 0.</li>
+<li>Avoids compare values exactly equal to <code>0</code> and <code>period</code>.</li>
+<li>Uses about 100 steps per half-cycle.</li>
+<li>Uses <code>delay_cycles(800000)</code> at 80 MHz, about 10 ms per step.</li>
+</ul>
+<p>Observed behavior:</p>
+<ul>
+<li>About 1 second from bright to dim.</li>
+<li>About 1 second from dim to bright.</li>
+</ul>
+<h2 id="section-5">Failed Attempts<a href="#section-5" class="heading-anchor" aria-label="链接到Failed Attempts">#</a></h2>
+<p>Initial slow version:</p>
+<div class="codeblock"><div class="codebar"><span>C</span><button type="button" class="copy-code" data-copy="code-2" aria-label="复制第2段代码">复制</button></div><pre tabindex="0" aria-label="C 代码，可横向滚动"><code class="language-c" id="code-2">#define STEP_SIZE  100
+#define DELAY_CYC  80000000
+</code></pre>
+</div><p>This produced a very slow fade because each brightness step waited about one second.</p>
+<p>Second attempt:</p>
+<div class="codeblock"><div class="codebar"><span>C</span><button type="button" class="copy-code" data-copy="code-3" aria-label="复制第3段代码">复制</button></div><pre tabindex="0" aria-label="C 代码，可横向滚动"><code class="language-c" id="code-3">for (int duty = 0; duty &lt;= 1000; duty += 5)
+</code></pre>
+</div><p>This could make the LED appear off or glitchy on the verified board. Avoid the exact <code>0</code> and <code>period</code> boundaries for this smoke test.</p>
+<h2 id="section-6">Build And Flash Notes<a href="#section-6" class="heading-anchor" aria-label="链接到Build And Flash Notes">#</a></h2>
+<p><code>gmake clean all</code> exposed a generated CCS makefile issue in one test project: <code>Debug/makefile</code> included <code>../device_linker.cmd</code> even though SysConfig generated <code>Debug/device_linker.cmd</code>.</p>
+<p>That is a CCS project/build-file state issue, not a PWM SysConfig failure. Do not patch generated makefiles as the default fix. Regenerate the CCS build files, rebuild in CCS, or use the clean generated linker input path when doing a one-off CLI validation.</p>
+<p>For automated flashing after 80 MHz clock-tree changes, use DSLite System Reset:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-4" aria-label="复制第4段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-4">dslite.bat -c path\to\MSPM0G3507.ccxml -e -r 2 -u path\to\project.out
+</code></pre>
+</div><p>If DSLite can enumerate the J-Link core but cannot connect to the target, close stale debug sessions or stop stale <code>DSLite</code> / <code>JLink</code> / <code>JLinkGUIServer</code> processes, then retry.</p>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="examples.html"><span>所属章节</span><strong>示例与教程</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">Clock Note</a></li><li><a href="#section-2">PWM Setup</a></li><li><a href="#section-3">Files</a></li><li><a href="#section-4">Application Pattern</a></li><li><a href="#section-5">Failed Attempts</a></li><li><a href="#section-6">Build And Flash Notes</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/pwm_breath_led/README.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

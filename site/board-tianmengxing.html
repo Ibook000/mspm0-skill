@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>天猛星引脚与资源 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：天猛星引脚与资源。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/board-tianmengxing.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html" aria-current="page"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="boards.html">芯片与板卡</a><span class="crumb-sep">/</span>天猛星引脚与资源</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>02 · 芯片与板卡</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html" aria-current="page"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>02 / 开始使用</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/boards/tianmengxing.md">本页源码</a></div>
+        <header class="pagehead"><h1>天猛星引脚与资源</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/boards/tianmengxing.md">references/boards/tianmengxing.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">识别条件</a></li><li><a href="#section-2">系统引脚与板载资源</a></li><li><a href="#section-3">选择引脚的规则</a></li><li><a href="#section-4">验证要求</a></li></ol></details>
+<div class="article markdown"><h2 id="section-1">识别条件<a href="#section-1" class="heading-anchor" aria-label="链接到识别条件">#</a></h2>
+<p>项目明确使用立创·天猛星，或 .syscfg、封装信息与板卡资料相互印证。</p>
+<p>LQFP-64 开发板，常见板载 OLED、LSM6DS3 IMU、WS2812、无线模块、蜂鸣器和编码器。</p>
+<h2 id="section-2">系统引脚与板载资源<a href="#section-2" class="heading-anchor" aria-label="链接到系统引脚与板载资源">#</a></h2>
+<p>下表由 <code>boards/tianmengxing.json</code> 自动生成。级别为 <code>blocked</code> 的引脚不可分配，<code>confirm</code> 需要用户确认，<code>release</code> 需要先确认板载功能已释放。</p>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">引脚</th>
+<th scope="col">功能</th>
+<th scope="col">级别</th>
+<th scope="col">注意事项</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PA3</td>
+<td>32.768 kHz LFXT 晶振</td>
+<td>blocked</td>
+<td>使用低频晶振时保留，不得分配给普通外设。</td>
+</tr>
+<tr>
+<td>PA4</td>
+<td>32.768 kHz LFXT 晶振</td>
+<td>blocked</td>
+<td>使用低频晶振时保留，不得分配给普通外设。</td>
+</tr>
+<tr>
+<td>PA5</td>
+<td>40 MHz HFXT 晶振</td>
+<td>blocked</td>
+<td>不得分配给普通外设。</td>
+</tr>
+<tr>
+<td>PA6</td>
+<td>40 MHz HFXT 晶振</td>
+<td>blocked</td>
+<td>不得分配给普通外设。</td>
+</tr>
+<tr>
+<td>PA19</td>
+<td>SWDIO</td>
+<td>blocked</td>
+<td>保留调试接口。</td>
+</tr>
+<tr>
+<td>PA20</td>
+<td>SWCLK</td>
+<td>blocked</td>
+<td>保留调试接口。</td>
+</tr>
+<tr>
+<td>PA18</td>
+<td>BSL 入口/按键</td>
+<td>confirm</td>
+<td>复位时拉高会进入 BSL；输出复用前必须确认上电电平。</td>
+</tr>
+<tr>
+<td>PA10, PA11</td>
+<td>UART0 / CH340E</td>
+<td>confirm</td>
+<td>板载串口共享引脚。</td>
+</tr>
+<tr>
+<td>PA27, PA28</td>
+<td>LSM6DS3 IMU I2C</td>
+<td>confirm</td>
+<td>复用前确认 IMU 是否仍需使用。</td>
+</tr>
+<tr>
+<td>PB6, PB7, PB8, PB9</td>
+<td>板载 SPI Flash</td>
+<td>confirm</td>
+<td>复用前确认 Flash 是否仍需使用。</td>
+</tr>
+<tr>
+<td>PB17, PB18</td>
+<td>无线模块 UART7</td>
+<td>confirm</td>
+<td>复用前确认无线模块是否仍需使用。</td>
+</tr>
+<tr>
+<td>PB21</td>
+<td>ENTER 按键，低有效</td>
+<td>confirm</td>
+<td>注意上拉和按键状态。</td>
+</tr>
+<tr>
+<td>PB22</td>
+<td>板载 LED，低有效</td>
+<td>confirm</td>
+<td>低电平点亮，常用 PWM/GPIO 示例引脚。</td>
+</tr>
+<tr>
+<td>PB23</td>
+<td>无线链路状态输入</td>
+<td>confirm</td>
+<td>注意输入默认电平。</td>
+</tr>
+<tr>
+<td>PB26</td>
+<td>WS2812 RGB / TIMA1 CCP0</td>
+<td>confirm</td>
+<td>复用会影响板载 RGB。</td>
+</tr>
+<tr>
+<td>PB27</td>
+<td>蜂鸣器 / TIMG6 CCP1</td>
+<td>confirm</td>
+<td>复用会影响板载蜂鸣器。</td>
+</tr>
+<tr>
+<td>PA29, PA30</td>
+<td>QEI 编码器 PHA/PHB</td>
+<td>release</td>
+<td>可释放，但应先确认编码器是否使用。</td>
+</tr>
+<tr>
+<td>PA31</td>
+<td>编码器按键</td>
+<td>release</td>
+<td>可释放，但应先确认编码器是否使用。</td>
+</tr>
+</tbody></table>
+</div><h2 id="section-3">选择引脚的规则<a href="#section-3" class="heading-anchor" aria-label="链接到选择引脚的规则">#</a></h2>
+<p>优先排除 <code>blocked</code> 引脚；对 <code>confirm</code> 和 <code>release</code> 引脚，必须先说明板载功能和复用影响，再根据用户确认继续。自定义板的真实连接以用户原理图和当前 <code>.syscfg</code> 为准。</p>
+<h2 id="section-4">验证要求<a href="#section-4" class="heading-anchor" aria-label="链接到验证要求">#</a></h2>
+<p>修改引脚后运行 python scripts/check_syscfg.py <project-dir> --board tianmengxing；未接入真实硬件时不得声称完成板级验证。</project-dir></p>
+<!-- Generated by scripts/generate_board_docs.py; edit boards/*.json instead. -->
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="boards.html"><span>所属章节</span><strong>芯片与板卡</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">识别条件</a></li><li><a href="#section-2">系统引脚与板载资源</a></li><li><a href="#section-3">选择引脚的规则</a></li><li><a href="#section-4">验证要求</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/boards/tianmengxing.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

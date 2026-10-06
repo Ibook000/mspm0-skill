@@ -1,0 +1,114 @@
+{
+  "repository": "https://github.com/Ibook000/mspm0-skill",
+  "commit": "ac236344aee2d15077596e1e07994e67d623d4b1",
+  "pages": [
+    {
+      "route": "index.html",
+      "source": "site/index.html"
+    },
+    {
+      "route": "start.html",
+      "source": "site/start.html"
+    },
+    {
+      "route": "boards.html",
+      "source": "site/boards.html"
+    },
+    {
+      "route": "workflow.html",
+      "source": "site/workflow.html"
+    },
+    {
+      "route": "examples.html",
+      "source": "site/examples.html"
+    },
+    {
+      "route": "tools.html",
+      "source": "site/tools.html"
+    },
+    {
+      "route": "faq.html",
+      "source": "site/faq.html"
+    },
+    {
+      "route": "verification.html",
+      "source": "site/verification.html"
+    },
+    {
+      "route": "sysconfig.html",
+      "source": "references/sysconfig_ccs_workflow.md"
+    },
+    {
+      "route": "driverlib.html",
+      "source": "references/driverlib_runtime_rules.md"
+    },
+    {
+      "route": "sdk-lookup.html",
+      "source": "references/sdk_schema_lookup.md"
+    },
+    {
+      "route": "hardware-notes.html",
+      "source": "references/hardware_validation_notes.md"
+    },
+    {
+      "route": "ccs-dss.html",
+      "source": "references/ccs_dss_debug.md"
+    },
+    {
+      "route": "g3507-pinout.html",
+      "source": "references/MSPM0G3507_Pinout_Mapping.md"
+    },
+    {
+      "route": "g3519-pins.html",
+      "source": "references/pin_occupation_table.md"
+    },
+    {
+      "route": "faq-full.html",
+      "source": "docs/faq.md"
+    },
+    {
+      "route": "verification-levels.html",
+      "source": "docs/verification-levels.md"
+    },
+    {
+      "route": "topic-guide.html",
+      "source": "docs/topic-guide.md"
+    },
+    {
+      "route": "board-tianmengxing.html",
+      "source": "references/boards/tianmengxing.md"
+    },
+    {
+      "route": "board-dimengxing.html",
+      "source": "references/boards/dimengxing.md"
+    },
+    {
+      "route": "board-dizhengxing.html",
+      "source": "references/boards/dizhengxing.md"
+    },
+    {
+      "route": "board-custom-mspm0g3519.html",
+      "source": "references/boards/custom-mspm0g3519.md"
+    },
+    {
+      "route": "example-empty_project.html",
+      "source": "examples/empty_project/README.md"
+    },
+    {
+      "route": "example-led_blink.html",
+      "source": "examples/led_blink/README.md"
+    },
+    {
+      "route": "example-pwm_breath_led.html",
+      "source": "examples/pwm_breath_led/README.md"
+    },
+    {
+      "route": "example-uart_blocking_tx.html",
+      "source": "examples/uart_blocking_tx/README.md"
+    },
+    {
+      "route": "example-oledui_full_g3519.html",
+      "source": "examples/oledui_full_g3519/README.md"
+    }
+  ]
+}

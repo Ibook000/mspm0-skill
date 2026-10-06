@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SDK Schema 与例程检索 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：SDK Schema 与例程检索。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/sdk-lookup.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html" aria-current="page"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="workflow.html">SysConfig 工作流</a><span class="crumb-sep">/</span>SDK Schema 与例程检索</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>03 · SysConfig 工作流</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html" aria-current="page"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>03 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/sdk_schema_lookup.md">本页源码</a></div>
+        <header class="pagehead"><h1>SDK Schema 与例程检索</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/sdk_schema_lookup.md">references/sdk_schema_lookup.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">Source Priority</a></li><li><a href="#section-2">Local SDK Locations</a></li><li><a href="#section-3">Validation</a></li></ol></details>
+<div class="article markdown"><p>Use this before authoring unfamiliar <code>.syscfg</code> fields or enum values.</p>
+<p>There is no single friendly MSPM0 <code>.syscfg</code> field manual that lists every module field, enum, solver rule, and clock option. Treat <code>.syscfg</code> editing as evidence-based modification.</p>
+<h2 id="section-1">Source Priority<a href="#section-1" class="heading-anchor" aria-label="链接到Source Priority">#</a></h2>
+<p>Use sources in this order:</p>
+<ol>
+<li>The user's existing <code>.syscfg</code>.</li>
+<li>Packaged examples under <code>examples/</code>.</li>
+<li>Local TI MSPM0 SDK <code>.syscfg</code> examples.</li>
+<li>Local SDK module metadata under <code>source/ti/driverlib/.meta/*.syscfg.js</code>.</li>
+<li>SysConfig GUI / standalone SysConfig output for the same device, package, SDK, and tool version.</li>
+<li>Small scaffolds under <code>assets/snippets/</code>.</li>
+</ol>
+<p>Do not invent device, package, product, board, or version metadata.</p>
+<h2 id="section-2">Local SDK Locations<a href="#section-2" class="heading-anchor" aria-label="链接到Local SDK Locations">#</a></h2>
+<p>Search examples:</p>
+<div class="codeblock"><div class="codebar"><span>TEXT</span><button type="button" class="copy-code" data-copy="code-1" aria-label="复制第1段代码">复制</button></div><pre tabindex="0" aria-label="TEXT 代码，可横向滚动"><code class="language-text" id="code-1">&lt;mspm0_sdk&gt;/examples/**/*.syscfg
+</code></pre>
+</div><p>Inspect module definitions:</p>
+<div class="codeblock"><div class="codebar"><span>TEXT</span><button type="button" class="copy-code" data-copy="code-2" aria-label="复制第2段代码">复制</button></div><pre tabindex="0" aria-label="TEXT 代码，可横向滚动"><code class="language-text" id="code-2">&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/GPIO.syscfg.js
+&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/UART.syscfg.js
+&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/SYSCTL.syscfg.js
+&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/PWM.syscfg.js
+&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/TIMER.syscfg.js
+&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/ADC12.syscfg.js
+&lt;mspm0_sdk&gt;/source/ti/driverlib/.meta/DMA.syscfg.js
+</code></pre>
+</div><p>Use the helper:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-3" aria-label="复制第3段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-3">python scripts\index_syscfg_examples.py C:\ti\mspm0_sdk_2_10_00_04 --board LP_MSPM0G3507 --module UART
+</code></pre>
+</div><p>TI <code>LP_MSPM0G3507</code> examples are often useful for Tianmengxing MSPM0G3507 work, but board pin maps still need Tianmengxing verification.</p>
+<h2 id="section-3">Validation<a href="#section-3" class="heading-anchor" aria-label="链接到Validation">#</a></h2>
+<p>After editing <code>.syscfg</code>, run SysConfig CLI or rebuild. If validation cannot be run locally, say so directly:</p>
+<div class="codeblock"><div class="codebar"><span>TEXT</span><button type="button" class="copy-code" data-copy="code-4" aria-label="复制第4段代码">复制</button></div><pre tabindex="0" aria-label="TEXT 代码，可横向滚动"><code class="language-text" id="code-4">SysConfig validation was not completed.
+</code></pre>
+</div></div><nav class="chapter-nav" aria-label="返回章节"><a href="workflow.html"><span>所属章节</span><strong>SysConfig 工作流</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">Source Priority</a></li><li><a href="#section-2">Local SDK Locations</a></li><li><a href="#section-3">Validation</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/sdk_schema_lookup.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

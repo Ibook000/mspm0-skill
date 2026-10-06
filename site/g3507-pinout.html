@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>G3507 引脚映射 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：G3507 引脚映射。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/g3507-pinout.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html" aria-current="page"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="boards.html">芯片与板卡</a><span class="crumb-sep">/</span>G3507 引脚映射</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>02 · 芯片与板卡</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html" aria-current="page"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>02 / 开始使用</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/MSPM0G3507_Pinout_Mapping.md">本页源码</a></div>
+        <header class="pagehead"><h1>G3507 引脚映射</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/MSPM0G3507_Pinout_Mapping.md">references/MSPM0G3507_Pinout_Mapping.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">1. 扩展排针接口映射</a></li><li><a href="#section-2">2. 板载外设接口对照</a></li><li><a href="#section-3">3. MCU 核心引脚 (U1 MSPM0G3507-64P) 分类总览</a></li></ol></details>
+<div class="article markdown"><blockquote>
+<p><strong>文档定位</strong>：本文是 MSPM0G3507 立创开发板的引脚映射总览。Agent 应先根据实际板型读取对应的板卡专属规则，再使用本文交叉核对排针和外设连线；本文中的资源不能自动套用于所有 MSPM0G3507 板卡。</p>
+<p>板卡专属规则：<a href="board-tianmengxing.html"><code>天猛星</code></a> · <a href="board-dimengxing.html"><code>地猛星</code></a> · <a href="board-custom-mspm0g3519.html"><code>自定义 MSPM0G3519</code></a></p>
+</blockquote>
+<p>本文档基于立创开发板（MSPM0G3507）的原理图与引脚图汇总，一一对照了各个排针接口、MCU原生引脚以及板载外设的连线关系。</p>
+<h2 id="section-1">1. 扩展排针接口映射<a href="#section-1" class="heading-anchor" aria-label="链接到1. 扩展排针接口映射">#</a></h2>
+<p>开发板两侧引出了双排的排针接口（U21 和 U22），以下为根据原理图一一对应的引脚定义。</p>
+<h3>1.1 左侧扩展排针 (U21 接口)</h3>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th align="center" scope="col">引脚号</th>
+<th align="left" scope="col">引脚名称/复用功能</th>
+<th align="center" scope="col">引脚号</th>
+<th align="left" scope="col">引脚名称/复用功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>1</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>2</strong></td>
+<td align="left">GND</td>
+</tr>
+<tr>
+<td align="center"><strong>3</strong></td>
+<td align="left">PA0 (I2C0-SDA / U0TX)</td>
+<td align="center"><strong>4</strong></td>
+<td align="left">PA28 (I2C0-SDA / U0TX)</td>
+</tr>
+<tr>
+<td align="center"><strong>5</strong></td>
+<td align="left">PA1 (I2C0-SCL / U0RX)</td>
+<td align="center"><strong>6</strong></td>
+<td align="left">PA31 (I2C0-SCL / U0RX)</td>
+</tr>
+<tr>
+<td align="center"><strong>7</strong></td>
+<td align="left">PA8 (U1TX)</td>
+<td align="center"><strong>8</strong></td>
+<td align="left">PB4 (U1TX)</td>
+</tr>
+<tr>
+<td align="center"><strong>9</strong></td>
+<td align="left">PA9 (U1RX)</td>
+<td align="center"><strong>10</strong></td>
+<td align="left">PB5 (U1RX)</td>
+</tr>
+<tr>
+<td align="center"><strong>11</strong></td>
+<td align="left">PB15 (U2TX)</td>
+<td align="center"><strong>12</strong></td>
+<td align="left">PA10 / U0TX</td>
+</tr>
+<tr>
+<td align="center"><strong>13</strong></td>
+<td align="left">PB16 (U2RX)</td>
+<td align="center"><strong>14</strong></td>
+<td align="left">PA11 / U0RX</td>
+</tr>
+<tr>
+<td align="center"><strong>15</strong></td>
+<td align="left">PB2 (U3TX)</td>
+<td align="center"><strong>16</strong></td>
+<td align="left">PB12 (U3TX)</td>
+</tr>
+<tr>
+<td align="center"><strong>17</strong></td>
+<td align="left">PB3 (U3RX)</td>
+<td align="center"><strong>18</strong></td>
+<td align="left">PB13 (U3RX)</td>
+</tr>
+<tr>
+<td align="center"><strong>19</strong></td>
+<td align="left">PA19 / SWDIO</td>
+<td align="center"><strong>20</strong></td>
+<td align="left">PA20 / SWCLK</td>
+</tr>
+<tr>
+<td align="center"><strong>21</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>22</strong></td>
+<td align="left">EXT_3V3</td>
+</tr>
+<tr>
+<td align="center"><strong>23</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>24</strong></td>
+<td align="left">VBUS_5V</td>
+</tr>
+<tr>
+<td align="center"><strong>25</strong></td>
+<td align="left">PB6</td>
+<td align="center"><strong>26</strong></td>
+<td align="left">PB7</td>
+</tr>
+<tr>
+<td align="center"><strong>27</strong></td>
+<td align="left">PB8</td>
+<td align="center"><strong>28</strong></td>
+<td align="left">PB9</td>
+</tr>
+<tr>
+<td align="center"><strong>29</strong></td>
+<td align="left">PA12</td>
+<td align="center"><strong>30</strong></td>
+<td align="left">PA13</td>
+</tr>
+<tr>
+<td align="center"><strong>31</strong></td>
+<td align="left">PB23</td>
+<td align="center"><strong>32</strong></td>
+<td align="left">PB26</td>
+</tr>
+<tr>
+<td align="center"><strong>33</strong></td>
+<td align="left">PB27</td>
+<td align="center"><strong>34</strong></td>
+<td align="left">PA29</td>
+</tr>
+<tr>
+<td align="center"><strong>35</strong></td>
+<td align="left">AGND</td>
+<td align="center"><strong>36</strong></td>
+<td align="left">EXT_CHIP_VREF+</td>
+</tr>
+<tr>
+<td align="center"><strong>37</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>38</strong></td>
+<td align="left">EXT_3V3</td>
+</tr>
+<tr>
+<td align="center"><strong>39</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>40</strong></td>
+<td align="left">VBUS_5V</td>
+</tr>
+</tbody></table>
+</div><h3>1.2 右侧扩展排针 (U22 接口)</h3>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th align="center" scope="col">引脚号</th>
+<th align="left" scope="col">引脚名称/复用功能</th>
+<th align="center" scope="col">引脚号</th>
+<th align="left" scope="col">引脚名称/复用功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>1</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>2</strong></td>
+<td align="left">GND</td>
+</tr>
+<tr>
+<td align="center"><strong>3</strong></td>
+<td align="left">PA27 (A0_0)</td>
+<td align="center"><strong>4</strong></td>
+<td align="left">PA26 (A0_1)</td>
+</tr>
+<tr>
+<td align="center"><strong>5</strong></td>
+<td align="left">PA25 (A0_2)</td>
+<td align="center"><strong>6</strong></td>
+<td align="left">PA24 (A0_3)</td>
+</tr>
+<tr>
+<td align="center"><strong>7</strong></td>
+<td align="left">PB25 (A0_4)</td>
+<td align="center"><strong>8</strong></td>
+<td align="left">PB24 (A0_5)</td>
+</tr>
+<tr>
+<td align="center"><strong>9</strong></td>
+<td align="left">PB20 (A0_6)</td>
+<td align="center"><strong>10</strong></td>
+<td align="left">PA22 (A0_7)</td>
+</tr>
+<tr>
+<td align="center"><strong>11</strong></td>
+<td align="left">PA14 (A0_12)</td>
+<td align="center"><strong>12</strong></td>
+<td align="left">PA15 (A1_0)</td>
+</tr>
+<tr>
+<td align="center"><strong>13</strong></td>
+<td align="left">PA16 (A1_1)</td>
+<td align="center"><strong>14</strong></td>
+<td align="left">PA17 (A1_2)</td>
+</tr>
+<tr>
+<td align="center"><strong>15</strong></td>
+<td align="left">PB17 (A1_4)</td>
+<td align="center"><strong>16</strong></td>
+<td align="left">PB18 (A1_5)</td>
+</tr>
+<tr>
+<td align="center"><strong>17</strong></td>
+<td align="left">PB19 (A1_6)</td>
+<td align="center"><strong>18</strong></td>
+<td align="left">PA21 / VREF- (A1_7)</td>
+</tr>
+<tr>
+<td align="center"><strong>19</strong></td>
+<td align="left">PA2 / ROSC</td>
+<td align="center"><strong>20</strong></td>
+<td align="left">EXT_PIN_VREF+</td>
+</tr>
+<tr>
+<td align="center"><strong>21</strong></td>
+<td align="left">PA23</td>
+<td align="center"><strong>22</strong></td>
+<td align="left">EXT_3V3</td>
+</tr>
+<tr>
+<td align="center"><strong>23</strong></td>
+<td align="left">PB21</td>
+<td align="center"><strong>24</strong></td>
+<td align="left">VBUS_5V</td>
+</tr>
+<tr>
+<td align="center"><strong>25</strong></td>
+<td align="left">PB22</td>
+<td align="center"><strong>26</strong></td>
+<td align="left">PA30</td>
+</tr>
+<tr>
+<td align="center"><strong>27</strong></td>
+<td align="left">PB0 / SPI1_CS2</td>
+<td align="center"><strong>28</strong></td>
+<td align="left">PB1 / SPI1_CS3</td>
+</tr>
+<tr>
+<td align="center"><strong>29</strong></td>
+<td align="left">GND</td>
+<td align="center"><strong>30</strong></td>
+<td align="left">GND</td>
+</tr>
+<tr>
+<td align="center"><strong>31</strong></td>
+<td align="left">PB10</td>
+<td align="center"><strong>32</strong></td>
+<td align="left">PA7</td>
+</tr>
+<tr>
+<td align="center"><strong>33</strong></td>
+<td align="left">PB11</td>
+<td align="center"><strong>34</strong></td>
+<td align="left">PB14</td>
+</tr>
+<tr>
+<td align="center"><strong>35</strong></td>
+<td align="left">NRST</td>
+<td align="center"><strong>36</strong></td>
+<td align="left">PA18 / BSL</td>
+</tr>
+<tr>
+<td align="center"><strong>37</strong></td>
+<td align="left">AGND</td>
+<td align="center"><strong>38</strong></td>
+<td align="left">AGND</td>
+</tr>
+<tr>
+<td align="center"><strong>39</strong></td>
+<td align="left">VBUS_5V</td>
+<td align="center"><strong>40</strong></td>
+<td align="left">EXT_3V3</td>
+</tr>
+</tbody></table>
+</div><hr>
+<h2 id="section-2">2. 板载外设接口对照<a href="#section-2" class="heading-anchor" aria-label="链接到2. 板载外设接口对照">#</a></h2>
+<h3>2.1 SPI Flash (U24)</h3>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th align="left" scope="col">Flash 模块引脚</th>
+<th align="left" scope="col">MCU 引脚</th>
+<th align="left" scope="col">对应外设复用功能</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">W_CS (片选)</td>
+<td align="left">PB6</td>
+<td align="left">SPI1_CS0 (引脚 58)</td>
+</tr>
+<tr>
+<td align="left">W_MISO (数据输出)</td>
+<td align="left">PB7</td>
+<td align="left">SPI1_POCI (引脚 59)</td>
+</tr>
+<tr>
+<td align="left">W_MOSI (数据输入)</td>
+<td align="left">PB8</td>
+<td align="left">SPI1_PICO (引脚 60)</td>
+</tr>
+<tr>
+<td align="left">W_CLK (时钟)</td>
+<td align="left">PB9</td>
+<td align="left">SPI1_SCK (引脚 61)</td>
+</tr>
+</tbody></table>
+</div><h3>2.2 SPI OLED 屏幕接口 (支持 0.96/1.3寸屏)</h3>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th align="left" scope="col">OLED 排母丝印</th>
+<th align="left" scope="col">MCU 引脚</th>
+<th align="left" scope="col">功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">LCD_SCL (时钟)</td>
+<td align="left">PB9</td>
+<td align="left">硬件 SPI1_SCK</td>
+</tr>
+<tr>
+<td align="left">LCD_SDA (数据)</td>
+<td align="left">PB8</td>
+<td align="left">硬件 SPI1_PICO</td>
+</tr>
+<tr>
+<td align="left">LCD_RES (复位)</td>
+<td align="left">PB10</td>
+<td align="left">普通 GPIO</td>
+</tr>
+<tr>
+<td align="left">LCD_DC (数据/命令)</td>
+<td align="left">PB11</td>
+<td align="left">普通 GPIO</td>
+</tr>
+<tr>
+<td align="left">LCD_CS (片选)</td>
+<td align="left">PB14</td>
+<td align="left">普通 GPIO</td>
+</tr>
+<tr>
+<td align="left">BLK (背光控制)</td>
+<td align="left">建议接 3.3V 常亮（PB26 已分配给板载 WS2812 RGB，见板卡规则，勿将 OLED 背光复用到 PB26）</td>
+<td align="left">普通 GPIO</td>
+</tr>
+</tbody></table>
+</div><h3>2.3 CH340E 串口与下载 (U18)</h3>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th align="left" scope="col">CH340E 转换引脚</th>
+<th align="left" scope="col">MCU 原生引脚</th>
+<th align="left" scope="col">作用与功能说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">TXD (340_TX)</td>
+<td align="left">PA11 (U0RX / BSLRX)</td>
+<td align="left">用于接收 PC 端串口数据及 BSL 烧录指令</td>
+</tr>
+<tr>
+<td align="left">RXD (340_RX)</td>
+<td align="left">PA10 (U0TX / BSLTX)</td>
+<td align="left">用于向 PC 端发送串口数据</td>
+</tr>
+</tbody></table>
+</div><h3>2.4 SWD 调试接口 (U20)</h3>
+<p>此接口同时具备 SWD 调试和串口直连功能。</p>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th align="left" scope="col">SWD 接口丝印</th>
+<th align="left" scope="col">MCU 对应引脚 / 供电说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">PA10/U0TX</td>
+<td align="left">PA10</td>
+</tr>
+<tr>
+<td align="left">PA11/U0RX</td>
+<td align="left">PA11</td>
+</tr>
+<tr>
+<td align="left">SWCLK</td>
+<td align="left">PA20 (SWD 时钟信号)</td>
+</tr>
+<tr>
+<td align="left">SWDIO</td>
+<td align="left">PA19 (SWD 数据信号)</td>
+</tr>
+<tr>
+<td align="left">VBUS_5V</td>
+<td align="left">USB 提供 5V 电源输出</td>
+</tr>
+<tr>
+<td align="left">EXT_3V3</td>
+<td align="left">降压后提供的 3.3V 系统电源</td>
+</tr>
+<tr>
+<td align="left">GND</td>
+<td align="left">系统地</td>
+</tr>
+</tbody></table>
+</div><hr>
+<h2 id="section-3">3. MCU 核心引脚 (U1 MSPM0G3507-64P) 分类总览<a href="#section-3" class="heading-anchor" aria-label="链接到3. MCU 核心引脚 (U1 MSPM0G3507-64P) 分类总览">#</a></h2>
+<h3>3.1 模拟与 ADC 通道</h3>
+<ul>
+<li><strong>PA15 ~ PA21</strong>: 对应 ADC 通道 A1_0 到 A1_7。</li>
+<li><strong>PA22 ~ PA27, PB20, PB24, PB25</strong>: 对应 ADC 通道 A0_0 到 A0_7。</li>
+<li><strong>VREF / 外部参考</strong>: PA21 (VREF-), PA23 (VREF+)。</li>
+</ul>
+<h3>3.2 通讯总线接口</h3>
+<ul>
+<li><strong>CAN 总线</strong>: PA12 (CAN_TX), PA13 (CAN_RX) / PA26 (CAN_TX), PA27 (CAN_RX)。</li>
+<li><strong>默认烧录与调试串口</strong>: PA10 (U0TX) 和 PA11 (U0RX)。</li>
+</ul>
+<h3>3.3 时钟与晶振</h3>
+<ul>
+<li><strong>外部低频时钟 (LFX)</strong>: PA3 (LFXIN), PA4 (LFXOUT)。</li>
+<li><strong>外部高频时钟 (HFX)</strong>: PA5 (HFXIN), PA6 (HFXOUT)。</li>
+<li><strong>内部阻容时钟参考</strong>: PA2 (ROSC)。</li>
+</ul>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="boards.html"><span>所属章节</span><strong>芯片与板卡</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">1. 扩展排针接口映射</a></li><li><a href="#section-2">2. 板载外设接口对照</a></li><li><a href="#section-3">3. MCU 核心引脚 (U1 MSPM0G3507-64P) 分类总览</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/MSPM0G3507_Pinout_Mapping.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

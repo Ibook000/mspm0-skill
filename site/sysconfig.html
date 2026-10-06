@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SysConfig 与工具链 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：SysConfig 与工具链。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/sysconfig.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html" aria-current="page"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="workflow.html">SysConfig 工作流</a><span class="crumb-sep">/</span>SysConfig 与工具链</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>03 · SysConfig 工作流</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html" aria-current="page"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>03 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/sysconfig_ccs_workflow.md">本页源码</a></div>
+        <header class="pagehead"><h1>SysConfig 与工具链</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/sysconfig_ccs_workflow.md">references/sysconfig_ccs_workflow.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">SysConfig Editing</a></li><li><a href="#section-2">CCS Project Rules</a></li><li><a href="#section-3">Keil / uVision Project Rules</a></li><li><a href="#section-4">CMake / GCC / OpenOCD Project Rules</a></li><li><a href="#section-5">Framework-Style Project Rules</a></li><li><a href="#section-6">Validation Chain</a></li><li><a href="#section-7">DSLite / J-Link Flash</a></li><li><a href="#section-8">CCS-DSS Debug</a></li><li><a href="#section-9">OpenOCD Flash</a></li><li><a href="#section-10">Hardware Claims</a></li></ol></details>
+<div class="article markdown"><p>Use this when editing <code>.syscfg</code> or <code>system.syscfg</code>, validating a CCS, Keil, or CMake/GCC/OpenOCD project, building, or flashing.</p>
+<h2 id="section-1">SysConfig Editing<a href="#section-1" class="heading-anchor" aria-label="链接到SysConfig Editing">#</a></h2>
+<p>Treat <code>.syscfg</code> as the editable source for device metadata, pinmux, peripheral instances, clocks, DMA, interrupts, and generated initialization.</p>
+<p>Preserve metadata:</p>
+<div class="codeblock"><div class="codebar"><span>TEXT</span><button type="button" class="copy-code" data-copy="code-1" aria-label="复制第1段代码">复制</button></div><pre tabindex="0" aria-label="TEXT 代码，可横向滚动"><code class="language-text" id="code-1">@cliArgs
+@v2CliArgs
+@versions
+--device
+--package
+--product
+</code></pre>
+</div><p>Keep the original metadata comment syntax valid. Some empty CCS projects use <code>//@cliArgs</code> line comments. Do not rewrite those as <code>* @cliArgs</code> unless the line is inside an active <code>/* ... */</code> block; a real failure from this mistake was <code>SyntaxError: Unexpected token '*'</code>.</p>
+<p>Editing strategy:</p>
+<ol>
+<li>Find an existing local instance or an example with the same device/package/peripheral.</li>
+<li>Copy local style instead of inventing fields.</li>
+<li>Change only the requested module, pin, clock, or runtime behavior.</li>
+<li>Preserve <code>$suggestSolution</code> / <code>$assign</code> lines unless you know the solver impact.</li>
+<li>Run SysConfig CLI or rebuild.</li>
+<li>Inspect generated <code>ti_msp_dl_config.h</code> for names.</li>
+</ol>
+<h2 id="section-2">CCS Project Rules<a href="#section-2" class="heading-anchor" aria-label="链接到CCS Project Rules">#</a></h2>
+<p>Editable surfaces are normally <code>.syscfg</code>, user source files, user headers, and project docs.</p>
+<p>Generated or build outputs are inspection-only:</p>
+<div class="codeblock"><div class="codebar"><span>TEXT</span><button type="button" class="copy-code" data-copy="code-2" aria-label="复制第2段代码">复制</button></div><pre tabindex="0" aria-label="TEXT 代码，可横向滚动"><code class="language-text" id="code-2">Debug/ti_msp_dl_config.c
+Debug/ti_msp_dl_config.h
+Release/ti_msp_dl_config.c
+Release/ti_msp_dl_config.h
+Debug/device.opt
+Debug/device_linker.cmd
+Debug/device.cmd.genlibs
+Debug/*.mk
+*.o
+*.d
+*.out
+*.map
+</code></pre>
+</div><p>Avoid unnecessary edits to <code>.project</code>, <code>.cproject</code>, <code>.ccsproject</code>, <code>.settings/</code>, <code>targetConfigs/*.ccxml</code>, and Keil <code>*.uvoptx</code> files. These files can change SDK discovery, compiler options, debug probe, and linker behavior.</p>
+<h2 id="section-3">Keil / uVision Project Rules<a href="#section-3" class="heading-anchor" aria-label="链接到Keil / uVision Project Rules">#</a></h2>
+<ul>
+<li>Editable surfaces are normally <code>system.syscfg</code>, user source files, user headers, and the Keil project only when build settings truly need to change.</li>
+<li>Treat a Keil <code>*.uvprojx</code> as the project entrypoint when the active project is Keil-based.</li>
+<li>Treat the project's scatter file as the linker source of truth. If memory layout changes, update it deliberately rather than guessing from CCS defaults.</li>
+<li>Treat <code>keil/Objects/</code>, <code>keil/Listings/</code>, <code>*.uvoptx</code>, logs, maps, and generated outputs as inspection-only.</li>
+<li>Keil projects do not use <code>targetConfigs/*.ccxml</code>; do not require a CCS debug-config file when the active project is Keil-based.</li>
+</ul>
+<h2 id="section-4">CMake / GCC / OpenOCD Project Rules<a href="#section-4" class="heading-anchor" aria-label="链接到CMake / GCC / OpenOCD Project Rules">#</a></h2>
+<ul>
+<li>Editable surfaces are normally <code>.syscfg</code>, user source files, user headers, <code>CMakeLists.txt</code>, and toolchain/OpenOCD config files only when the requested feature requires build-system changes.</li>
+<li>Treat <code>cmake-build-*</code>, <code>build/</code>, generated binaries, maps, object files, and generated SysConfig outputs as inspection-only.</li>
+<li>Detect the active target from the existing CMake project instead of assuming <code>Debug/&lt;project&gt;.out</code>.</li>
+<li>Use the existing OpenOCD config files such as <code>daplink.cfg</code>, <code>stlink.cfg</code>, or <code>xds110.cfg</code> when present.</li>
+<li>MSPM0 OpenOCD support commonly depends on a TI MSPM0-capable OpenOCD build or TI extension branch. Mainline or unrelated OpenOCD builds may not recognize the target or adapter flow.</li>
+<li>If OpenOCD fails with <code>unable to find a matching CMSIS-DAP device</code>, treat it as no matching probe/adapter found, not as proof that the firmware, SysConfig, or linker setup is wrong.</li>
+<li>Do not require CCS <code>targetConfigs/*.ccxml</code> for an OpenOCD-based project.</li>
+</ul>
+<h2 id="section-5">Framework-Style Project Rules<a href="#section-5" class="heading-anchor" aria-label="链接到Framework-Style Project Rules">#</a></h2>
+<ul>
+<li>Identify whether the project is simple or framework-style before editing. Framework projects often contain directories such as <code>app/</code>, <code>bsp/</code>, <code>components/</code>, <code>core/</code>, <code>drivers/</code>, <code>hal/</code>, <code>middleware/</code>, or <code>tasks/</code>.</li>
+<li>Do not move code between layers just to make an example fit. Follow the project's existing ownership boundaries.</li>
+<li>For multi-module projects, find the existing peripheral wrapper, board file, or application module that owns similar behavior before adding new code.</li>
+<li>For timing/control features, confirm whether the period is controlled by timer ISR, RTOS task delay, hardware PWM/ADC trigger chain, or main-loop polling.</li>
+</ul>
+<h2 id="section-6">Validation Chain<a href="#section-6" class="heading-anchor" aria-label="链接到Validation Chain">#</a></h2>
+<p>Run the static checker first:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-3" aria-label="复制第3段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-3">python scripts\check_syscfg.py &lt;project-dir&gt;
+</code></pre>
+</div><p>Run SysConfig CLI when available. Prefer the exact command generated in <code>Debug/subdir_rules.mk</code> when it exists for CCS projects. A fresh project may not have generated makefiles yet; SysConfig CLI can still validate <code>.syscfg</code> into a temporary output directory.</p>
+<p>Build through the active project's generated build flow when present:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-4" aria-label="复制第4段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-4">gmake -C &lt;project-dir&gt;\Debug clean all
+</code></pre>
+</div><p>If <code>Debug/makefile</code> references both <code>../device_linker.cmd</code> and <code>-l"./device_linker.cmd"</code>, treat that as a CCS generated build-file state issue, not an application or SysConfig failure. Regenerate/rebuild in CCS when possible. For one-off CLI validation, avoid linking the same generated linker script twice.</p>
+<p>For Keil projects, validate by opening or building the <code>.uvprojx</code> in Keil/uVision and checking the generated <code>ti_msp_dl_config.c</code> / <code>ti_msp_dl_config.h</code>, <code>Objects/</code>, and <code>Listings/</code> outputs rather than expecting CCS makefiles.</p>
+<p>For CMake/GCC/OpenOCD projects, prefer the existing build directory and target:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-5" aria-label="复制第5段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-5">cmake --build &lt;project-dir&gt;\cmake-build-debug --target &lt;target&gt;
+cmake --build &lt;project-dir&gt;\cmake-build-debug --target &lt;flash-target&gt;
+</code></pre>
+</div><p>If no configured build directory exists, configure one using the project's documented preset/toolchain. Do not invent compiler paths when the project README or toolchain file already declares them.</p>
+<h2 id="section-7">DSLite / J-Link Flash<a href="#section-7" class="heading-anchor" aria-label="链接到DSLite / J-Link Flash">#</a></h2>
+<p>The verified flash path is DSLite / UniFlash with J-Link:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-6" aria-label="复制第6段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-6">dslite -c &lt;project-dir&gt;\targetConfigs\MSPM0G3507.ccxml -N
+dslite -c &lt;project-dir&gt;\targetConfigs\MSPM0G3507.ccxml -e -r 2 -u &lt;project-dir&gt;\Debug\&lt;project&gt;.out
+</code></pre>
+</div><p>The <code>.ccxml</code> must match the physical probe. A project configured for XDS110 can build successfully and still fail to flash through J-Link.</p>
+<p>Use <code>-r 2 -u</code> for automated flashing after clock-tree changes. This performs a System Reset after programming. If manual flashing appears to start with the wrong clock speed, press the board reset button before judging the firmware.</p>
+<p>If <code>dslite -N</code> hangs or cannot list the core, stop stale CCS/DSLite/J-Link sessions, reconnect if needed, and retry detection before erase/program operations.</p>
+<h2 id="section-8">CCS-DSS Debug<a href="#section-8" class="heading-anchor" aria-label="链接到CCS-DSS Debug">#</a></h2>
+<p>For interactive debug actions on CCS / CCS Theia projects, use the CCS Debug Server Scripting backend described in <code>ccs_dss_debug.md</code>:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-7" aria-label="复制第7段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-7">python scripts\ccs_dss_debug.py &lt;project-dir&gt; probe --leave-running
+python scripts\ccs_dss_debug.py &lt;project-dir&gt; run-to-symbol --symbol main --load --reset "System Reset"
+</code></pre>
+</div><p>This path uses <code>targetConfigs/*.ccxml</code>, so it follows the probe configured by the CCS project. It is not inherently limited to J-Link, but the <code>.ccxml</code> must match the connected probe such as J-Link or XDS110.</p>
+<p>Keep this separate from OpenOCD/GDB debugging. A future OpenOCD debug flow should use an explicit OpenOCD/GDB backend rather than this CCS-DSS wrapper.</p>
+<h2 id="section-9">OpenOCD Flash<a href="#section-9" class="heading-anchor" aria-label="链接到OpenOCD Flash">#</a></h2>
+<p>Use the project-provided OpenOCD target when available. Otherwise the explicit shape is:</p>
+<div class="codeblock"><div class="codebar"><span>POWERSHELL</span><button type="button" class="copy-code" data-copy="code-8" aria-label="复制第8段代码">复制</button></div><pre tabindex="0" aria-label="POWERSHELL 代码，可横向滚动"><code class="language-powershell" id="code-8">openocd -f &lt;probe-or-board.cfg&gt; -c "program &lt;firmware.elf|firmware.hex|firmware.bin&gt; verify reset exit"
+</code></pre>
+</div><p>Keep the flash backend explicit, for example <code>--backend dslite</code> or <code>--backend openocd</code>, when writing wrappers or documentation.</p>
+<h2 id="section-10">Hardware Claims<a href="#section-10" class="heading-anchor" aria-label="链接到Hardware Claims">#</a></h2>
+<p>Report validation levels separately:</p>
+<ul>
+<li>source/static inspection</li>
+<li>SysConfig generation</li>
+<li>compile/link</li>
+<li>flash tool success</li>
+<li>physical board behavior</li>
+<li>serial/logic analyzer observation</li>
+</ul>
+<p>Do not report hardware behavior as verified unless it was observed on connected hardware.</p>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="workflow.html"><span>所属章节</span><strong>SysConfig 工作流</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">SysConfig Editing</a></li><li><a href="#section-2">CCS Project Rules</a></li><li><a href="#section-3">Keil / uVision Project Rules</a></li><li><a href="#section-4">CMake / GCC / OpenOCD Project Rules</a></li><li><a href="#section-5">Framework-Style Project Rules</a></li><li><a href="#section-6">Validation Chain</a></li><li><a href="#section-7">DSLite / J-Link Flash</a></li><li><a href="#section-8">CCS-DSS Debug</a></li><li><a href="#section-9">OpenOCD Flash</a></li><li><a href="#section-10">Hardware Claims</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/sysconfig_ccs_workflow.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

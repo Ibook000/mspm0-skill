@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PB22 LED 闪烁教程 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：PB22 LED 闪烁教程。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/example-led_blink.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html" aria-current="page"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="examples.html">示例与教程</a><span class="crumb-sep">/</span>PB22 LED 闪烁教程</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>04 · 示例与教程</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html" aria-current="page"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>04 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/led_blink/README.md">本页源码</a></div>
+        <header class="pagehead"><h1>PB22 LED 闪烁教程</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/led_blink/README.md">examples/led_blink/README.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">Clock Note</a></li><li><a href="#section-2">Files</a></li><li><a href="#section-3">Agent Notes</a></li><li><a href="#section-4">Expected Generated Names</a></li></ol></details>
+<div class="article markdown"><p>﻿# Tianmengxing PB22 LED Blink Example</p>
+<p>Minimal reference for blinking the onboard LED on the LCKFB Tianmengxing MSPM0G3507 board.</p>
+<p>This example is based on the validated workflow summarized in <code>../../references/hardware_validation_notes.md</code>. It is not a complete CCS import project. It is an agent-readable reference showing the <code>.syscfg</code> and C patterns that were verified on real hardware.</p>
+<h2 id="section-1">Clock Note<a href="#section-1" class="heading-anchor" aria-label="链接到Clock Note">#</a></h2>
+<p>This LED-only reference is the original 32 MHz baseline. Its <code>main.c</code> uses <code>delay_cycles(32000000)</code> for a rough one-second blink.</p>
+<p>Later Tianmengxing work often uses 80 MHz CPUCLK. For 80 MHz examples, use <code>delay_cycles(80000000)</code> for the same rough one-second smoke test and see <code>../../references/hardware_validation_notes.md</code>.</p>
+<h2 id="section-2">Files<a href="#section-2" class="heading-anchor" aria-label="链接到Files">#</a></h2>
+<ul>
+<li><code>example.syscfg</code>: PB22 GPIO output configuration pattern</li>
+<li><code>src/main.c</code>: DriverLib application code using generated macros</li>
+<li><code>manifest.json</code>: machine-readable summary for example selection</li>
+</ul>
+<h2 id="section-3">Agent Notes<a href="#section-3" class="heading-anchor" aria-label="链接到Agent Notes">#</a></h2>
+<ul>
+<li>Configure the LED pin in <code>.syscfg</code>.</li>
+<li>On the Tianmengxing MSPM0G3507 board, the onboard LED used by the LCKFB LED tutorial is PB22.</li>
+<li>Do not manually edit generated <code>ti_msp_dl_config.c</code> or <code>ti_msp_dl_config.h</code>.</li>
+<li>After changing <code>example.syscfg</code>, run SysConfig or rebuild the real CCS project.</li>
+<li>Confirm the generated init function and macro names in the local generated header.</li>
+</ul>
+<h2 id="section-4">Expected Generated Names<a href="#section-4" class="heading-anchor" aria-label="链接到Expected Generated Names">#</a></h2>
+<p>The example expects generated names similar to:</p>
+<div class="codeblock"><div class="codebar"><span>C</span><button type="button" class="copy-code" data-copy="code-1" aria-label="复制第1段代码">复制</button></div><pre tabindex="0" aria-label="C 代码，可横向滚动"><code class="language-c" id="code-1">LED_PORT
+LED_PIN_22_PIN
+SYSCFG_DL_init()
+</code></pre>
+</div><p>Real projects may generate different names if <code>$name</code> or pin names are changed.</p>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="examples.html"><span>所属章节</span><strong>示例与教程</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">Clock Note</a></li><li><a href="#section-2">Files</a></li><li><a href="#section-3">Agent Notes</a></li><li><a href="#section-4">Expected Generated Names</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/examples/led_blink/README.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

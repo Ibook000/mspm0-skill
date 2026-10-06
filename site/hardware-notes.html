@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>硬件调试与验证笔记 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：硬件调试与验证笔记。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/hardware-notes.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html" aria-current="page"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="tools.html">检查与调试工具</a><span class="crumb-sep">/</span>硬件调试与验证笔记</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>05 · 检查与调试工具</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html" aria-current="page"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>05 / 开发与调试</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/hardware_validation_notes.md">本页源码</a></div>
+        <header class="pagehead"><h1>硬件调试与验证笔记</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/hardware_validation_notes.md">references/hardware_validation_notes.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">Verified Environment</a></li><li><a href="#section-2">Tianmengxing Special Pin Caution</a></li><li><a href="#section-3">PB22 LED Lessons</a></li><li><a href="#section-4">80 MHz Clock Tree Lessons</a></li><li><a href="#section-5">UART0 Blocking TX Lessons</a></li><li><a href="#section-6">PWM Breathing LED Lessons</a></li><li><a href="#section-7">Flash And Reset</a></li><li><a href="#section-8">MSPM0G3519 Custom Board Lessons</a></li></ol></details>
+<div class="article markdown"><p>Use this for verified Tianmengxing MSPM0G3507 lessons and real-board caveats.</p>
+<h2 id="section-1">Verified Environment<a href="#section-1" class="heading-anchor" aria-label="链接到Verified Environment">#</a></h2>
+<p>Validated combination:</p>
+<ul>
+<li>Board: LCKFB Tianmengxing MSPM0G3507</li>
+<li>IDE: CCS / CCS Theia</li>
+<li>SDK: MSPM0 SDK 2.10.00.04</li>
+<li>SysConfig: 1.26.2</li>
+<li>Compiler: TI Arm Clang 4.0.3 LTS</li>
+<li>Debug probe: J-Link through UniFlash / DSLite</li>
+<li>Validated peripherals: PB22 onboard LED, UART0 blocking TX, PB22 TIMG8 PWM breathing LED</li>
+<li>Validated clock: 80 MHz CPUCLK with MFCLK 4 MHz for UART work</li>
+</ul>
+<p>Other boards, packages, SDK versions, CCS versions, probes, and pin maps may work, but they are not guaranteed by these notes.</p>
+<h2 id="section-2">Tianmengxing Special Pin Caution<a href="#section-2" class="heading-anchor" aria-label="链接到Tianmengxing Special Pin Caution">#</a></h2>
+<p>The LCKFB Tianmengxing documentation marks A21, A23, A02, A18, A10, and A11 as special pins and says they should not be used unless necessary. In SysConfig or generated headers these may appear as PA21, PA23, PA02, PA18, PA10, and PA11.</p>
+<p>When the user asks the agent to choose pins for normal GPIO, PWM, UART, SPI, I2C, timer capture, or similar tasks on Tianmengxing, prefer other available pins first. If the user explicitly requests one of these pins, or an existing project already uses one, warn about the board note before changing or depending on it.</p>
+<h2 id="section-3">PB22 LED Lessons<a href="#section-3" class="heading-anchor" aria-label="链接到PB22 LED Lessons">#</a></h2>
+<p>The LCKFB Tianmengxing onboard LED uses PB22. A verified GPIO blink used generated names similar to:</p>
+<div class="codeblock"><div class="codebar"><span>C</span><button type="button" class="copy-code" data-copy="code-1" aria-label="复制第1段代码">复制</button></div><pre tabindex="0" aria-label="C 代码，可横向滚动"><code class="language-c" id="code-1">LED_PORT
+LED_PIN_22_PIN
+SYSCFG_DL_init()
+</code></pre>
+</div><p>The original LED blink was a 32 MHz baseline using <code>delay_cycles(32000000)</code>.</p>
+<h2 id="section-4">80 MHz Clock Tree Lessons<a href="#section-4" class="heading-anchor" aria-label="链接到80 MHz Clock Tree Lessons">#</a></h2>
+<p>The verified 80 MHz pattern uses HFXT 40 MHz on PA5/PA6, SYSPLL, ULPCLK divider 2, and MFCLK gate enabled.</p>
+<p>SysConfig can generate successfully while warning:</p>
+<div class="codeblock"><div class="codebar"><span>TEXT</span><button type="button" class="copy-code" data-copy="code-2" aria-label="复制第2段代码">复制</button></div><pre tabindex="0" aria-label="TEXT 代码，可横向滚动"><code class="language-text" id="code-2">HFXT peripheral.$assign: Solution may have changed
+HFXT peripheral.hfxInPin.$assign: Solution may have changed
+HFXT peripheral.hfxOutPin.$assign: Solution may have changed
+</code></pre>
+</div><p>Do not hide this. Confirm generated <code>CPUCLK_FREQ</code>, <code>GPIO_HFXIN_*</code>, and <code>GPIO_HFXOUT_*</code>, or ask the user to inspect the clock tree GUI.</p>
+<h2 id="section-5">UART0 Blocking TX Lessons<a href="#section-5" class="heading-anchor" aria-label="链接到UART0 Blocking TX Lessons">#</a></h2>
+<p>The verified UART smoke test used UART0 at 115200 8N1 with PA10/PA11 and a CH340 PC adapter. Treat it as a blocking transmit baseline, not a final DMA or variable-length receive design.</p>
+<h2 id="section-6">PWM Breathing LED Lessons<a href="#section-6" class="heading-anchor" aria-label="链接到PWM Breathing LED Lessons">#</a></h2>
+<p>The verified PB22 PWM example used TIMG8 CCP1, a period of 1000 counts, and generated macro <code>GPIO_PWM_0_C1_IDX</code>.</p>
+<p>Successful runtime pattern:</p>
+<ul>
+<li>set the first compare value before starting the timer</li>
+<li>update CCP1, not channel 0</li>
+<li>avoid exact compare boundaries <code>0</code> and <code>period</code></li>
+<li>use <code>1..999</code> for a period of <code>1000</code></li>
+<li>at 80 MHz, <code>delay_cycles(800000)</code> is roughly 10 ms per step</li>
+</ul>
+<p>Failed patterns included one-second delay per brightness step and exact boundary values that made the LED appear off or glitchy.</p>
+<h2 id="section-7">Flash And Reset<a href="#section-7" class="heading-anchor" aria-label="链接到Flash And Reset">#</a></h2>
+<p>Manual load-and-run after a clock-tree change can behave differently from a full reset. A verified 80 MHz test blinked at about 2.5 seconds immediately after plain flash, then about one second after board reset. DSLite <code>-r 2 -u</code> made automated flashing start correctly.</p>
+<p>If J-Link connection fails after a previous attempt, stale <code>DSLite</code>, <code>JLink</code>, or <code>JLinkGUIServer</code> processes may need to be closed before retrying.</p>
+<hr>
+<h2 id="section-8">MSPM0G3519 Custom Board Lessons<a href="#section-8" class="heading-anchor" aria-label="链接到MSPM0G3519 Custom Board Lessons">#</a></h2>
+<h3>Verified Environment</h3>
+<p>Validated combination:</p>
+<ul>
+<li>Board: Custom MSPM0G3519 development board (LQFP-64)</li>
+<li>IDE: CCS</li>
+<li>SDK: MSPM0 SDK 2.05.01.01</li>
+<li>SysConfig: 1.24.0+4110</li>
+<li>Device metadata: <code>--device "MSPM0G3519" --package "LQFP-64(PM)"</code></li>
+<li>Debug probe: J-Link</li>
+<li>Validated peripherals: PB22 LED, UART0 debug TX/RX, UART7 wireless, SPI1 Flash (W25Q128), I2C software (OLED + LSM6DS3 IMU), TIMA1 PWM (WS2812), TIMG6 PWM (buzzer), TIMG8 QEI encoder, TIMA0 5 ms tick, DMA CH0</li>
+</ul>
+<h3>System-Level Unusable Pins</h3>
+<p>These pins must never be assigned to user peripherals:</p>
+<ul>
+<li><strong>PA2</strong>: Frequency accuracy control, not routed to header, system occupied</li>
+<li><strong>PA5</strong>: HFXT crystal input (40 MHz), system occupied</li>
+<li><strong>PA6</strong>: HFXT crystal output (40 MHz), system occupied</li>
+<li><strong>PA19</strong>: SWDIO, debug interface, do not connect other devices</li>
+<li><strong>PA20</strong>: SWCLK, debug interface, do not connect other devices</li>
+</ul>
+<h3>PA18 BSL Caution</h3>
+<p>PA18 is the BSL (Bootstrap Loader) entry pin and also the BACK button on this board. It uses <code>PULL_DOWN</code> in normal operation. If PA18 is high at reset, the device enters BSL mode instead of running user firmware. Ensure PA18 is not driven high at power-on or reset.</p>
+<h3>80 MHz Clock Tree (Verified)</h3>
+<p>Clock tree configuration verified in the OLED_UI full-feature project:</p>
+<ul>
+<li>HFXT: 40 MHz external crystal on PA5/PA6, <code>HFXTStartup = 10</code>, <code>HFCLKMonitor = true</code></li>
+<li>EXHFMUX: <code>XTAL</code></li>
+<li>SYSPLLMUX: <code>HFCLK</code></li>
+<li>PLL_QDIV multiply: 4 (40 MHz × 4 / 2 = 80 MHz)</li>
+<li>HSCLKMUX: <code>SYSPLL0</code></li>
+<li>UDIV: 2</li>
+<li>Result: <code>CPUCLK_FREQ = 80000000</code></li>
+<li>Flash wait state: 2 cycles (required at 80 MHz; suppress the <code>DL_FlashCTL_executeClearStatus</code> warning via <code>scripting.suppress(...)</code> in <code>.syscfg</code>)</li>
+</ul>
+<p>Generated macros to verify after SysConfig regeneration:</p>
+<div class="codeblock"><div class="codebar"><span>C</span><button type="button" class="copy-code" data-copy="code-3" aria-label="复制第3段代码">复制</button></div><pre tabindex="0" aria-label="C 代码，可横向滚动"><code class="language-c" id="code-3">#define CPUCLK_FREQ        80000000
+#define GPIO_HFXIN_PIN     DL_GPIO_PIN_5
+#define GPIO_HFXOUT_PIN    DL_GPIO_PIN_6
+</code></pre>
+</div><h3>UART0 Debug (Verified)</h3>
+<ul>
+<li>Instance: <code>UART0</code>, pins PA10 (TX) / PA11 (RX), baud 9600, 8N1</li>
+<li>Board has onboard CH340 connected to PA10/PA11; header pins can also be used simultaneously</li>
+<li>Generated macros: <code>UART_DEBUG_INST</code>, <code>GPIO_UART_DEBUG_TX_PIN</code>, <code>GPIO_UART_DEBUG_RX_PIN</code>, <code>UART_DEBUG_BAUD_RATE</code></li>
+<li>UART clock source runs at 40 MHz (<code>UART_DEBUG_INST_FREQUENCY = 40000000</code>)</li>
+</ul>
+<h3>UART7 Wireless (Verified)</h3>
+<ul>
+<li>Instance: <code>UART7</code>, pins PB17 (TX) / PB18 (RX), baud 9600, 8N1</li>
+<li>Connected to onboard 2.4 GHz wireless UART module</li>
+<li>PB23 is the link-status input (low = connected, high = disconnected), <code>PULL_DOWN</code></li>
+<li>Generated macros: <code>UART_WIRELESS_INST</code>, <code>GPIO_UART_WIRELESS_TX_PIN</code>, <code>GPIO_UART_WIRELESS_RX_PIN</code></li>
+</ul>
+<h3>SPI1 Flash W25Q128 (Verified)</h3>
+<ul>
+<li>Instance: <code>SPI1</code>, 20 MHz, MOTO3 frame format</li>
+<li>Pins: PB9 (SCLK), PB8 (MOSI/PICO), PB7 (MISO/POCI), PB6 (CS via GPIO)</li>
+<li>CS is a plain GPIO output with <code>PULL_DOWN</code>, not a hardware SPI CS</li>
+<li>DMA CH0 used for burst transfers (24-byte, subscriber index 0, <code>FSUB_0</code> trigger)</li>
+<li>Generated macros: <code>SPI_FLASH_INST</code>, <code>GPIO_SPI_FLASH_SCLK_PIN</code>, <code>GPIO_SPI_FLASH_PICO_PIN</code>, <code>GPIO_SPI_FLASH_POCI_PIN</code>, <code>FLASH_CS_PIN</code>, <code>FLASH_PORT</code></li>
+</ul>
+<h3>I2C (Software, Verified)</h3>
+<ul>
+<li>OLED (SSD1312 128×64): PA0 (SDA), PA1 (SCL), open-drain, initial HIGH, board has 2.2 kΩ pull-ups</li>
+<li>IMU (LSM6DS3, I2C addr 0x6A): PA28 (SDA), PA27 (SCL), software I2C</li>
+<li>Both buses use bit-bang software I2C, not hardware I2C peripheral</li>
+<li>Generated macros: <code>OLED_SDA_PIN</code>, <code>OLED_SCL_PIN</code>, <code>OLED_PORT</code></li>
+</ul>
+<h3>WS2812 RGB LED (Verified)</h3>
+<ul>
+<li>Instance: <code>TIMA1</code>, CCP0, pin PB26, 80 MHz clock, period 100 counts</li>
+<li>4 addressable RGB LEDs, single-wire PWM protocol</li>
+<li>Generated macros: <code>WS2812_INST</code>, <code>GPIO_WS2812_C0_PIN</code>, <code>GPIO_WS2812_C0_IDX</code>, <code>WS2812_INST_CLK_FREQ</code></li>
+</ul>
+<h3>Buzzer PWM (Verified)</h3>
+<ul>
+<li>Instance: <code>TIMG6</code>, CCP1, pin PB27, prescale 80 → 1 MHz clock, period 1 count (frequency set at runtime)</li>
+<li>Generated macros: <code>BUZZER_INST</code>, <code>GPIO_BUZZER_C1_PIN</code>, <code>GPIO_BUZZER_C1_IDX</code>, <code>BUZZER_INST_CLK_FREQ</code></li>
+</ul>
+<h3>QEI Encoder (Verified)</h3>
+<ul>
+<li>Instance: <code>TIMG8</code>, CCP0 = PA29 (PHA), CCP1 = PA30 (PHB)</li>
+<li>Encoder SW button: PA31, <code>PULL_UP</code>, GPIO input</li>
+<li>Dual backend: hardware QEI (<code>USE_QEI_ENCODER = 1</code>) or software GPIO fallback</li>
+<li>Generated macros: <code>QEI_ENCODER_INST</code>, <code>GPIO_QEI_ENCODER_PHA_PIN</code>, <code>GPIO_QEI_ENCODER_PHB_PIN</code>, <code>KEY_ENCODER_SW_PIN</code></li>
+<li>PA29/PA30/PA31 can be released if encoder is not used</li>
+</ul>
+<h3>System Tick Timer (Verified)</h3>
+<ul>
+<li>Instance: <code>TIMA0</code>, periodic, 5 ms period, interrupt priority 3</li>
+<li>Clock: 80 MHz / div 8 / prescale 10 = 1 MHz → load value 4999</li>
+<li>Generated macros: <code>TIMER_TICK_INST</code>, <code>TIMER_TICK_INST_IRQHandler</code>, <code>TIMER_TICK_INST_LOAD_VALUE</code></li>
+</ul>
+<h3>PB22 LED (Verified)</h3>
+<ul>
+<li>Active-low (high = off, low = on), <code>PULL_DOWN</code></li>
+<li>Generated macros: <code>DEBUG_LED_PORT</code> (GPIOB), <code>DEBUG_LED_PIN_22_PIN</code> (DL_GPIO_PIN_22)</li>
+</ul>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="tools.html"><span>所属章节</span><strong>检查与调试工具</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">Verified Environment</a></li><li><a href="#section-2">Tianmengxing Special Pin Caution</a></li><li><a href="#section-3">PB22 LED Lessons</a></li><li><a href="#section-4">80 MHz Clock Tree Lessons</a></li><li><a href="#section-5">UART0 Blocking TX Lessons</a></li><li><a href="#section-6">PWM Breathing LED Lessons</a></li><li><a href="#section-7">Flash And Reset</a></li><li><a href="#section-8">MSPM0G3519 Custom Board Lessons</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/hardware_validation_notes.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

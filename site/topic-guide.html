@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>开发问题导航 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：开发问题导航。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/topic-guide.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html" aria-current="page"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="index.html">文档首页</a><span class="crumb-sep">/</span>开发问题导航</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>00 · 文档首页</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html" aria-current="page"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>00 / 概览</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/docs/topic-guide.md">本页源码</a></div>
+        <header class="pagehead"><h1>开发问题导航</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/docs/topic-guide.md">docs/topic-guide.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">我用的是哪块板，哪些引脚不能直接复用？</a></li><li><a href="#section-2">SysConfig 怎么检查？能直接修改生成文件吗？</a></li><li><a href="#section-3">有哪些可参考的功能示例？</a></li><li><a href="#section-4">编译、烧录或串口没反应，如何定位？</a></li><li><a href="#section-5">资料来源与范围</a></li></ol></details>
+<div class="article markdown"><p>本页按开发者的实际问题指向仓库内的原始资料。开始改工程前，先阅读 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/SKILL.md">Agent 工作规则</a>，确认芯片、封装、板卡和当前 <code>.syscfg</code>；不要把某块板的引脚表直接用于另一块板。</p>
+<h2 id="section-1">我用的是哪块板，哪些引脚不能直接复用？<a href="#section-1" class="heading-anchor" aria-label="链接到我用的是哪块板，哪些引脚不能直接复用？">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">板卡</th>
+<th scope="col">芯片</th>
+<th scope="col">板卡数据</th>
+<th scope="col">阅读版规则</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>立创·天猛星</td>
+<td>MSPM0G3507</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/blob/main/boards/tianmengxing.json">tianmengxing.json</a></td>
+<td><a href="board-tianmengxing.html">天猛星引脚与资源</a></td>
+</tr>
+<tr>
+<td>立创·地猛星</td>
+<td>MSPM0G3507</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/blob/main/boards/dimengxing.json">dimengxing.json</a></td>
+<td><a href="board-dimengxing.html">地猛星引脚与资源</a></td>
+</tr>
+<tr>
+<td>立创·地正星</td>
+<td>MSPM0L1306</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/blob/main/boards/dizhengxing.json">dizhengxing.json</a></td>
+<td><a href="board-dizhengxing.html">地正星引脚与资源</a></td>
+</tr>
+<tr>
+<td>自定义示例板</td>
+<td>MSPM0G3519</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/blob/main/boards/custom-mspm0g3519.json">custom-mspm0g3519.json</a></td>
+<td><a href="board-custom-mspm0g3519.html">G3519 示例规则</a></td>
+</tr>
+</tbody></table>
+</div><p>自定义 G3519 的连接仅适用于对应示例板。真实项目请以板卡版本、原理图及当前 <code>.syscfg</code> 为准；板卡无法确认时，不应套用专属规则。</p>
+<h2 id="section-2">SysConfig 怎么检查？能直接修改生成文件吗？<a href="#section-2" class="heading-anchor" aria-label="链接到SysConfig 怎么检查？能直接修改生成文件吗？">#</a></h2>
+<ul>
+<li><a href="https://github.com/Ibook000/mspm0-skill/blob/main/scripts/check_syscfg.py">检查脚本</a>：在仓库根目录运行 <code>python3 scripts/check_syscfg.py &lt;project-dir&gt; --board tianmengxing --json</code>；<code>--board</code> 须改为实际板卡 ID。对于仓库内的源码快照，增加 <code>--snapshot</code>。</li>
+<li><a href="sysconfig.html">SysConfig 与 CCS/Keil/CMake 工作流</a>：按当前工程的工具链生成、构建；不要手改 <code>ti_msp_dl_config.c/.h</code>。</li>
+<li><a href="driverlib.html">DriverLib 规则</a> 与 <a href="sdk-lookup.html">SDK Schema 查找</a>：确认当前生成头文件的宏和初始化函数，不猜 API。</li>
+<li><a href="faq-full.html">常见问题</a>：没有生成头文件、引脚占用和 snapshot 模式的说明。</li>
+</ul>
+<h2 id="section-3">有哪些可参考的功能示例？<a href="#section-3" class="heading-anchor" aria-label="链接到有哪些可参考的功能示例？">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">任务</th>
+<th scope="col">源码快照</th>
+<th scope="col">先核对什么</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>天猛星 PB22 LED 闪烁</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/tree/main/examples/led_blink">led_blink</a> <a href="example-led_blink.html" class="reading-link">站内阅读</a></td>
+<td>LED 极性、时钟、生成宏</td>
+</tr>
+<tr>
+<td>天猛星 PWM 呼吸灯</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/tree/main/examples/pwm_breath_led">pwm_breath_led</a> <a href="example-pwm_breath_led.html" class="reading-link">站内阅读</a></td>
+<td>定时器实例、频率、引脚占用</td>
+</tr>
+<tr>
+<td>UART 阻塞发送</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/tree/main/examples/uart_blocking_tx">uart_blocking_tx</a> <a href="example-uart_blocking_tx.html" class="reading-link">站内阅读</a></td>
+<td>板卡串口连接、波特率、TX/RX</td>
+</tr>
+<tr>
+<td>自定义 G3519 OLED UI</td>
+<td><a href="https://github.com/Ibook000/mspm0-skill/tree/main/examples/oledui_full_g3519">oledui_full_g3519</a> <a href="example-oledui_full_g3519.html" class="reading-link">站内阅读</a></td>
+<td>实际原理图、SDK 版本、各外设连接</td>
+</tr>
+</tbody></table>
+</div><p>示例通常只提供 <code>.syscfg</code>、源码和 manifest，不等于完整可导入的 CCS 工程。使用前阅读示例 README 与 manifest，按自己的工程重新生成并测试。</p>
+<h2 id="section-4">编译、烧录或串口没反应，如何定位？<a href="#section-4" class="heading-anchor" aria-label="链接到编译、烧录或串口没反应，如何定位？">#</a></h2>
+<ol>
+<li>先看 <a href="hardware-notes.html">硬件验证笔记</a> 与 <a href="faq-full.html">FAQ</a>，确认电源、接线、探针和工程配置。</li>
+<li>用 <code>python3 scripts/serial_console.py --list</code> 查可用串口；按当前板卡核对 CH340 所连引脚。</li>
+<li>使用 <a href="ccs-dss.html">CCS DSS 指南</a> 时，先确认探针与硬件相符。</li>
+<li>用 <a href="verification-levels.html">验证状态说明</a> 分别记录静态检查、构建、烧录和实板结果。静态检查通过不能证明硬件可用。</li>
+</ol>
+<h2 id="section-5">资料来源与范围<a href="#section-5" class="heading-anchor" aria-label="链接到资料来源与范围">#</a></h2>
+<p>本仓库基于 <a href="https://github.com/mc3545dada/mspm0-skill">mc3545dada/mspm0-skill</a> 的历史版本修改，保留原作者 MIT 版权声明。这里的板卡规则应与 <a href="https://github.com/Ibook000/mspm0-skill/tree/main/boards">机器可读数据</a>及实际板卡资料交叉核对。</p>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="index.html"><span>所属章节</span><strong>文档首页</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">我用的是哪块板，哪些引脚不能直接复用？</a></li><li><a href="#section-2">SysConfig 怎么检查？能直接修改生成文件吗？</a></li><li><a href="#section-3">有哪些可参考的功能示例？</a></li><li><a href="#section-4">编译、烧录或串口没反应，如何定位？</a></li><li><a href="#section-5">资料来源与范围</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/docs/topic-guide.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

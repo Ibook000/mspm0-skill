@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>G3519 引脚占用表 · mspm0-skill</title><meta name="description" content="mspm0-skill 文档：G3519 引脚占用表。">
+<link rel="canonical" href="https://ibook000.github.io/mspm0-skill/g3519-pins.html"><meta name="robots" content="index, follow"><meta name="theme-color" content="#191b1d">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23191b1d'/%3E%3Cpath d='M7 24V8h4l5 9 5-9h4v16h-4V15l-5 9-5-9v9z' fill='%23f7f8f9'/%3E%3C/svg%3E"><link rel="stylesheet" href="style.css?v=manual-20261007"><script defer src="site.js?v=manual-20261007"></script></head>
+<body><a class="skip" href="#main">跳到正文</a>
+<aside class="sidebar"><a class="brand" href="index.html"><span class="brand-mark">M<span>0</span></span><span>mspm0-skill<small>TI MSPM0 开发手册</small></span></a>
+<nav class="sitenav" aria-label="章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html" aria-current="page"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav>
+<div class="sidebar-bottom"><a href="https://github.com/Ibook000/mspm0-skill">GitHub 仓库</a><p>MSPM0G3507 / G3519 / L1306</p><span>MIT · Ibook000</span></div></aside>
+<div class="workspace"><header class="topbar"><a class="mobile-brand" href="index.html">mspm0-skill<span>开发手册</span></a><p class="breadcrumbs"><a href="index.html">开发手册</a><span class="crumb-sep">/</span><a href="boards.html">芯片与板卡</a><span class="crumb-sep">/</span>G3519 引脚占用表</p><a class="github-link" href="https://github.com/Ibook000/mspm0-skill">GitHub<span aria-hidden="true"> /</span></a></header>
+<details class="mobile-menu"><summary>章节目录<span>02 · 芯片与板卡</span></summary><nav class="sitenav" aria-label="手机章节导航"><div class="nav-group"><p class="nav-label">概览</p><a href="index.html"><span class="nav-number">00</span><span>文档首页</span></a></div><div class="nav-group"><p class="nav-label">开始使用</p><a href="start.html"><span class="nav-number">01</span><span>安装与快速开始</span></a><a href="boards.html" aria-current="page"><span class="nav-number">02</span><span>芯片与板卡</span></a></div><div class="nav-group"><p class="nav-label">开发与调试</p><a href="workflow.html"><span class="nav-number">03</span><span>SysConfig 工作流</span></a><a href="examples.html"><span class="nav-number">04</span><span>示例与教程</span></a><a href="tools.html"><span class="nav-number">05</span><span>检查与调试工具</span></a></div><div class="nav-group"><p class="nav-label">参考资料</p><a href="faq.html"><span class="nav-number">06</span><span>常见问题</span></a><a href="verification.html"><span class="nav-number">07</span><span>验证状态</span></a></div></nav></details>
+<div class="reading-layout"><main id="main" class="document" tabindex="-1"><div class="document-meta"><span>02 / 开始使用</span><a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/pin_occupation_table.md">本页源码</a></div>
+        <header class="pagehead"><h1>G3519 引脚占用表</h1><p></p></header><p class="source-note">原文来自 <a href="https://github.com/Ibook000/mspm0-skill/blob/main/references/pin_occupation_table.md">references/pin_occupation_table.md</a> · 内容快照 <code>ac23634</code></p>
+<details class="inline-toc"><summary>本页目录</summary><ol><li><a href="#section-1">调试接口</a></li><li><a href="#section-2">通信接口</a></li><li><a href="#section-3">板载外设</a></li><li><a href="#section-4">系统/按键</a></li><li><a href="#section-5">系统级不可用引脚</a></li><li><a href="#section-6">汇总</a></li></ol></details>
+<div class="article markdown"><blockquote>
+<p>本表对应 <code>boards/custom-mspm0g3519.json</code>（自定义 MSPM0G3519 开发板）的板载资源说明。<strong>板载外设的具体引脚以 <code>boards/custom-mspm0g3519.json</code> 为唯一数据源</strong>，如与官方原理图不一致，请以官方原理图为准并同步更新 JSON 与本文。</p>
+</blockquote>
+<h2 id="section-1">调试接口<a href="#section-1" class="heading-anchor" aria-label="链接到调试接口">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">引脚</th>
+<th scope="col">功能</th>
+<th scope="col">外设</th>
+<th scope="col">占用情况</th>
+<th scope="col">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PA19</td>
+<td>SWDIO</td>
+<td>SWD</td>
+<td>调试占用</td>
+<td><strong>不可使用</strong>，不能连接其他设备</td>
+</tr>
+<tr>
+<td>PA20</td>
+<td>SWCLK</td>
+<td>SWD</td>
+<td>调试占用</td>
+<td><strong>不可使用</strong>，不能连接其他设备</td>
+</tr>
+</tbody></table>
+</div><h2 id="section-2">通信接口<a href="#section-2" class="heading-anchor" aria-label="链接到通信接口">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">引脚</th>
+<th scope="col">功能</th>
+<th scope="col">外设</th>
+<th scope="col">占用情况</th>
+<th scope="col">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PA10</td>
+<td>TX0</td>
+<td>UART0</td>
+<td>板载 CH340</td>
+<td>可通过 TYPE-C 或下载器接口调试，排针可外接模块（互不冲突）</td>
+</tr>
+<tr>
+<td>PA11</td>
+<td>RX0</td>
+<td>UART0</td>
+<td>板载 CH340</td>
+<td>可通过 TYPE-C 或下载器接口调试，排针可外接模块（互不冲突）</td>
+</tr>
+<tr>
+<td>PA0</td>
+<td>SDA</td>
+<td>I2C0</td>
+<td>OLED</td>
+<td>板载 2.2K 上拉电阻；I2C 总线支持多设备，可继续外接其他 I2C 从设备</td>
+</tr>
+<tr>
+<td>PA1</td>
+<td>SCL</td>
+<td>I2C0</td>
+<td>OLED</td>
+<td>板载 2.2K 上拉电阻；I2C 总线支持多设备，可继续外接其他 I2C 从设备</td>
+</tr>
+<tr>
+<td>PB18</td>
+<td>RX</td>
+<td>UART7</td>
+<td>无线串口模块</td>
+<td></td>
+</tr>
+<tr>
+<td>PB17</td>
+<td>TX</td>
+<td>UART7</td>
+<td>无线串口模块</td>
+<td></td>
+</tr>
+<tr>
+<td>PB6</td>
+<td>CS</td>
+<td>SPI1_CS0（GPIO 方式）</td>
+<td>外部 Flash W25Q128</td>
+<td>通过普通 GPIO 控制，未配置到 SPI 外设</td>
+</tr>
+<tr>
+<td>PB7</td>
+<td>MISO (POCI)</td>
+<td>SPI1_POCI</td>
+<td>外部 Flash W25Q128</td>
+<td></td>
+</tr>
+<tr>
+<td>PB8</td>
+<td>MOSI (PICO)</td>
+<td>SPI1_PICO</td>
+<td>外部 Flash W25Q128</td>
+<td></td>
+</tr>
+<tr>
+<td>PB9</td>
+<td>SCLK</td>
+<td>SPI1_CLK</td>
+<td>外部 Flash W25Q128</td>
+<td></td>
+</tr>
+</tbody></table>
+</div><h2 id="section-3">板载外设<a href="#section-3" class="heading-anchor" aria-label="链接到板载外设">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">引脚</th>
+<th scope="col">功能</th>
+<th scope="col">外设</th>
+<th scope="col">占用情况</th>
+<th scope="col">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PB26</td>
+<td>WS2812 RGB 灯</td>
+<td>TIMA1_C0（PWM）</td>
+<td>板载 4 个 RGB 灯</td>
+<td>单总线控制</td>
+</tr>
+<tr>
+<td>PB27</td>
+<td>无源蜂鸣器</td>
+<td>TIMG8_C1（PWM）</td>
+<td>板载蜂鸣器</td>
+<td>PWM 控制频率和音量</td>
+</tr>
+<tr>
+<td>PA27</td>
+<td>SDA</td>
+<td>I2C1</td>
+<td>六轴姿态传感器（IMU）</td>
+<td>板载 IMU，与 OLED 不在同一 I2C 总线；引脚以 boards/custom-mspm0g3519.json 为准</td>
+</tr>
+<tr>
+<td>PA28</td>
+<td>SCL</td>
+<td>I2C1</td>
+<td>六轴姿态传感器（IMU）</td>
+<td>板载 IMU，与 OLED 不在同一 I2C 总线；引脚以 boards/custom-mspm0g3519.json 为准</td>
+</tr>
+<tr>
+<td>PB22</td>
+<td>LED</td>
+<td>GPIO</td>
+<td>板载 LED</td>
+<td>高电平灭，低电平亮</td>
+</tr>
+<tr>
+<td>PA29</td>
+<td>编码器 A 相</td>
+<td>QEI（IIMG8_C0/C1）</td>
+<td>旋转编码器（可选）</td>
+<td>如不使用旋转编码器，可释放用作其他功能</td>
+</tr>
+<tr>
+<td>PA30</td>
+<td>编码器 B 相</td>
+<td>QEI（IIMG8_C0/C1）</td>
+<td>旋转编码器（可选）</td>
+<td>如不使用旋转编码器，可释放用作其他功能</td>
+</tr>
+<tr>
+<td>PA31</td>
+<td>编码器 S（按下）</td>
+<td>GPIO</td>
+<td>旋转编码器（可选）</td>
+<td>按下检测；如不使用旋转编码器，可释放用作其他功能</td>
+</tr>
+</tbody></table>
+</div><h2 id="section-4">系统/按键<a href="#section-4" class="heading-anchor" aria-label="链接到系统/按键">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">引脚</th>
+<th scope="col">功能</th>
+<th scope="col">外设</th>
+<th scope="col">占用情况</th>
+<th scope="col">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PA18</td>
+<td>BSL 按键</td>
+<td>GPIO</td>
+<td>系统/按键</td>
+<td>高电平按下；同时也是 BSL 模式引脚，<strong>正常执行程序时必须确保不为高电平</strong></td>
+</tr>
+<tr>
+<td>PB21</td>
+<td>按键2</td>
+<td>GPIO</td>
+<td>用户按键</td>
+<td>低电平按下，用户可自定义</td>
+</tr>
+<tr>
+<td>PB23</td>
+<td>连接状态检测</td>
+<td>GPIO</td>
+<td>无线串口模块</td>
+<td>低电平 = 连接成功，高电平 = 失败</td>
+</tr>
+</tbody></table>
+</div><h2 id="section-5">系统级不可用引脚<a href="#section-5" class="heading-anchor" aria-label="链接到系统级不可用引脚">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">引脚</th>
+<th scope="col">功能</th>
+<th scope="col">外设</th>
+<th scope="col">占用情况</th>
+<th scope="col">备注</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>PA2</td>
+<td>频率精度控制</td>
+<td>-</td>
+<td>系统占用</td>
+<td><strong>不可使用</strong>，不能连接其他设备，未引出</td>
+</tr>
+<tr>
+<td>PA5</td>
+<td>晶振</td>
+<td>-</td>
+<td>系统占用</td>
+<td><strong>不可使用</strong>，不能连接其他设备</td>
+</tr>
+<tr>
+<td>PA6</td>
+<td>晶振</td>
+<td>-</td>
+<td>系统占用</td>
+<td><strong>不可使用</strong>，不能连接其他设备</td>
+</tr>
+</tbody></table>
+</div><h2 id="section-6">汇总<a href="#section-6" class="heading-anchor" aria-label="链接到汇总">#</a></h2>
+<div class="tablewrap" tabindex="0" role="region" aria-label="数据表，可横向滚动"><table>
+<thead>
+<tr>
+<th scope="col">类别</th>
+<th scope="col">引脚列表</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>完全不可用（系统占用）</strong></td>
+<td>PA2, PA5, PA6, PA19, PA20</td>
+</tr>
+<tr>
+<td><strong>有条件不可用</strong></td>
+<td>PA18（需确保不为高电平才能正常执行程序）</td>
+</tr>
+<tr>
+<td><strong>已占用但可共用总线</strong></td>
+<td>PA0, PA1（I2C0，支持多设备，可继续外接 I2C 从设备）</td>
+</tr>
+<tr>
+<td><strong>已占用但排针可共用</strong></td>
+<td>PA10, PA11（UART0，排针可外接）</td>
+</tr>
+<tr>
+<td><strong>可选外设（不使用时可释放）</strong></td>
+<td>PA29, PA30, PA31（旋转编码器）</td>
+</tr>
+<tr>
+<td><strong>已占用（板载设备）</strong></td>
+<td>PB6, PB7, PB8, PB9, PB17, PB18, PB22, PB23, PB26, PB27, PB21</td>
+</tr>
+</tbody></table>
+</div><blockquote>
+<p><strong>注意</strong>：其余未列出的引脚均已引出到排针，用户可自由使用。具体外设支持情况请参考本地 <code>外设引脚功能标注表.xlsx</code>，其中黄色背景单元格表示不可使用。</p>
+</blockquote>
+</div><nav class="chapter-nav" aria-label="返回章节"><a href="boards.html"><span>所属章节</span><strong>芯片与板卡</strong></a></nav>
+<footer class="document-footer"><p>基于 mc3545dada/mspm0-skill 历史版本修改 · <a href="https://github.com/Ibook000/mspm0-skill/blob/main/LICENSE">MIT License</a></p><p>Copyright (c) 2026 mc3545dada</p><div><a href="https://github.com/Ibook000/mspm0-skill/issues">反馈问题</a><a href="#main">返回顶部</a><a href="https://github.com/Ibook000/mspm0-skill/tree/ac236344aee2d15077596e1e07994e67d623d4b1">内容版本 ac23634</a></div></footer></main>
+<aside class="toc" aria-label="本页目录"><p>本页目录</p><ol><li><a href="#section-1">调试接口</a></li><li><a href="#section-2">通信接口</a></li><li><a href="#section-3">板载外设</a></li><li><a href="#section-4">系统/按键</a></li><li><a href="#section-5">系统级不可用引脚</a></li><li><a href="#section-6">汇总</a></li></ol><a class="toc-source" href="https://github.com/Ibook000/mspm0-skill/blob/main/references/pin_occupation_table.md">查看原文</a></aside></div></div><span class="sr-only" id="copy-status" role="status" aria-live="polite"></span></body></html>

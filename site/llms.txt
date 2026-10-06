@@ -16,3 +16,25 @@ This site presents the repository's MSPM0 Agent skill rules, board references, e
 - Machine-readable board data: https://github.com/Ibook000/mspm0-skill/tree/main/boards
 - Full FAQ: https://github.com/Ibook000/mspm0-skill/blob/main/docs/faq.md
 - Verification details: https://github.com/Ibook000/mspm0-skill/blob/main/docs/verification-levels.md
+
+## Full online manual
+
+- 自定义 G3519引脚与资源: https://ibook000.github.io/mspm0-skill/board-custom-mspm0g3519.html
+- 地猛星引脚与资源: https://ibook000.github.io/mspm0-skill/board-dimengxing.html
+- 地正星引脚与资源: https://ibook000.github.io/mspm0-skill/board-dizhengxing.html
+- 天猛星引脚与资源: https://ibook000.github.io/mspm0-skill/board-tianmengxing.html
+- CCS DSS 调试指南: https://ibook000.github.io/mspm0-skill/ccs-dss.html
+- DriverLib 运行时规则: https://ibook000.github.io/mspm0-skill/driverlib.html
+- 空工程教程: https://ibook000.github.io/mspm0-skill/example-empty_project.html
+- PB22 LED 闪烁教程: https://ibook000.github.io/mspm0-skill/example-led_blink.html
+- G3519 OLED UI教程: https://ibook000.github.io/mspm0-skill/example-oledui_full_g3519.html
+- PWM 呼吸灯教程: https://ibook000.github.io/mspm0-skill/example-pwm_breath_led.html
+- UART0 阻塞发送教程: https://ibook000.github.io/mspm0-skill/example-uart_blocking_tx.html
+- 完整 FAQ: https://ibook000.github.io/mspm0-skill/faq-full.html
+- G3507 引脚映射: https://ibook000.github.io/mspm0-skill/g3507-pinout.html
+- G3519 引脚占用表: https://ibook000.github.io/mspm0-skill/g3519-pins.html
+- 硬件调试与验证笔记: https://ibook000.github.io/mspm0-skill/hardware-notes.html
+- SDK Schema 与例程检索: https://ibook000.github.io/mspm0-skill/sdk-lookup.html
+- SysConfig 与工具链: https://ibook000.github.io/mspm0-skill/sysconfig.html
+- 开发问题导航: https://ibook000.github.io/mspm0-skill/topic-guide.html
+- 验证字段与记录模板: https://ibook000.github.io/mspm0-skill/verification-levels.html
